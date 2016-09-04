@@ -1,0 +1,163 @@
+// Importing libraries
+@import "./lib/_reset.scss";
+@import "./lib/_variables.scss";
+
+// Importing fonts
+@import "https://fonts.googleapis.com/css?family=Droid+Sans";
+
+
+/*****************************************************
+
+TYPOGRAPHY
+
+******************************************************/
+html, body {
+  font-size: 16px;
+  text-align: center;
+  font-family: "Droid Sans", sans-serif;
+  background-color: $background-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 4em;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 1.5em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+
+/*****************************************************
+
+LAYOUT
+Min dimensions: 1280px width 768px height
+Key breakpoints: 1650px - $break-small-screen
+
+******************************************************/
+
+.game-container {
+  // Base styling is designed for 1280px screens
+  padding: $container-vertical-padding $container-horizontal-padding;
+  height: calc(100vh - #{$container-vertical-padding} * 2);
+  // Width calculation 100% of width excluding padding and size of aside UI bar
+  width: calc(100vw - #{$container-horizontal-padding} * 2 - 350px);
+
+  @media screen and (min-width: $break-small-screen) {
+    width: calc(100vw - #{$container-horizontal-padding} * 2);
+  }
+
+  // Reduces paddings for small height screens (down to 768px)
+  @media screen and (max-height: 810px) {
+    padding: 10px $container-horizontal-padding;
+    height: calc(100vh - 20px);
+  }
+
+  h1 {
+    margin-bottom: 1.5vh;
+    @media screen and (max-height: 810px) {
+      margin-bottom: 0.5vh;
+    }
+  }
+}
+
+// Styling for the status panel
+.status {
+  position: relative;
+  margin: auto;
+  width: calc(#{$status-block-width} * 3);
+
+  li {
+    text-align: center;
+    display: block;
+    width: $status-block-width;
+    float: left;
+    padding-bottom: 10px;
+  }
+}
+
+// Line break clear
+.clear {
+  clear: both;
+}
+
+// Basic canvas styling
+canvas {
+  width: $canvas-width;
+  height: $canvas-height;
+  margin: auto;
+  display: block;
+  border: 1px solid black;
+  z-index: 1;
+}
+
+#dynamic {
+  margin-top: calc(#{$canvas-height} * -1 - 2px);
+  z-index: 2;
+}
+
+// Sidebar controls styling
+aside {
+  // Sizing
+  width: $tower-controls-width;
+  height: $tower-controls-height;
+
+  // Positioning
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 2;
+
+
+  .side-section {
+    height: 50%;
+    overflow-y: auto;
+    padding: calc(1em - 1px);
+    border: $sidebar-border;
+    background-color: $sidebar-color;
+
+    @media screen and (min-width: $break-small-screen) {
+      height: 100%;
+    }
+  }
+
+  // Large screen sizes
+  .left {
+    @media screen and (min-width: $break-small-screen) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: calc(#{$tower-controls-width} - 2em);
+    }
+  }
+}
+
+// Footer Styling
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  background-color: $footer-background-color;
+  color: $footer-font-color;
+  padding: $footer-vertical-padding 0px;
+
+  ul li {
+    display: inline;
+    padding: $footer-vertical-padding 10px;
+
+    // Applies a dividor to li elements
+    &:not(:first-child)::before {
+      content: "|";
+      padding: 0px 5px;
+    }
+  }
+}
