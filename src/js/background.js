@@ -16,6 +16,7 @@ backgroundContext.fillRect(0,0,background.width,background.height);
 backgroundContext.fillStyle = settings.pathColor;
 
 backgroundContext.beginPath();
+
 // var x = 0, y = 525;
 // backgroundContext.moveTo(x, y);
 // for (var i = 0; i < 12; i++) {
