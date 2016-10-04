@@ -2,7 +2,7 @@ var gulp = require("gulp");
 
 var sass = require("gulp-sass");
 var browserSync = require("browser-sync").create();
-var cssnano = require('gulp-cssnano');
+var cssnano = require("gulp-cssnano");
 
 var webpack = require("webpack-stream")
 

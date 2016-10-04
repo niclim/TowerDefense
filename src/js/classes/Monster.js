@@ -18,6 +18,11 @@ Monster.prototype.move = function() {
 
 };
 
-Monster.prototype.updateHp = function() {
+// Can take in a positive or negative number
+Monster.prototype.updateHp = function(hpChange) {
+  this.currentHp += hpChange;
 
+  if (this.currentHp > this.maxHp) {
+    this.currentHp = this.maxHp;
+  }
 };
