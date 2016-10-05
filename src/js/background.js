@@ -2,7 +2,7 @@
 var background = document.getElementById("static");
 var backgroundContext = background.getContext("2d");
 
-// Settings for the background
+// Settings for the background - move out to a separate file
 var settings = {
   backgroundColor: "#8CD1E6",
   pathColor: "gray"
@@ -12,31 +12,12 @@ var settings = {
 backgroundContext.fillStyle = settings.backgroundColor;
 backgroundContext.fillRect(0,0,background.width,background.height);
 
+/* Main path will go from [0, 500], [75, 500], [75, 100], [225, 100], [225, 500], [375, 500], [375, 100], [525, 100], [525, 500], [675, 500], [675, 100], [825, 100], [825, 500], [900, 500] */
+
 // Drawing the path - width of the path is 50px
 backgroundContext.fillStyle = settings.pathColor;
 
 backgroundContext.beginPath();
-
-// var x = 0, y = 525;
-// backgroundContext.moveTo(x, y);
-// for (var i = 0; i < 12; i++) {
-//   if (i % 2 === 0) {
-//     // change x value
-//     if ((i % 4 === 0) && (i !== 0)) {
-//       x += 200;
-//     } else {
-//       x += 100;
-//     }
-//   } else {
-//     // change y value
-//     if (y === 525) {
-//       y = 125;
-//     } else {
-//       y = 525;
-//     }
-//   }
-//   backgroundContext.lineTo(x, y);
-// }
 
 // For the bottom part of the path
 backgroundContext.moveTo(0, 525);

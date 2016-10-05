@@ -4,7 +4,7 @@
   "description": "A basic tower defense game",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "test",
+    "test": "",
     "dev": "webpack-dev-server --content-base ./ --inline --hot"
   },
   "author": "Nicholas Lim",
