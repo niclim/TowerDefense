@@ -46,6 +46,10 @@ describe("Monster", function() {
 
     });
 
+    it("should give the user gold when a tower kills a monster", function() {
+
+    });
+
     it("should die when it reaches the end of the maze", function() {
 
     });
@@ -55,6 +59,14 @@ describe("Monster", function() {
   describe("Monster Movement", function() {
 
     it("should move it's position in relation to its movement and direction", function() {
+
+    });
+
+    it("should change position based on every move cycle", function() {
+
+    });
+
+    it("should move every time the game cycle is updated", function() {
 
     });
 
