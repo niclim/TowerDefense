@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Awesome Tower Defense</title>
-
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -31,11 +31,11 @@
     <canvas id="dynamic" width="900" height="600"></canvas>
   </div>
   <aside>
-    <section class="side-section">
+    <section class="side-section card-panel">
       <h2>Towers</h2>
       <p>Blocks for towers will go here - have some sort of templating </p>
     </section>
-    <section class="side-section left">
+    <section class="side-section left card-panel">
       <h2>Information</h2>
       <p>Click over towers and monsters to get information</p>
       <p>Will also contain upgrades for towers</p>
@@ -48,6 +48,18 @@
     </ul>
   </footer>
 
+  <div class="modal-content card-panel">
+    <h3 class="modal-title">Welcome to Awesome TD!</h3>
+
+    <p class="modal-information">
+      This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore). On game reset this modal-content container will show and prompt to restart game.
+    </p>
+    <div class="modal-actions">
+      <a id="start-btn" class="waves-effect waves-light btn-large red">Start Game</a>
+      <a id="information-btn" class="waves-effect waves-light btn-large red"><i class="material-icons left">info</i>Information</a>
+    </div>
+  </div>
+  <div class="modal-background"></div>
   <script src="js/main.min.js"></script>
 </body>
 </html>

@@ -2,10 +2,12 @@
 $break-small-screen: 1650px;
 
 // General variables
-$background-color: #CCC;
+$text-color: #333;
+$background-color: #EEE;
+$text-alt-color: #DDD;
 
 // Game container
-$container-vertical-padding: 50px;
+$container-vertical-padding: 0px;
 $container-horizontal-padding: 20px;
 
 // Canvas
@@ -16,12 +18,13 @@ $canvas-height: 600px;
 $status-block-width: 300px;
 
 // Sidebar controls
-$sidebar-color: #737373;
-$sidebar-border: 1px solid black;
-$tower-controls-width: 350px;
-$tower-controls-height: 100%;
+$sidebar-color: #0288d1;
+$sidebar-controls-width: 350px;
+$sidebar-controls-height: 100%;
+
+// Modal background color
+$modal-color: #039be5;
 
 // Footer
-$footer-background-color: black;
-$footer-font-color: white;
+$footer-font-color: #333;
 $footer-vertical-padding: 0.5em;

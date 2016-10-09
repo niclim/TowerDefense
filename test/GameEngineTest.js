@@ -6,15 +6,15 @@ describe("Game", function() {
       game = new GameEngine();
     });
     it("should start with 10 user gold", function() {
-
+      expect(game.userGold).to.equal(10);
     });
 
     it("should start with 30 lives", function() {
-
+      expect(game.userLives).to.equal(30);
     });
 
     it("should start at level 1", function() {
-
+      expect(game.level).to.equal(1);
     });
   });
 

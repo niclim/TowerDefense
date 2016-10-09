@@ -46,3 +46,5 @@ Monster.prototype.updateHp = function(hpChange) {
     this.currentHp = this.maxHp;
   }
 };
+
+module.exports = Monster;

@@ -2,6 +2,10 @@
 @import "./lib/_reset.scss";
 @import "./lib/_variables.scss";
 
+// Import vendor libraries
+// Should onyl import cards, buttons and colors from materialize
+@import "./vendor/materialize-src/sass/materialize.scss";
+
 // Importing fonts
 @import "https://fonts.googleapis.com/css?family=Droid+Sans";
 
@@ -15,6 +19,9 @@ html, body {
   text-align: center;
   font-family: "Droid Sans", sans-serif;
   background-color: $background-color;
+  color: $text-color;
+  width: 100%;
+  height: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -33,6 +40,11 @@ h2 {
 
 h3 {
   font-size: 1.25em;
+}
+
+p {
+  line-height: 1.5em;
+  padding: 1em;
 }
 
 
@@ -62,10 +74,25 @@ Key breakpoints: 1650px - $break-small-screen
   }
 
   h1 {
-    margin-bottom: 1.5vh;
+    margin: 0;
+    padding-top: 3.5vh;
+    padding-bottom: 1.5vh;
     @media screen and (max-height: 810px) {
-      margin-bottom: 0.5vh;
+      padding-top: 0;
+      padding-bottom: 0.5vh;
     }
+  }
+
+  h3 {
+    font-size: 1.25em;
+    @media screen and (max-height: 880px) {
+      margin: 0.5vh 0 0 0;
+    }
+  }
+
+  p {
+    line-height: 1em;
+    padding: 0;
   }
 }
 
@@ -107,8 +134,8 @@ canvas {
 // Sidebar controls styling
 aside {
   // Sizing
-  width: $tower-controls-width;
-  height: $tower-controls-height;
+  width: $sidebar-controls-width;
+  height: $sidebar-controls-height;
 
   // Positioning
   position: fixed;
@@ -118,10 +145,10 @@ aside {
 
 
   .side-section {
-    height: 50%;
+    height: 49%;
     overflow-y: auto;
     padding: calc(1em - 1px);
-    border: $sidebar-border;
+    margin: 0.5% 0;
     background-color: $sidebar-color;
 
     @media screen and (min-width: $break-small-screen) {
@@ -135,9 +162,51 @@ aside {
         position: fixed;
         top: 0;
         left: 0;
-        width: calc(#{$tower-controls-width} - 2em);
+        width: $sidebar-controls-width;
     }
   }
+}
+
+// Modal Styling
+
+.modal-content {
+  z-index: 10;
+  width: 1000px;
+  height: 600px;
+
+  position: fixed;
+  left: calc(50% - 500px);
+  top: calc(50% - 300px);
+
+  background-color: $modal-color;
+
+  h3 {
+    font-size: 3em;
+    padding: 0.5em;
+  }
+
+  .modal-information {
+
+  }
+
+  .modal-actions {
+
+  }
+
+}
+
+.modal-background {
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  // display: none;
+  background-color: #222;
+  opacity: 0.5;
 }
 
 // Footer Styling
@@ -145,9 +214,12 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100vw;
-  background-color: $footer-background-color;
   color: $footer-font-color;
   padding: $footer-vertical-padding 0px;
+
+  @media screen and (max-height: 800px) {
+    display: none;
+  }
 
   ul li {
     display: inline;
