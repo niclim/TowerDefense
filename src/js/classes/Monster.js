@@ -8,11 +8,10 @@ var Monster = function(maxHp, baseMs, type) {
     y: 500
   }
 };
+// Method the game object uses to move monsters
+Monster.prototype.runCycle = function() {
 
-Monster.prototype.create = function() {
-  // adds position onto the map
-
-};
+}
 
 Monster.prototype.destroy = function() {
 

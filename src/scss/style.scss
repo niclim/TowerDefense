@@ -147,7 +147,7 @@ aside {
   .side-section {
     height: 49%;
     overflow-y: auto;
-    padding: calc(1em - 1px);
+    padding: 15px;
     margin: 0.5vh 0;
     background-color: $sidebar-color;
 
@@ -167,6 +167,35 @@ aside {
     }
   }
 }
+
+// Tower card styling
+.tower-container {
+
+  // Overwrite materializecss padding for col
+  .row .col {
+    padding: 0;
+  }
+
+  .hoverable {
+    cursor: pointer;
+  }
+}
+// width 150px;
+.tower-card {
+  width: 140px;
+  height: 150px;
+  margin: 10px;
+  padding: 10px;
+
+  h4 {
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+
+
 
 // Modal Styling
 

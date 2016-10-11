@@ -27,19 +27,4 @@ describe("Game", function() {
 
     });
   });
-
-  describe("Game Interface", function() {
-    it("should inform users below 1280px x 768px  that this game won't work", function() {
-
-    });
-
-    it("should initiate the game when the user presses 'Start Game'", function() {
-
-    });
-
-    it("should display a message to the user when the game is over", function() {
-
-    });
-  });
-
 });

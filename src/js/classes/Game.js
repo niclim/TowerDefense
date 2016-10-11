@@ -2,14 +2,29 @@ var GameEngine = function() {
   this.userGold = 10;
   this.level = 1;
   this.userLives = 30;
+  this.activeMonsters = {}; // List of active monsters in the
+  this.towers = {};
 
 
   // Goes through and disables towers that can't be used yet
-  // Tower placed method
-  // game has some sort of memory remembering where the towers are placed
-  // pubsub implementation
-  // each game cycle sends update to each monster and tower to run on a game cycle
-  // the constructor makes it that they subscribe to it - when die they unsubscribe
 }
+
+// New level method
+
+GameEngine.prototype.runCycle = function() {
+  // loop through active monsters and towers and run the cycle
+
+  // loop and check death of monsters - update accordingly
+}
+
+// method to check gold before place tower or upgrade
+
+// method to upgrade tower
+
+GameEngine.prototype.validateTowerPlacement = function() {
+
+}
+
+// redraw canvas
 
 module.exports = GameEngine;

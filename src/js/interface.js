@@ -2,11 +2,8 @@
 var Tower = require("./classes/Tower.js");
 var GameEngine = require("./classes/Game.js");
 
-// Initiate pubsub
-var PubSub = require("pubsub-js");
-
 var game;
-
+// HERE IS ALL THE INTERACTION EVENT LISTENERS
 // Create extra tower cards when certain research is reached
 
 // On start, create a game element - these event listeners will be destroyed when the container is overriden
