@@ -1,155 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Awesome Tower Defense</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <div class="game-container">
-    <h1>Awesome Tower Defense</h1>
-    <ul class="status">
-      <li>
-        <h3>Level</h3>
-        <p id="level">0</p>
-      </li>
-      <li>
-        <h3>Gold</h3>
-        <p id="gold">0</p>
-      </li>
-      <li>
-        <h3>Lives</h3>
-        <p id="lives">0</p>
-      </li>
-    </ul>
-    <div class="clear"></div>
 
-    <canvas id="static" width="900" height="600"></canvas>
-    <canvas id="dynamic" width="900" height="600"></canvas>
-  </div>
-  <aside>
-    <section class="tower-container side-section card-panel">
-      <h2>Towers</h2>
-      <div class="row">
-        <div class="col s6">
-          <div class="tower-card card hoverable" data-tower="Tower Name">
-              <h4>Tower Name</h4>
-              <img src="./assets/tower.jpg" alt="">
-          </div>
-        </div>
-        <div class="col s6">
-          <div class="tower-card card hoverable" data-tower="Tower Name">
-              <h4>Tower Name</h4>
-              <img src="./assets/tower.jpg" alt="">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col s6">
-            <div class="tower-card card hoverable" data-tower="Tower Name">
-                <h4>Tower Name</h4>
-                <img src="./assets/tower.jpg" alt="">
-            </div>
-          </div>
-          <div class="col s6">
-            <div class="tower-card card hoverable" data-tower="Tower Name">
-                <h4>Tower Name</h4>
-                <img src="./assets/tower.jpg" alt="">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col s6">
-              <div class="tower-card card hoverable" data-tower="Tower Name">
-                  <h4>Tower Name</h4>
-                  <img src="./assets/tower.jpg" alt="">
-              </div>
-            </div>
-            <div class="col s6">
-              <div class="tower-card card hoverable" data-tower="Tower Name">
-                  <h4>Tower Name</h4>
-                  <img src="./assets/tower.jpg" alt="">
-              </div>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Awesome Tower Defense</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="game-container">
+        <h1>Awesome Tower Defense</h1>
+        <ul class="status">
+            <li>
+                <h3>Level</h3>
+                <p id="level">0</p>
+            </li>
+            <li>
+                <h3>Gold</h3>
+                <p id="gold">0</p>
+            </li>
+            <li>
+                <h3>Lives</h3>
+                <p id="lives">0</p>
+            </li>
+        </ul>
+        <div class="clear"></div>
+
+        <canvas id="static" width="900" height="600"></canvas>
+        <canvas id="dynamic" width="900" height="600"></canvas>
+    </div>
+    <aside>
+        <section class="tower-container side-section card-panel">
+            <h2>Towers</h2>
+            <div class="row">
+                <div class="col s6">
+                    <div class="tower-card card hoverable" data-tower="Tower Name">
+                        <h4>Tower Name</h4>
+                        <img src="./assets/tower.jpg" alt="">
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="tower-card card hoverable" data-tower="Tower Name">
+                        <h4>Tower Name</h4>
+                        <img src="./assets/tower.jpg" alt="">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <div class="tower-card card hoverable" data-tower="Tower Name">
+                            <h4>Tower Name</h4>
+                            <img src="./assets/tower.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="tower-card card hoverable" data-tower="Tower Name">
+                            <h4>Tower Name</h4>
+                            <img src="./assets/tower.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                            <div class="tower-card card hoverable disabled" data-tower="Tower Name">
+                                <h4>Tower Name</h4>
+                                <img src="./assets/tower.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            <div class="tower-card card hoverable" data-tower="Tower Name">
+                                <h4>Tower Name</h4>
+                                <img src="./assets/tower.jpg" alt="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s6">
+                                <div class="tower-card card hoverable" data-tower="Tower Name">
+                                    <h4>Tower Name</h4>
+                                    <img src="./assets/tower.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <div class="tower-card card hoverable" data-tower="Tower Name">
+                                    <h4>Tower Name</h4>
+                                    <img src="./assets/tower.jpg" alt="">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s6">
+                                    <div class="tower-card card hoverable" data-tower="Tower Name">
+                                        <h4>Tower Name</h4>
+                                        <img src="./assets/tower.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col s6">
+                                    <div class="tower-card card hoverable" data-tower="Tower Name">
+                                        <h4>Tower Name</h4>
+                                        <img src="./assets/tower.jpg" alt="">
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+        </section>
+        <section class="side-section left card-panel">
+            <h2>Information</h2>
+            <div class="row">
+                <h5 id="info-name">Mon/tower name</h5>
             </div>
             <div class="row">
-              <div class="col s6">
-                <div class="tower-card card hoverable" data-tower="Tower Name">
-                    <h4>Tower Name</h4>
-                    <img src="./assets/tower.jpg" alt="">
-                </div>
-              </div>
-              <div class="col s6">
-                <div class="tower-card card hoverable" data-tower="Tower Name">
-                    <h4>Tower Name</h4>
-                    <img src="./assets/tower.jpg" alt="">
-                </div>
-              </div>
-              <div class="row">
+                <img src="./assets/biggermonster.jpg" alt="">
+            </div>
+            <div class="row">
                 <div class="col s6">
-                  <div class="tower-card card hoverable" data-tower="Tower Name">
-                      <h4>Tower Name</h4>
-                      <img src="./assets/tower.jpg" alt="">
-                  </div>
+                    here is the list of information
                 </div>
                 <div class="col s6">
-                  <div class="tower-card card hoverable" data-tower="Tower Name">
-                      <h4>Tower Name</h4>
-                      <img src="./assets/tower.jpg" alt="">
-                  </div>
+                    here is the list of information
                 </div>
+            </div>
+            <div class="row">
+                <div class="col s6">
+                    button for upgrade
+                </div>
+                <div class="col s6">
+                    button for tower sell
+                </div>
+            </div>
+            <h2>About this game</h2>
+            <p>Nice sounding paragraph about the game and its design. Should be nice to read</p>
+        </section>
+    </aside>
+    <footer>
+        <ul>
+            <li>Created by:</li>
+            <li>Find it on <a href="#">Github</a></li>
+        </ul>
+    </footer>
 
+    <div class="modal-content card-panel">
+        <h3 class="modal-title">Welcome to Awesome TD!</h3>
 
-
-      </div>
-    </section>
-    <section class="side-section left card-panel">
-      <h2>Information</h2>
-      <div class="row">
-        <h5 id="info-name">Mon/tower name</h5>
-      </div>
-      <div class="row">
-        <img src="./assets/biggermonster.jpg" alt="">
-      </div>
-      <div class="row">
-        <div class="col s6">
-          here is the list of information
+        <p class="modal-information">
+            This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
+            On game reset this modal-content container will show and prompt to restart game.
+        </p>
+        <div class="modal-actions">
+            <a id="start-btn" class="waves-effect waves-light btn-large red">Start Game</a>
+            <a id="information-btn" class="waves-effect waves-light btn-large red"><i class="material-icons left">info</i>Information</a>
         </div>
-        <div class="col s6">
-          here is the list of information
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s6">
-          button for upgrade
-        </div>
-        <div class="col s6">
-          button for tower sell
-        </div>
-      </div>
-      <h2>About this game</h2>
-      <p>Nice sounding paragraph about the game and its design. Should be nice to read</p>
-    </section>
-  </aside>
-  <footer>
-    <ul>
-      <li>Created by:</li>
-      <li>Find it on <a href="#">Github</a></li>
-    </ul>
-  </footer>
-
-  <div class="modal-content card-panel">
-    <h3 class="modal-title">Welcome to Awesome TD!</h3>
-
-    <p class="modal-information">
-      This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore). On game reset this modal-content container will show and prompt to restart game.
-    </p>
-    <div class="modal-actions">
-      <a id="start-btn" class="waves-effect waves-light btn-large red">Start Game</a>
-      <a id="information-btn" class="waves-effect waves-light btn-large red"><i class="material-icons left">info</i>Information</a>
     </div>
-  </div>
-  <div class="modal-background"></div>
-  <script src="js/main.min.js"></script>
+    <div class="modal-background"></div>
+    <script src="js/main.min.js"></script>
 </body>
+
 </html>
