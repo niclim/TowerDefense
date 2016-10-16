@@ -5,5 +5,5 @@ var dynamicContext = dynamic.getContext("2d");
 // use request animation frame
 
 function draw() {
-  
+
 }
