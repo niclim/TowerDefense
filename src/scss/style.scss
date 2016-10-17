@@ -1,53 +1,54 @@
 // Importing libraries
 @import "./lib/_reset.scss";
 @import "./lib/_variables.scss";
-
 // Import vendor libraries
 // Should onyl import cards, buttons and colors from materialize
 @import "./vendor/materialize-src/sass/materialize.scss";
-
 // Importing fonts
 @import "https://fonts.googleapis.com/css?family=Droid+Sans";
-
 /*****************************************************
 
 TYPOGRAPHY
 
 ******************************************************/
-html, body {
-  font-size: 16px;
-  text-align: center;
-  font-family: "Droid Sans", sans-serif;
-  background-color: $background-color;
-  color: $text-color;
-  width: 100%;
-  height: 100%;
+body,
+html {
+    font-size: 16px;
+    text-align: center;
+    font-family: "Droid Sans", sans-serif;
+    background-color: $background-color;
+    color: $text-color;
+    width: 100%;
+    height: 100%;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: bold;
-  letter-spacing: 1px;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 h1 {
-  font-size: 4em;
-  letter-spacing: 2px;
+    font-size: 4em;
+    letter-spacing: 2px;
 }
 
 h2 {
-  font-size: 1.5em;
+    font-size: 1.5em;
 }
 
 h3 {
-  font-size: 1.25em;
+    font-size: 1.25em;
 }
 
 p {
-  line-height: 1.5em;
-  padding: 1em;
+    line-height: 1.5em;
+    padding: 1em;
 }
-
-
 /*****************************************************
 
 LAYOUT
@@ -55,210 +56,190 @@ Min dimensions: 1280px width 768px height
 Key breakpoints: 1650px - $break-small-screen
 
 ******************************************************/
-
 .game-container {
-  // Base styling is designed for 1280px screens
-  padding: $container-vertical-padding $container-horizontal-padding;
-  height: calc(100vh - #{$container-vertical-padding} * 2);
-  // Width calculation 100% of width excluding padding and size of aside UI bar
-  width: calc(100vw - #{$container-horizontal-padding} * 2 - 350px);
-
-  @media screen and (min-width: $break-small-screen) {
-    width: calc(100vw - #{$container-horizontal-padding} * 2);
-  }
-
-  // Reduces paddings for small height screens (down to 768px)
-  @media screen and (max-height: 810px) {
-    padding: 10px $container-horizontal-padding;
-    height: calc(100vh - 20px);
-  }
-
-  h1 {
-    margin: 0;
-    padding-top: 3.5vh;
-    padding-bottom: 1.5vh;
+    // Base styling is designed for 1280px screens
+    padding: $container-vertical-padding $container-horizontal-padding;
+    height: calc(100vh - #{$container-vertical-padding} * 2);
+    // Width calculation 100% of width excluding padding and size of aside UI bar
+    width: calc(100vw - #{$container-horizontal-padding} * 2 - 350px);
+    @media screen and (min-width: $break-small-screen) {
+        width: calc(100vw - #{$container-horizontal-padding} * 2);
+    }
+    // Reduces paddings for small height screens (down to 768px)
     @media screen and (max-height: 810px) {
-      padding-top: 0;
-      padding-bottom: 0.5vh;
+        padding: 10px $container-horizontal-padding;
+        height: calc(100vh - 20px);
     }
-  }
 
-  h3 {
-    font-size: 1.25em;
-    @media screen and (max-height: 880px) {
-      margin: 0.5vh 0 0 0;
+    h1 {
+        margin: 0;
+        padding-top: 3.5vh;
+        padding-bottom: 1.5vh;
+        @media screen and (max-height: 810px) {
+            padding-top: 0;
+            padding-bottom: 0.5vh;
+        }
     }
-  }
 
-  p {
-    line-height: 1em;
-    padding: 0;
-  }
+    h3 {
+        font-size: 1.25em;
+        @media screen and (max-height: 880px) {
+            margin: 0.5vh 0 0;
+        }
+    }
+
+    p {
+        line-height: 1em;
+        padding: 0;
+    }
 }
-
 // Styling for the status panel
 .status {
-  position: relative;
-  margin: auto;
-  width: calc(#{$status-block-width} * 3);
+    position: relative;
+    margin: auto;
+    width: calc(#{$status-block-width} * 3);
 
-  li {
-    text-align: center;
-    display: block;
-    width: $status-block-width;
-    float: left;
-    padding-bottom: 10px;
-  }
+    li {
+        text-align: center;
+        display: block;
+        width: $status-block-width;
+        float: left;
+        padding-bottom: 10px;
+    }
 }
-
 // Line break clear
 .clear {
-  clear: both;
+    clear: both;
 }
-
 // Basic canvas styling
 canvas {
-  width: $canvas-width;
-  height: $canvas-height;
-  margin: auto;
-  display: block;
-  border: 1px solid black;
-  z-index: 1;
+    width: $canvas-width;
+    height: $canvas-height;
+    margin: auto;
+    display: block;
+    border: 1px solid black;
+    z-index: 1;
 }
 
 #dynamic {
-  margin-top: calc(#{$canvas-height} * -1 - 2px);
-  z-index: 2;
+    margin-top: calc(#{$canvas-height} * -1 - 2px);
+    z-index: 2;
 }
-
 // Sidebar controls styling
 aside {
-  // Sizing
-  width: $sidebar-controls-width;
-  height: $sidebar-controls-height;
+    // Sizing
+    width: $sidebar-controls-width;
+    height: $sidebar-controls-height;
+    // Positioning
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 2;
 
-  // Positioning
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 2;
-
-
-  .side-section {
-    height: 49%;
-    overflow-y: auto;
-    padding: 15px;
-    margin: 0.5vh 0;
-    background-color: $sidebar-color;
-
-    @media screen and (min-width: $break-small-screen) {
-      height: 100%;
-      margin: 0;
+    .side-section {
+        height: 49%;
+        overflow-y: auto;
+        padding: 15px;
+        margin: 0.5vh 0;
+        background-color: $sidebar-color;
+        @media screen and (min-width: $break-small-screen) {
+            height: 100%;
+            margin: 0;
+        }
     }
-  }
-
-  // Large screen sizes
-  .left {
-    @media screen and (min-width: $break-small-screen) {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: $sidebar-controls-width;
+    // Large screen sizes
+    .left {
+        @media screen and (min-width: $break-small-screen) {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: $sidebar-controls-width;
+        }
     }
-  }
 }
-
 // Tower card styling
 .tower-container {
+    // Overwrite materializecss padding for col
+    .row .col {
+        padding: 0;
+    }
 
-  // Overwrite materializecss padding for col
-  .row .col {
-    padding: 0;
-  }
-
-  .hoverable {
-    cursor: pointer;
-  }
+    .hoverable {
+        cursor: pointer;
+    }
 }
 // width 150px;
+
 .tower-card {
-  width: 140px;
-  height: 150px;
-  margin: 10px;
-  padding: 10px;
+    width: 140px;
+    height: 150px;
+    margin: 10px;
+    padding: 10px;
 
-  h4 {
-    font-size: 18px;
-    margin: 0;
-    padding: 0;
-  }
+    h4 {
+        font-size: 18px;
+        margin: 0;
+        padding: 0;
+    }
+
+    &.disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
+    &.active {
+        background-color: gray;
+    }
 }
-
-
-
-
 // Modal Styling
-
 .modal-content {
-  z-index: 10;
-  width: 1000px;
-  height: 600px;
+    z-index: 10;
+    width: 1000px;
+    height: 600px;
+    position: fixed;
+    left: calc(50% - 500px);
+    top: calc(50% - 300px);
+    background-color: $modal-color;
 
-  position: fixed;
-  left: calc(50% - 500px);
-  top: calc(50% - 300px);
+    h3 {
+        font-size: 3em;
+        padding: 0.5em;
+    }
 
-  background-color: $modal-color;
+    .modal-information {}
 
-  h3 {
-    font-size: 3em;
-    padding: 0.5em;
-  }
-
-  .modal-information {
-
-  }
-
-  .modal-actions {
-
-  }
-
+    .modal-actions {}
 }
 
 .modal-background {
-  z-index: 5;
-  width: 100%;
-  height: 100%;
-
-  position: fixed;
-  left: 0;
-  top: 0;
-
-  // display: none;
-  background-color: #222;
-  opacity: 0.5;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    // display: none;
+    background-color: #222;
+    opacity: 0.5;
 }
-
 // Footer Styling
 footer {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-  color: $footer-font-color;
-  padding: $footer-vertical-padding 0px;
-
-  @media screen and (max-height: 800px) {
-    display: none;
-  }
-
-  ul li {
-    display: inline;
-    padding: $footer-vertical-padding 10px;
-
-    // Applies a dividor to li elements
-    &:not(:first-child)::before {
-      content: "|";
-      padding: 0px 5px;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    color: $footer-font-color;
+    padding: $footer-vertical-padding 0;
+    @media screen and (max-height: 800px) {
+        display: none;
     }
-  }
+
+    ul li {
+        display: inline;
+        padding: $footer-vertical-padding 10px;
+        // Applies a dividor to li elements
+        &:not(:first-child)::before {
+            content: "|";
+            padding: 0 5px;
+        }
+    }
 }
