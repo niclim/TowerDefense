@@ -8,6 +8,14 @@ var GameEngine = function() {
     // Goes through and disables towers that can't be used yet
 }
 
+GameEngine.prototype.addMonster = function(name) {
+    // add monster (specified by name) to game
+}
+
+GameEngine.prototype.addTower = function(name, position) {
+    // add tower (specified by name) at location
+}
+
 // method to check gold before place tower or upgrade
 GameEngine.prototype.checkGold = function(goldCost) {
     if (goldCost > this.userGold) {
@@ -46,8 +54,9 @@ GameEngine.prototype.runCycle = function() {
 
 // method to upgrade tower
 
-GameEngine.prototype.validateTowerPlacement = function() {
-
+GameEngine.prototype.validateTowerPlacement = function(name, position) {
+    // returns true or false whether tower placement is valid
+    return true;
 }
 
 // redraw canvas
