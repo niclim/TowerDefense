@@ -1,8 +1,21 @@
 // Initiate all the components
 var Tower = require("./classes/Tower.js"),
-    GameEngine = require("./classes/Game.js"),
-    game = new GameEngine;
+    GameEngine = require("./classes/Game.js")
 
+//  creates global variables
+game = new GameEngine;
+dynamicCanvas = document.getElementById('dynamic');
+dynamicContext = dynamicCanvas.getContext('2d');
+
+runCycle = function() {
+    game.runCycle();
+    setTimeout(runCycle, 1000);
+}
+
+renderCycle = function() {
+    game.render();
+    requestAnimationFrame(renderCycle);
+}
 
 // HERE IS ALL THE INTERACTION EVENT LISTENERS
 
@@ -14,6 +27,10 @@ document.getElementById("start-btn").addEventListener("click", function() {
     // Hides the modal lightbox
     document.getElementsByClassName("modal-content")[0].style.display = "none";
     document.getElementsByClassName("modal-background")[0].style.display = "none";
+
+    // run repeating function that runs game engine run cycle and rendering
+    setTimeout(runCycle, 1000);
+    requestAnimationFrame(renderCycle);
 });
 
 // On clicking the information button, show the information panel
