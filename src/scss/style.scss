@@ -175,6 +175,7 @@ aside {
     height: 150px;
     margin: 10px;
     padding: 10px;
+    background-color: $tower-card-background;
 
     h4 {
         font-size: 18px;
@@ -188,7 +189,8 @@ aside {
     }
 
     &.active {
-        background-color: gray;
+        background-color: $tower-card-active;
+        outline: 4px solid $tower-card-active-outline;
     }
 }
 // Modal Styling

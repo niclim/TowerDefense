@@ -30,6 +30,8 @@ document.getElementById("information-btn").addEventListener("click", function() 
 /* =====================================================*/
 // Shows information about towers or monsters if hovered over
 // or active
+var activeCanvasElement = null;
+
 
 // Get information from towerdata.js
 
@@ -41,10 +43,34 @@ document.getElementById("information-btn").addEventListener("click", function() 
 
 // set up event listeners at the start which reference functions - these functions depend on the state on the application to control their control flow
 var activeTowerSelected = null;
+var towerCards = document.getElementsByClassName("tower-card");
+var towerCardList = [];
+
+function addClass(element, cssClass) {
+    if (element.className === "") {
+        element.className = cssClass;
+    } else {
+        element.className += " " + cssClass;
+    }
+}
+
+function removeClass(element, cssClass) {
+    var arrayOfClasses = element.className.split(" ");
+    for (var i = 0; i < arrayOfClasses.length; i++) {
+        if (arrayOfClasses[i] === cssClass) {
+            arrayOfClasses.splice(i, 1);
+        }
+    }
+    element.className = arrayOfClasses.join(" ");
+}
+
+function getIndex(towerName) {
+    return towerCardList.indexOf(towerName);
+}
+
 function towerCardClick() {
 
     var towerName = this.getAttribute("data-tower");
-    // NOTE  add active class to active element
 
     if (/disabled/i.test(this.className)) { // Tower is disabled
         return;
@@ -52,13 +78,13 @@ function towerCardClick() {
         // set the active tower selected to be the tower name
         // Set up active elements
         activeTowerSelected = towerName;
-        // NOTE add active class to tower clicked
+        addClass(towerCards[getIndex(activeTowerSelected)], "active");
     } else if (activeTowerSelected === towerName) { // The tower card clicked is the same as the active tower
         cancelTowerPlacement();
     } else { // There is an active tower which is not the same as what was clicked
-        // NOTE remove active class from previous tower`
+        removeClass(towerCards[getIndex(activeTowerSelected)], "active");
         activeTowerSelected = towerName;
-        // NOTE add active class to clicked tower card
+        addClass(towerCards[getIndex(activeTowerSelected)], "active");
     }
 }
 
@@ -91,22 +117,24 @@ function towerPlacement(e) {
         console.log("invalid tower placement");
         // show error message somewhere for the user
     }
+    removeClass(towerCards[getIndex(activeTowerSelected)], "active");
     activeTowerSelected = null;
 }
 
 function cancelTowerPlacement() {
-    // NOTE remove active tower card
+
+    removeClass(towerCards[getIndex(activeTowerSelected)], "active");
     activeTowerSelected = null;
 }
 
 
 // Set up event listeners
-var towerCards = document.getElementsByClassName("tower-card");
 // Convert from nodelist to array
 towerCards = Array.prototype.slice.call(towerCards);
 
 // Tower card click event listeners
-towerCards.map(function(towerCard) {
+towerCards.map(function(towerCard, i) {
+    towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
 });
 
