@@ -10,7 +10,6 @@
   "author": "Nicholas Lim",
   "license": "ISC",
   "dependencies": {
-    "pubsub-js": "^1.5.3",
     "webpack": "^1.13.2"
   },
   "devDependencies": {
