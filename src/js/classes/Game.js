@@ -6,14 +6,14 @@ var GameEngine = function() {
     this.level = 1;
     this.userLives = 30;
     this.activeMonsters = []; // List of active monsters in the
-    this.towers = {}; // object of tower objects
+    this.towers = []; // object of tower objects
     this.timer = 1;
     // Goes through and disables towers that can't be used yet
 }
 
 GameEngine.prototype.addMonster = function(name) {
     // add monster (specified by name) to game
-    var monster = new Monster(30, 10, 1);
+    var monster = new Monster("monster1");
     this.activeMonsters.push(monster);
 }
 

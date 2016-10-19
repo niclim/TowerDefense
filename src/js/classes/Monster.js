@@ -1,8 +1,10 @@
-var Monster = function(maxHp, baseMs, type) {
-    this.currentHp = maxHp;
-    this.maxHp = maxHp;
-    this.baseMs = baseMs; // Movement speed - "units" per second
-    this.type = type;
+var monsterData = require("../gameData/monsterdata.js");
+
+var Monster = function(id) {
+    this.currentHp = monsterData[id].maxHp;
+    this.maxHp = monsterData[id].maxHp;
+    this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
+    this.type = monsterData[id].type;
     this.position = { // All monsters are created in the same position
         x: 0,
         y: 485

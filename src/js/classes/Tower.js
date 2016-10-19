@@ -1,9 +1,11 @@
-var Tower = function(damage, speed, range, type, effect, position) {
-    this.damage = damage;
-    this.speed = speed; // Attack speed
-    this.range = range; // Range of the tower
-    this.type = type; // Type of damage
-    this.effect = effect; // Special effect (e.g. slow, splash, etc)
+var towerData = require("../gameData/towerdata.js");
+
+var Tower = function(position, id) {
+    this.damage = towerData[id].damage;
+    this.speed = towerData[id].speed; // Attack speed
+    this.range = towerData[id].range; // Range of the tower
+    this.type = towerData[id].type; // Type of damage
+    this.effect = towerData[id].effect; // Special effect (e.g. slow, splash, etc)
     this.position = position; // object with x and y coordinates - should not change
 }
 // Method the game object uses to run towers
