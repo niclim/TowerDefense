@@ -1,6 +1,7 @@
 var towerData = require("../gameData/towerdata.js");
 
 var Tower = function(position, id) {
+    this.id = id;
     this.damage = towerData[id].damage;
     this.speed = towerData[id].speed; // Attack speed
     this.range = towerData[id].range; // Range of the tower

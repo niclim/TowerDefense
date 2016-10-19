@@ -2,6 +2,13 @@
 var Tower = require("./classes/Tower.js"),
     GameEngine = require("./classes/Game.js")
 
+// Cache reused DOM elements
+var infoName = document.getElementById("info-name"),
+    infoBox1 = document.getElementById("info-box-1"),
+    infoBox2 = document.getElementById("info-box-2"),
+    infoBox3 = document.getElementById("info-box-3"),
+    infoBox4 = document.getElementById("info-box-4");
+
 //  creates global variables
 game = new GameEngine;
 dynamicCanvas = document.getElementById('dynamic');
@@ -43,12 +50,58 @@ document.getElementById("information-btn").addEventListener("click", function() 
 
 
 
-/* ================= Information Hover =================*/
+/* ================= Information Click =================*/
 /* =====================================================*/
 // Shows information about towers or monsters if hovered over
 // or active
 var activeCanvasElement = null;
 
+
+function comparePositions(clickPosition, elementPosition, type) {
+    var sideLength = type === "monster" ? 30 : 50; // width and height of the element
+    if (clickPosition.x >= elementPosition.x
+    && clickPosition.x <= elementPosition.x + sideLength
+    && clickPosition.y >= elementPosition.y
+    && clickPosition.y <= elementPosition.y + sideLength) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// Takes in a position object (location of the click)
+// returns an object with information about what is at that position
+function checkClickLocation(position) {
+    var element = {};
+    // Loops through activeMonsters
+    for (var i = 0; i < game.activeMonsters.length; i++) {
+        if (comparePositions(position, game.activeMonsters[i].position, "monster")) {
+            element.type = "monster";
+            element.id = game.activeMonsters[i].id;
+            element.index = i;
+            break;
+        }
+    }
+
+    // If nothing was found, loop through towers
+    if (element.type === undefined) {
+        for (var i = 0; i < game.towers.length; i++) {
+            if (comparePositions(position, game.towers[i].position, "tower")) {
+                element.type = "tower";
+                element.id = game.towers[i].id;
+                element.index = i;
+                break;
+            }
+        }
+    }
+
+    // If no towers or monsters found return a type of null
+    if (element.type === undefined) {
+        element.type = null;
+    }
+
+    return element;
+}
 
 // Get information from towerdata.js
 
@@ -115,27 +168,46 @@ function onTowerMouseMovement(e) {
     // send to display to get rendered
 };
 
-function towerPlacement(e) {
-    if (activeTowerSelected === null) {
-        return;
-    }
-
-    var towerName = activeTowerSelected, // NOTE CHANGE GET TOWER NAME FROM LIST
-        canvasContainer = this.getBoundingClientRect(),
-        position = {};
+// Two possible canvas click scenarios:
+// 1) Tower selection is active (place a tower)
+// 2) Tower selection is inactive (clicking to get information about a monster or tower on the map)
+function canvasClick(e) {
+    // Get click location relative to the canvas element
+    var canvasContainer = this.getBoundingClientRect(),
+    position = {};
 
     position.x = e.clientX - canvasContainer.left;
     position.y = e.clientY - canvasContainer.top;
 
-    if (game.validateTowerPlacement(towerName, position)) {
-        console.log("towerPlaced");
-        game.addTower(towerName, position);
+    if (activeTowerSelected !== null) { //
+        var towerName = activeTowerSelected; // NOTE CHANGE GET TOWER NAME FROM LIST
+
+        if (game.validateTowerPlacement(towerName, position)) {
+            console.log("towerPlaced");
+            game.addTower(towerName, position);
+        } else {
+            console.log("invalid tower placement");
+            // show error message somewhere for the user
+        }
+        removeClass(towerCards[getIndex(activeTowerSelected)], "active");
+        activeTowerSelected = null;
+
     } else {
-        console.log("invalid tower placement");
-        // show error message somewhere for the user
+        // check if the position overlaps with the bounding rectangle of monster or tower
+        var element = checkClickLocation(position);
+        console.log(element);
+        if (element.type === "monster") {
+            infoName.innerHTML = element.id;
+
+        } else if (element.type === "tower") {
+            console.log("show tower information")
+        } else {
+            infoName.innerHTML = "Awesome TD";
+            console.log("show default information")
+        }
+        // if it is, change the information container
     }
-    removeClass(towerCards[getIndex(activeTowerSelected)], "active");
-    activeTowerSelected = null;
+
 }
 
 function cancelTowerPlacement() {
@@ -157,7 +229,7 @@ towerCards.map(function(towerCard, i) {
 
 // Game container event listeners
 document.getElementById("dynamic").onmousemove = onTowerMouseMovement;
-document.getElementById("dynamic").addEventListener("click", towerPlacement);
+document.getElementById("dynamic").addEventListener("click", canvasClick);
 
 // Tower placement cancelling event listeners
 document.onkeydown = function(e) {

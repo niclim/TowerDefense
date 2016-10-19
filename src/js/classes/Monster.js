@@ -1,6 +1,7 @@
 var monsterData = require("../gameData/monsterdata.js");
 
 var Monster = function(id) {
+    this.id = id;
     this.currentHp = monsterData[id].maxHp;
     this.maxHp = monsterData[id].maxHp;
     this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
