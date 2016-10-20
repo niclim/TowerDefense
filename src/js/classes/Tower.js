@@ -1,6 +1,10 @@
 var towerData = require("../gameData/towerdata.js");
-
+// Position refers to the upper left corner of the elements
+// Tower width - 50 x 50
 var Tower = function(position, id) {
+    if (towerData[id] === undefined) {
+        throw Error("Invalid tower name, check html dataattribute or towerdata")
+    }
     this.id = id;
     this.damage = towerData[id].damage;
     this.speed = towerData[id].speed; // Attack speed
@@ -11,7 +15,7 @@ var Tower = function(position, id) {
 }
 // Method the game object uses to run towers
 Tower.prototype.runCycle = function() {
-
+    
 }
 // change this to reference a list or something where a name can be used to determine the properties
 // Takes in a monster's position and checks whether that is in range based on the range - returns true or false if in range which can be used to
@@ -28,6 +32,14 @@ Tower.prototype.checkInRange = function(monsterPosition) {
    } else {
        return false;
    }
+}
+
+Tower.prototype.draw = function() {
+    dynamicContext.fillStyle = "green";
+    dynamicContext.fillRect(this.position.x,
+                            this.position.y,
+                            50,
+                            50);
 }
 
 module.exports = Tower;

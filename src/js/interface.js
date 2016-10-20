@@ -144,8 +144,8 @@ function renderTowerInformation(id, index) {
     // Change icon to active monster - use a sprite
     infoBox1.innerHTML = "Damage: <br> Range: <br> Effect: ";
     infoBox2.innerHTML = "Attack Speed: <br> Type: " ;
-    infoBox3.innerHTML = "Strengths: All sorts mate" ;
-    infoBox4.innerHTML = "Weaknesses: Ducks" ;
+    infoBox3.innerHTML = "<a class='waves-effect waves-light btn red'>Upgrade</a>" ;
+    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red'>Sell</a>" ;
     // Change icon to tower monster - use a sprite
 
 }
@@ -237,8 +237,7 @@ function canvasClick(e) {
         var towerName = activeTowerSelected; // NOTE CHANGE GET TOWER NAME FROM LIST
 
         if (game.validateTowerPlacement(towerName, position)) {
-            console.log("towerPlaced");
-            game.addTower(towerName, position);
+            game.addTower(position, towerName);
         } else {
             console.log("invalid tower placement");
             // show error message somewhere for the user

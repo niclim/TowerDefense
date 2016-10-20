@@ -1,5 +1,6 @@
 //  require Monster to gain access
-var Monster = require("./Monster.js");
+var Monster = require("./Monster.js"),
+    Tower = require("./Tower.js");
 
 var GameEngine = function() {
     this.userGold = 10;
@@ -17,8 +18,11 @@ GameEngine.prototype.addMonster = function(name) {
     this.activeMonsters.push(monster);
 }
 
-GameEngine.prototype.addTower = function(name, position) {
-    // add tower (specified by name) at location
+GameEngine.prototype.addTower = function(position, id) {
+    // Check gold cost and then reduce gold
+    var tower = new Tower(position, id);
+    this.towers.push(tower);
+
 }
 
 // method to check gold before place tower or upgrade
@@ -48,11 +52,18 @@ GameEngine.prototype.render = function() {
     dynamicContext.beginPath();
     dynamicContext.clearRect(0, 0, dynamicCanvas.width, dynamicCanvas.height);
 
+    // Render towers first so that if monsters are larger they show above towers
+    for (var i = 0, j = this.towers.length; i < j; i ++) {
+        this.towers[i].draw();
+    }
+
     //  loop through list of active monsters and render them
     //  TODO probably need to find a better way to rend them apart from random rectangle
     for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
         this.activeMonsters[i].draw();
     }
+
+
 
     // dynamicContext.
 };
@@ -78,7 +89,9 @@ GameEngine.prototype.runCycle = function() {
 
 // method to upgrade tower
 
-GameEngine.prototype.validateTowerPlacement = function(name, position) {
+// 50 x 50 tower
+GameEngine.prototype.validateTowerPlacement = function(position) {
+
     // returns true or false whether tower placement is valid
     return true;
 }
