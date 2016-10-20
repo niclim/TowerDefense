@@ -1,18 +1,30 @@
+// NOTE At some point I think we can move some functions into a different file
+
 // Initiate all the components
 var Tower = require("./classes/Tower.js"),
-    GameEngine = require("./classes/Game.js")
+    GameEngine = require("./classes/Game.js"),
+    monsterData = require("./gameData/monsterdata.js"),
+    towerData = require("./gameData/towerdata.js");
 
 // Cache reused DOM elements
 var infoName = document.getElementById("info-name"),
+    infoIcon = document.getElementById("info-icon"),
     infoBox1 = document.getElementById("info-box-1"),
     infoBox2 = document.getElementById("info-box-2"),
     infoBox3 = document.getElementById("info-box-3"),
     infoBox4 = document.getElementById("info-box-4");
 
+var towerCards = document.getElementsByClassName("tower-card");
+var towerCardList = [];
+
 //  creates global variables
 game = new GameEngine;
 dynamicCanvas = document.getElementById('dynamic');
 dynamicContext = dynamicCanvas.getContext('2d');
+
+// create state variables
+var activeCanvasElement = {type: null}, // initiate default as null
+    activeTowerSelected = null;
 
 runCycle = function() {
     game.runCycle();
@@ -21,6 +33,7 @@ runCycle = function() {
 
 renderCycle = function() {
     game.render();
+    renderInformationContainer(); // Renders the information container
     requestAnimationFrame(renderCycle);
 }
 
@@ -54,8 +67,17 @@ document.getElementById("information-btn").addEventListener("click", function() 
 /* =====================================================*/
 // Shows information about towers or monsters if hovered over
 // or active
-var activeCanvasElement = null;
 
+// Runs every game cycle
+function renderInformationContainer() {
+    if (activeCanvasElement.type === "monster") {
+        renderMonsterInformation(activeCanvasElement.id, activeCanvasElement.index);
+    } else if (activeCanvasElement.type === "tower") {
+        renderTowerInformation(activeCanvasElement.id, activeCanvasElement.index);
+    } else {
+        renderDefaultInformation();
+    }
+}
 
 function comparePositions(clickPosition, elementPosition, type) {
     var sideLength = type === "monster" ? 30 : 50; // width and height of the element
@@ -103,6 +125,40 @@ function checkClickLocation(position) {
     return element;
 }
 
+// ID refers to the type of monster and index is the index of the active monster in the active monster's array
+function renderMonsterInformation(id, index) {
+    var currentHp = game.activeMonsters[index].currentHp,
+        maxHp = game.activeMonsters[index].maxHp,
+        type = game.activeMonsters[index].type;
+    infoName.innerHTML = id;
+    // Change icon to active monster - use a sprite
+    infoBox1.innerHTML = "HP: " + currentHp + " / " + maxHp;
+    infoBox2.innerHTML = "Type: " + type;
+    infoBox3.innerHTML = "Strengths: All sorts mate" ;
+    infoBox4.innerHTML = "Weaknesses: Ducks" ;
+}
+
+// ID refers to the type of tower and index is the index of the active tower in the active tower's array
+function renderTowerInformation(id, index) {
+    infoName.innerHTML = id;
+    // Change icon to active monster - use a sprite
+    infoBox1.innerHTML = "Damage: <br> Range: <br> Effect: ";
+    infoBox2.innerHTML = "Attack Speed: <br> Type: " ;
+    infoBox3.innerHTML = "Strengths: All sorts mate" ;
+    infoBox4.innerHTML = "Weaknesses: Ducks" ;
+    // Change icon to tower monster - use a sprite
+
+}
+
+function renderDefaultInformation() {
+    infoName.innerHTML = "Awesome TD";
+    // Change icon to default image - use a sprite
+    infoBox1.innerHTML = "This is some text";
+    infoBox2.innerHTML = "This is different text";
+    infoBox3.innerHTML = "This is ??? text" ;
+    infoBox4.innerHTML = "This 1231241235" ;
+}
+
 // Get information from towerdata.js
 
 /* ========== Tower Card Click and placements ==========*/
@@ -112,9 +168,6 @@ function checkClickLocation(position) {
 // information to the canvas
 
 // set up event listeners at the start which reference functions - these functions depend on the state on the application to control their control flow
-var activeTowerSelected = null;
-var towerCards = document.getElementsByClassName("tower-card");
-var towerCardList = [];
 
 function addClass(element, cssClass) {
     if (element.className === "") {
@@ -196,17 +249,7 @@ function canvasClick(e) {
     } else {
         // check if the position overlaps with the bounding rectangle of monster or tower
         var element = checkClickLocation(position);
-        console.log(element);
-        if (element.type === "monster") {
-            infoName.innerHTML = element.id;
-
-        } else if (element.type === "tower") {
-            console.log("show tower information")
-        } else {
-            infoName.innerHTML = "Awesome TD";
-            console.log("show default information")
-        }
-        // if it is, change the information container
+        activeCanvasElement = element;
     }
 
 }
