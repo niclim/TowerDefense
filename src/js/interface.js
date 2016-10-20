@@ -126,9 +126,10 @@ function addClass(element, cssClass) {
 
 function removeClass(element, cssClass) {
     var arrayOfClasses = element.className.split(" ");
-    for (var i = 0; i < arrayOfClasses.length; i++) {
+    for (var i = 0, j = arrayOfClasses.length; i < j; i++) {
         if (arrayOfClasses[i] === cssClass) {
             arrayOfClasses.splice(i, 1);
+            i--; j--;
         }
     }
     element.className = arrayOfClasses.join(" ");
