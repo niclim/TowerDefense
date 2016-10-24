@@ -91,9 +91,9 @@ GameEngine.prototype.runCycle = function() {
 
 // 50 x 50 tower
 GameEngine.prototype.validateTowerPlacement = function(position) {
-
+    var positionValid = false;
     // returns true or false whether tower placement is valid
-    return true;
+    return positionValid;
 }
 
 GameEngine.prototype.checkMonsterDeath = function() {
