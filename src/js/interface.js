@@ -12,7 +12,10 @@ var infoName = document.getElementById("info-name"),
     infoBox1 = document.getElementById("info-box-1"),
     infoBox2 = document.getElementById("info-box-2"),
     infoBox3 = document.getElementById("info-box-3"),
-    infoBox4 = document.getElementById("info-box-4");
+    infoBox4 = document.getElementById("info-box-4"),
+    levelInfo = document.getElementById("level"),
+    goldInfo = document.getElementById("gold"),
+    livesInfo = document.getElementById("lives");
 
 var towerCards = document.getElementsByClassName("tower-card"),
     towerCardList = [];
@@ -39,6 +42,8 @@ renderCycle = function() {
     // Renders the information and error messages based on the state variables
     renderErrorMessage();
     renderInformationContainer();
+    renderHUD();
+    renderTowerPlacement();
     requestAnimationFrame(renderCycle);
 }
 
@@ -117,6 +122,7 @@ function renderDefaultInformation() {
     infoBox4.innerHTML = "This 1231241235" ;
 }
 
+// Maybe change this to "renderMessage"
 function renderErrorMessage() {
     if (activeErrorMessage.message === null) {
         return;
@@ -136,6 +142,20 @@ function renderErrorMessage() {
     }
 }
 
+function renderTowerPlacement() {
+    if (activeTowerSelected === null) {
+        return
+    };
+    // ELSE render the tower on the canvas
+    // do some sort of logic to highlight the tiles that the tower would be placed on and show the tower on those positions
+}
+
+
+function renderHUD() {
+    livesInfo.innerHTML = game.userLives;
+    goldInfo.innerHTML = game.userGold;
+    levelInfo.innerHTML = game.level;
+}
 /* ================ UI Event Listeners =================*/
 /* =====================================================*/
 document.getElementById("start-btn").addEventListener("click", function() {
@@ -154,7 +174,11 @@ document.getElementById("information-btn").addEventListener("click", function() 
     console.log("show information container here");
 });
 
-// These event listeners control the application by interacting with the game object and by changing the state variables (which the render functions use to read)
+/*
+These event listeners control the application by interacting with the game
+object and by changing the state variables (which the render functions use
+to read)
+*/
 towerCards.map(function(towerCard, i) {
     towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
@@ -172,8 +196,11 @@ document.onkeydown = function(e) {
 /* =================== UI Functions ====================*/
 /* =====================================================*/
 /*
-Takes in three arguments - location of the click, location of an element (i.e. monster or tower) and the type (whether it is a monster or a tower - different dimensions)
-Returns a boolean - true if the click overlaps with an element and false if it does not
+Takes in three arguments - location of the click, location of an element
+(i.e. monster or tower) and the type (whether it is a monster or a tower -
+different dimensions)
+Returns a boolean - true if the click overlaps with an element and false
+if it does not
 */
 function comparePositions(clickPosition, elementPosition, type) {
     var sideLength = type === "monster" ? 30 : 50; // width and height of the element
@@ -313,8 +340,11 @@ function canvasClick(e) {
         // Validate tower placement
         if (game.validateTowerPlacement(position)
         && game.checkGold(towerData[towerName].goldCost)) {
+
             game.addTower(position, towerName);
+
         } else {
+
             if (!game.validateTowerPlacement(position)) {
                 activeErrorMessage = {
                     message: "Invalid Tower Placement",
@@ -332,9 +362,8 @@ function canvasClick(e) {
         activeTowerSelected = null;
 
     } else {
-
-        var element = checkClickLocation(position);
-        activeCanvasElement = element;
+        // User is not running a tower placement
+        activeCanvasElement = checkClickLocation(position);
     }
 
 }
