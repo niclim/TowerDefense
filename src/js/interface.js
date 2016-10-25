@@ -1,5 +1,3 @@
-// NOTE At some point I think we can move some functions into a different file
-
 // Initiate all the components
 var Tower = require("./classes/Tower.js"),
     GameEngine = require("./classes/Game.js"),
@@ -25,7 +23,8 @@ towerCards = Array.prototype.slice.call(towerCards);
 // create state variables
 var activeCanvasElement = {type: null}, // initiate default as null - update this variable when monster/tower changes
     activeTowerSelected = null,
-    activeErrorMessage = {message: null};
+    activeErrorMessage = {message: null},
+    canvasMousePosition = {x: 0, y: 0};
 
 //  creates global variables
 game = new GameEngine;
@@ -40,10 +39,10 @@ runCycle = function() {
 renderCycle = function() {
     game.render();
     // Renders the information and error messages based on the state variables
+    renderTowerPlacement();
     renderErrorMessage();
     renderInformationContainer();
     renderHUD();
-    renderTowerPlacement();
     requestAnimationFrame(renderCycle);
 }
 
@@ -71,6 +70,36 @@ function removeClass(element, cssClass) {
 // Gets the index of the tower cards based on a tower's name
 function getTowerCardIndex(towerName) {
     return towerCardList.indexOf(towerName);
+}
+
+/*
+Takes in a position object (x and y coordinates)
+Returns the top left block position and topleft coordinate of the tower
+Grid blocks are in 25x25 block increments
+*/
+function convertTowerToGridBlock(position) {
+    var towerPosition = {
+        topLeft: {grid: {}, coordinates: {} },
+        width: 50
+    };
+
+    towerPosition.topLeft.grid.x = Math.floor(position.x / 25);
+    towerPosition.topLeft.grid.y = Math.floor(position.y / 25);
+
+    // Adjusts if mouse is at end of container
+    // 36 blocks width and 24 blocks height
+    if (towerPosition.topLeft.grid.x >= 35) {
+        towerPosition.topLeft.grid.x--;
+    }
+
+    if (towerPosition.topLeft.grid.y >= 23) {
+        towerPosition.topLeft.grid.y--;
+    }
+
+    // Container width and height 900 and 600 px respectively
+    towerPosition.topLeft.coordinates.x = (towerPosition.topLeft.grid.x / 36) * 900;
+    towerPosition.topLeft.coordinates.y = (towerPosition.topLeft.grid.y / 24) * 600;
+    return towerPosition;
 }
 
 /* ================== Render functions =================*/
@@ -146,8 +175,38 @@ function renderTowerPlacement() {
     if (activeTowerSelected === null) {
         return
     };
-    // ELSE render the tower on the canvas
-    // do some sort of logic to highlight the tiles that the tower would be placed on and show the tower on those positions
+
+    // NOTE Add hide tower if cursor not on canvas element
+    // get tower block thing and then render that tower at the position
+    var towerPosition = convertTowerToGridBlock(canvasMousePosition);
+    dynamicContext.beginPath();
+    dynamicContext.globalAlpha = 0.5;
+
+    if (true) {
+        dynamicContext.fillStyle = "green";
+        dynamicContext.fillRect(towerPosition.topLeft.coordinates.x,
+                                towerPosition.topLeft.coordinates.y,
+                                50,
+                                50
+         );
+
+        dynamicContext.globalAlpha = 0.7;
+        dynamicContext.arc(towerPosition.topLeft.coordinates.x + 25,
+                           towerPosition.topLeft.coordinates.y + 25,
+                           30,
+                           0,
+                           2 * Math.PI,
+                           false
+         );
+        dynamicContext.fillStyle = 'gray';
+        dynamicContext.fill();
+
+    } else {
+        // do some sort of logic to highlight the tiles that the tower would be placed on and show the tower on those positions
+        // this would run when tower placement is invalid
+    }
+    dynamicContext.globalAlpha = 1;
+    dynamicContext.closePath();
 }
 
 
@@ -296,9 +355,8 @@ function cancelTowerPlacement() {
 }
 
 /* Mouse move event listener on the canvas
-STILL TODO TODO
 If the active tower selected state (a tower is being placed by the user):
-    -> the tower is rendered at the mouse position (slightly opacitied)
+    -> update the position of the mouse on the canvas (used by the renderTowerPlacement function)
 otherwise:
     -> do nothing
 */
@@ -308,9 +366,12 @@ function onCanvasMouseMovement(e) {
     };
 
     var canvasContainer = this.getBoundingClientRect(),
-        offsetX = e.clientX - canvasContainer.left,
-        offsetY = e.clientY - canvasContainer.top;
-    // send to display to get rendered
+        position = {};
+
+    position.x = e.clientX - canvasContainer.left;
+    position.y = e.clientY - canvasContainer.top;
+
+    canvasMousePosition = position;
 };
 
 
@@ -328,7 +389,7 @@ Handles two possible canvas click scenarios
 function canvasClick(e) {
     // Get click location relative to the canvas element
     var canvasContainer = this.getBoundingClientRect(),
-    position = {};
+        position = {};
 
     position.x = e.clientX - canvasContainer.left;
     position.y = e.clientY - canvasContainer.top;
@@ -338,6 +399,7 @@ function canvasClick(e) {
         var towerName = activeTowerSelected;
 
         // Validate tower placement
+        // NOTE NEED TO REFACTOR THIS TO REFLECT UI PLACEMENT
         if (game.validateTowerPlacement(position)
         && game.checkGold(towerData[towerName].goldCost)) {
 

@@ -25,6 +25,8 @@ Monster.prototype.draw = function() {
                             this.position.y + 30/3,
                             30 * this.currentHp/this.maxHp,
                             30/3);
+    dynamicContext.closePath();
+
 }
 
 Monster.prototype.destroy = function() {

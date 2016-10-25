@@ -63,7 +63,7 @@ GameEngine.prototype.render = function() {
         this.activeMonsters[i].draw();
     }
 
-
+    dynamicContext.closePath();
 
     // dynamicContext.
 };

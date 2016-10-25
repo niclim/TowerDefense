@@ -36,11 +36,13 @@ Tower.prototype.checkInRange = function(monsterPosition) {
 }
 
 Tower.prototype.draw = function() {
+    dynamicContext.beginPath();
     dynamicContext.fillStyle = "green";
     dynamicContext.fillRect(this.position.x,
                             this.position.y,
                             50,
                             50);
+    dynamicContext.closePath();
 }
 
 module.exports = Tower;
