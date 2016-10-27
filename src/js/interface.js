@@ -33,6 +33,7 @@ dynamicContext = dynamicCanvas.getContext('2d');
 
 runCycle = function() {
     game.runCycle();
+    updateGameInformation();
     setTimeout(runCycle, 1000);
 }
 
@@ -41,8 +42,6 @@ renderCycle = function() {
     // Renders the information and error messages based on the state variables
     renderTowerPlacement();
     renderErrorMessage();
-    renderInformationContainer();
-    renderHUD();
     requestAnimationFrame(renderCycle);
 }
 
@@ -107,7 +106,11 @@ function convertTowerToGridBlock(position) {
 // Render functions run every game cycle (on the renderCycle function call)
 // Renders based on the state variables
 
-function renderInformationContainer() {
+function updateGameInformation() {
+    livesInfo.innerHTML = game.userLives;
+    goldInfo.innerHTML = game.userGold;
+    levelInfo.innerHTML = game.level;
+
     if (activeCanvasElement.type === "monster") {
         renderMonsterInformation(activeCanvasElement.id, activeCanvasElement.index);
     } else if (activeCanvasElement.type === "tower") {
@@ -209,12 +212,6 @@ function renderTowerPlacement() {
     dynamicContext.closePath();
 }
 
-
-function renderHUD() {
-    livesInfo.innerHTML = game.userLives;
-    goldInfo.innerHTML = game.userGold;
-    levelInfo.innerHTML = game.level;
-}
 /* ================ UI Event Listeners =================*/
 /* =====================================================*/
 document.getElementById("start-btn").addEventListener("click", function() {
