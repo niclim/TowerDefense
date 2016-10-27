@@ -24,7 +24,7 @@ towerCards = Array.prototype.slice.call(towerCards);
 var activeCanvasElement = {type: null}, // initiate default as null - update this variable when monster/tower changes
     activeTowerSelected = null,
     activeErrorMessage = {message: null},
-    canvasMousePosition = {x: 0, y: 0};
+    canvasMousePosition = {onCanvas: false, x: 0, y: 0};
 
 //  creates global variables
 game = new GameEngine;
@@ -176,12 +176,11 @@ function renderErrorMessage() {
 }
 
 function renderTowerPlacement() {
-    if (activeTowerSelected === null) {
+    if (activeTowerSelected === null ||
+        !canvasMousePosition.onCanvas) {
         return
     };
 
-    // NOTE Add hide tower if cursor not on canvas element
-    // get tower block thing and then render that tower at the position
     var towerPosition = convertTowerToGridBlock(canvasMousePosition);
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
@@ -332,14 +331,16 @@ function towerCardClick() {
     } else if (activeTowerSelected === null) {
         activeTowerSelected = towerName;
         addClass(towerCards[newTowerIndex], "active");
-
+        canvasMousePosition.onCanvas = false;
     } else if (activeTowerSelected === towerName) {
         cancelTowerPlacement();
-
+        canvasMousePosition.onCanvas = false;
     } else {
         removeClass(towerCards[oldTowerIndex], "active");
         activeTowerSelected = towerName;
         addClass(towerCards[newTowerIndex], "active");
+        canvasMousePosition.onCanvas = false;
+
     }
 }
 
@@ -363,13 +364,11 @@ function onCanvasMouseMovement(e) {
         return
     };
 
-    var canvasContainer = this.getBoundingClientRect(),
-        position = {};
+    var canvasContainer = this.getBoundingClientRect();
 
-    position.x = e.clientX - canvasContainer.left;
-    position.y = e.clientY - canvasContainer.top;
-
-    canvasMousePosition = position;
+    canvasMousePosition.x = e.clientX - canvasContainer.left;
+    canvasMousePosition.y = e.clientY - canvasContainer.top;
+    canvasMousePosition.onCanvas = true;
 };
 
 
@@ -420,7 +419,6 @@ function canvasClick(e) {
 
         removeClass(towerCards[getTowerCardIndex(activeTowerSelected)], "active");
         activeTowerSelected = null;
-
     } else {
         // User is not running a tower placement
         activeCanvasElement = checkClickLocation(position);
