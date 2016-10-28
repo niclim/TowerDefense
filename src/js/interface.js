@@ -20,11 +20,29 @@ var towerCards = document.getElementsByClassName("tower-card"),
 // Convert from nodelist to array
 towerCards = Array.prototype.slice.call(towerCards);
 
-// create state variables
-var activeCanvasElement = {type: null}, // initiate default as null - update this variable when monster/tower changes
+/*
+Create state variables - These are modified on user interaction events
+State variables
+activeCanvasElement - Changed on a mouse click event on a monster, tower or nothing
+activeTowerSelected - The name of the tower that is being placed by the user
+activeMessage - Message displayed in the canvas (can be used for new levels, invalid tower placements, etc)
+canvasMousePosition -
+    onCanvas - boolean to represent whether the mouse is currently on the canvas
+    towerPosition - object with a grid value and coordinate value and sides
+        grid - the top left block of the tower being placed - towers are a 2x2 grid
+        coordinate - the top left corner coordinate
+        sides - 50 px
+    mousePosition - the current mouse coordinates
+*/
+
+var activeCanvasElement = {type: null},
     activeTowerSelected = null,
-    activeErrorMessage = {message: null},
-    canvasMousePosition = {onCanvas: false, x: 0, y: 0};
+    activeMessage = {message: null},
+    canvasMousePosition = {
+        onCanvas: false,
+        towerPosition: {},
+        mousePosition: {}
+    };
 
 //  creates global variables
 game = new GameEngine;
@@ -42,7 +60,7 @@ renderCycle = function() {
     game.render();
     // Renders the information and error messages based on the state variables
     renderTowerPlacement();
-    renderErrorMessage();
+    renderMessage();
     requestAnimationFrame(renderCycle);
 }
 
@@ -79,26 +97,27 @@ Grid blocks are in 25x25 block increments
 */
 function convertTowerToGridBlock(position) {
     var towerPosition = {
-        topLeft: {grid: {}, coordinates: {} },
-        width: 50
+        grid: {},
+        coordinates: {},
+        side: 50
     };
 
-    towerPosition.topLeft.grid.x = Math.floor(position.x / 25);
-    towerPosition.topLeft.grid.y = Math.floor(position.y / 25);
+    towerPosition.grid.x = Math.floor(position.x / 25);
+    towerPosition.grid.y = Math.floor(position.y / 25);
 
     // Adjusts if mouse is at end of container
     // 36 blocks width and 24 blocks height
-    if (towerPosition.topLeft.grid.x >= 35) {
-        towerPosition.topLeft.grid.x--;
+    if (towerPosition.grid.x >= 35) {
+        towerPosition.grid.x--;
     }
 
-    if (towerPosition.topLeft.grid.y >= 23) {
-        towerPosition.topLeft.grid.y--;
+    if (towerPosition.grid.y >= 23) {
+        towerPosition.grid.y--;
     }
 
     // Container width and height 900 and 600 px respectively
-    towerPosition.topLeft.coordinates.x = (towerPosition.topLeft.grid.x / 36) * 900;
-    towerPosition.topLeft.coordinates.y = (towerPosition.topLeft.grid.y / 24) * 600;
+    towerPosition.coordinates.x = (towerPosition.grid.x / 36) * 900;
+    towerPosition.coordinates.y = (towerPosition.grid.y / 24) * 600;
     return towerPosition;
 }
 
@@ -156,21 +175,21 @@ function renderDefaultInformation() {
 }
 
 // Maybe change this to "renderMessage"
-function renderErrorMessage() {
-    if (activeErrorMessage.message === null) {
+function renderMessage() {
+    if (activeMessage.message === null) {
         return;
     } else {
-        dynamicContext.globalAlpha = activeErrorMessage.timer / 50;
+        dynamicContext.globalAlpha = activeMessage.timer / 50;
         dynamicContext.font = '40pt Droid Sans';
         dynamicContext.textAlign = "center";
         dynamicContext.fillStyle = "red";
-        dynamicContext.fillText(activeErrorMessage.message, 450, 50);
+        dynamicContext.fillText(activeMessage.message, 450, 50);
         dynamicContext.globalAlpha = 1;
 
-        if (activeErrorMessage.timer === 0) {
-            activeErrorMessage = {message: null}; // Reset error message
+        if (activeMessage.timer === 0) {
+            activeMessage = {message: null}; // Reset error message
         } else {
-            activeErrorMessage.timer--;
+            activeMessage.timer--;
         }
     }
 }
@@ -181,21 +200,21 @@ function renderTowerPlacement() {
         return
     };
 
-    var towerPosition = convertTowerToGridBlock(canvasMousePosition);
+    var coordinates = canvasMousePosition.towerPosition.coordinates;
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
 
-    if (true) {
+    if (true) { // check for valid tower placement
         dynamicContext.fillStyle = "green";
-        dynamicContext.fillRect(towerPosition.topLeft.coordinates.x,
-                                towerPosition.topLeft.coordinates.y,
+        dynamicContext.fillRect(coordinates.x,
+                                coordinates.y,
                                 50,
                                 50
          );
 
         dynamicContext.globalAlpha = 0.7;
-        dynamicContext.arc(towerPosition.topLeft.coordinates.x + 25,
-                           towerPosition.topLeft.coordinates.y + 25,
+        dynamicContext.arc(coordinates.x + 25,
+                           coordinates.y + 25,
                            30,
                            0,
                            2 * Math.PI,
@@ -364,10 +383,13 @@ function onCanvasMouseMovement(e) {
         return
     };
 
-    var canvasContainer = this.getBoundingClientRect();
+    var canvasContainer = this.getBoundingClientRect(),
+        position = {};
 
-    canvasMousePosition.x = e.clientX - canvasContainer.left;
-    canvasMousePosition.y = e.clientY - canvasContainer.top;
+    position.x = e.clientX - canvasContainer.left;
+    position.y = e.clientY - canvasContainer.top;
+    canvasMousePosition.mousePosition = position;
+    canvasMousePosition.towerPosition = convertTowerToGridBlock(position);
     canvasMousePosition.onCanvas = true;
 };
 
@@ -386,31 +408,30 @@ Handles two possible canvas click scenarios
 function canvasClick(e) {
     // Get click location relative to the canvas element
     var canvasContainer = this.getBoundingClientRect(),
-        position = {};
-
-    position.x = e.clientX - canvasContainer.left;
-    position.y = e.clientY - canvasContainer.top;
+        position = canvasMousePosition.mousePosition,
+        towerGridPosition = canvasMousePosition.towerPosition.grid,
+        towerCoordinates = canvasMousePosition.towerPosition.coordinates; // Passes in grid blocks - this is the topLeft block
 
     // Runs if the user is placing a tower
     if (activeTowerSelected !== null) { //
-        var towerName = activeTowerSelected;
+        var towerName = activeTowerSelected,
+            goldCost = towerData[towerName].goldCost;
 
         // Validate tower placement
         // NOTE NEED TO REFACTOR THIS TO REFLECT UI PLACEMENT
-        if (game.validateTowerPlacement(position)
-        && game.checkGold(towerData[towerName].goldCost)) {
-
-            game.addTower(position, towerName);
+        if (game.validateTowerPlacement(towerGridPosition)
+        && game.checkGold(goldCost)) {
+            game.addTower(towerCoordinates, towerName, goldCost);
 
         } else {
 
-            if (!game.validateTowerPlacement(position)) {
-                activeErrorMessage = {
+            if (!game.validateTowerPlacement(towerGridPosition)) {
+                activeMessage = {
                     message: "Invalid Tower Placement",
                     timer: 50 // frames
                 }
             } else {
-                activeErrorMessage = {
+                activeMessage = {
                     message: "Not Enough Gold",
                     timer: 50 // frames
                 }

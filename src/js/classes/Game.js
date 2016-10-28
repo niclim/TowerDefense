@@ -18,8 +18,8 @@ GameEngine.prototype.addMonster = function(name) {
     this.activeMonsters.push(monster);
 }
 
-GameEngine.prototype.addTower = function(position, id) {
-    // Check gold cost and then reduce gold
+GameEngine.prototype.addTower = function(position, id, goldCost) {
+    this.userGold -= goldCost;
     var tower = new Tower(position, id);
     this.towers.push(tower);
 
@@ -27,7 +27,7 @@ GameEngine.prototype.addTower = function(position, id) {
 
 // method to check gold before place tower or upgrade
 GameEngine.prototype.checkGold = function(goldCost) {
-    if (goldCost > this.userGold) {
+    if (goldCost <= this.userGold) {
         return true;
     } else {
         return false;
@@ -89,9 +89,9 @@ GameEngine.prototype.runCycle = function() {
 
 // method to upgrade tower
 
-// 50 x 50 tower
+// grid tower
 GameEngine.prototype.validateTowerPlacement = function(position) {
-    var positionValid = false;
+    var positionValid = true;
     // returns true or false whether tower placement is valid
     return positionValid;
 }
