@@ -408,9 +408,12 @@ Handles two possible canvas click scenarios
 function canvasClick(e) {
     // Get click location relative to the canvas element
     var canvasContainer = this.getBoundingClientRect(),
-        position = canvasMousePosition.mousePosition,
+        position = {},
         towerGridPosition = canvasMousePosition.towerPosition.grid,
         towerCoordinates = canvasMousePosition.towerPosition.coordinates; // Passes in grid blocks - this is the topLeft block
+    
+    position.x = e.clientX - canvasContainer.left;
+    position.y = e.clientY - canvasContainer.top;
 
     // Runs if the user is placing a tower
     if (activeTowerSelected !== null) { //
