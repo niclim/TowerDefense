@@ -1,29 +1,33 @@
 //  require Monster to gain access
-var Monster = require("./Monster.js");
+var Monster = require("./Monster.js"),
+    Tower = require("./Tower.js");
 
 var GameEngine = function() {
     this.userGold = 10;
     this.level = 1;
     this.userLives = 30;
     this.activeMonsters = []; // List of active monsters in the
-    this.towers = {}; // object of tower objects
+    this.towers = []; // object of tower objects
     this.timer = 1;
     // Goes through and disables towers that can't be used yet
 }
 
 GameEngine.prototype.addMonster = function(name) {
     // add monster (specified by name) to game
-    var monster = new Monster(30, 10, 1);
+    var monster = new Monster("monster1");
     this.activeMonsters.push(monster);
 }
 
-GameEngine.prototype.addTower = function(name, position) {
-    // add tower (specified by name) at location
+GameEngine.prototype.addTower = function(position, id, goldCost) {
+    this.userGold -= goldCost;
+    var tower = new Tower(position, id);
+    this.towers.push(tower);
+
 }
 
 // method to check gold before place tower or upgrade
 GameEngine.prototype.checkGold = function(goldCost) {
-    if (goldCost > this.userGold) {
+    if (goldCost <= this.userGold) {
         return true;
     } else {
         return false;
@@ -48,11 +52,18 @@ GameEngine.prototype.render = function() {
     dynamicContext.beginPath();
     dynamicContext.clearRect(0, 0, dynamicCanvas.width, dynamicCanvas.height);
 
+    // Render towers first so that if monsters are larger they show above towers
+    for (var i = 0, j = this.towers.length; i < j; i ++) {
+        this.towers[i].draw();
+    }
+
     //  loop through list of active monsters and render them
     //  TODO probably need to find a better way to rend them apart from random rectangle
     for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
         this.activeMonsters[i].draw();
     }
+
+    dynamicContext.closePath();
 
     // dynamicContext.
 };
@@ -78,9 +89,11 @@ GameEngine.prototype.runCycle = function() {
 
 // method to upgrade tower
 
-GameEngine.prototype.validateTowerPlacement = function(name, position) {
+// grid tower
+GameEngine.prototype.validateTowerPlacement = function(position) {
+    var positionValid = true;
     // returns true or false whether tower placement is valid
-    return true;
+    return positionValid;
 }
 
 GameEngine.prototype.checkMonsterDeath = function() {

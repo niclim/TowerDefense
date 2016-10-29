@@ -58,3 +58,18 @@ backgroundContext.lineTo(0, 475);
 
 backgroundContext.fill();
 // backgroundContext.lineTo();
+
+// draw a grid (for development purposes)
+var width = 900, height = 600;
+// draw vertical lines
+for (var i = 0; i < width; i += 25) {
+    backgroundContext.moveTo(i, 0);
+    backgroundContext.lineTo(i, height);
+    backgroundContext.stroke();
+}
+// draw horizontal lines
+for (var i = 0; i < height; i += 25) {
+    backgroundContext.moveTo(0, i);
+    backgroundContext.lineTo(width, i);
+    backgroundContext.stroke();
+}
