@@ -6,9 +6,10 @@ var Monster = function(id) {
     this.maxHp = monsterData[id].maxHp;
     this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
     this.type = monsterData[id].type;
-    this.position = { // All monsters are created in the same position
+    this.position = { // All monsters are created in the same position - this position is referencing the topleft corner of the object
         x: 0,
-        y: 485
+        y: 485,
+        sideLength: 30
     }
 };
 // Method the game object uses to move monsters
