@@ -1,6 +1,11 @@
 //  require Monster to gain access
 var Monster = require("./Monster.js"),
-    Tower = require("./Tower.js");
+    Tower = require("./Tower.js"),
+    towerData = require("../gameData/towerdata.js"),
+    utilFunctions = require("../utils.js"),
+    checkIfInSquare = utilFunctions.checkIfInSquare;
+
+
 
 var GameEngine = function() {
     this.userGold = 10;
@@ -18,7 +23,7 @@ GameEngine.prototype.addMonster = function(name) {
     this.activeMonsters.push(monster);
 }
 
-GameEngine.prototype.addTower = function(position, id, goldCost) {
+GameEngine.prototype.addTower = function(id, position, goldCost) {
     this.userGold -= goldCost;
     var tower = new Tower(position, id);
     this.towers.push(tower);
@@ -90,7 +95,7 @@ GameEngine.prototype.runCycle = function() {
 // method to upgrade tower
 
 // grid tower
-GameEngine.prototype.validateTowerPlacement = function(position) {
+GameEngine.prototype.validateTowerPlacement = function(gridPosition) {
     var positionValid = true;
     // returns true or false whether tower placement is valid
     return positionValid;
@@ -106,6 +111,77 @@ GameEngine.prototype.checkMonsterDeath = function() {
     }
 }
 
-// redraw canvas
+/*
+Takes in a position object (location of the click)
+Returns an object with information about what is at that position
+{type: null} if nothing found
+*/
+GameEngine.prototype.checkClickLocation = function(position) {
+    var element = {};
+    // Loops through activeMonsters
+    for (var i = 0; i < this.activeMonsters.length; i++) {
+        if (checkIfInSquare(position, this.activeMonsters[i].position, this.activeMonsters[i].position.sideLength)) {
+            element.type = "monster";
+            element.id = this.activeMonsters[i].id;
+            element.index = i;
+            break;
+        }
+    }
+
+    // If nothing was found, loop through towers
+    if (element.type === undefined) {
+        for (var i = 0; i < this.towers.length; i++) {
+            if (checkIfInSquare(position, this.towers[i].position, this.towers[i].position.sideLength)) {
+                element.type = "tower";
+                element.id = this.towers[i].id;
+                element.index = i;
+                break;
+            }
+        }
+    }
+
+    // If no towers or monsters found return a type of null
+    if (element.type === undefined) {
+        element.type = null;
+    }
+
+    return element;
+}
+
+/*
+placeTower handles the validation of the tower placement (position and sufficient gold)
+Takes in 3 arguments:
+towerName - string specifying what tower is being placed
+gridPosition - top left grid block of where the tower would be placed
+towerCoordinates - top left coordinate of a tower
+Returns an object with a boolean to represent whether the tower is placed and an error message if the tower was not placed
+*/
+GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordinates) {
+    var goldCost = towerData[towerName].goldCost;
+    // Validate tower placement
+    if (this.validateTowerPlacement(gridPosition)
+    && this.checkGold(goldCost)) {
+
+        this.addTower(towerName, towerCoordinates, goldCost);
+        return {
+            placed: true
+        };
+    } else {
+
+        if (!this.validateTowerPlacement(gridPosition)) {
+            return {
+                placed: false,
+                message: "Invalid Tower Placement"
+            }
+        } else {
+            return {
+                placed: false,
+                message: "Not Enough Gold"
+            }
+        }
+    }
+
+}
+
 
 module.exports = GameEngine;

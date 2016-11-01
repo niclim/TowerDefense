@@ -29,7 +29,7 @@ Takes in a position object (x and y coordinates)
 Returns the top left block position and topleft coordinate of the tower
 Grid blocks are in 25x25 block increments
 */
-function convertTowerToGridBlock(position) {
+function convertPositionToTower(position) {
     var towerPosition = {
         grid: {},
         coordinates: {},
@@ -60,17 +60,17 @@ checkIfInSquare checks whether a point is in a square (which is a monster or a t
 
 Takes in three arguments
 point - a object with x and y coordinates
-topLeftSquarePoint - an object with x and y coordinates of the top left corner of the square
+topLeftPoint - an object with x and y coordinates of the top left corner of the square
 sideLength - the length of the square
 
 Returns a boolean - true if the click overlaps with an element and false
 if it does not
 */
-function checkIfInSquare(point, topLeftSquarePoint, sideLength) {
-    if (point.x >= topLeftSquarePoint.x
-    && point.x <= topLeftSquarePoint.x + sideLength
-    && point.y >= topLeftSquarePoint.y
-    && point.y <= topLeftSquarePoint.y + sideLength) {
+function checkIfInSquare(point, topLeftPoint, sideLength) {
+    if (point.x >= topLeftPoint.x
+    && point.x <= topLeftPoint.x + sideLength
+    && point.y >= topLeftPoint.y
+    && point.y <= topLeftPoint.y + sideLength) {
         return true;
     } else {
         return false;
@@ -82,6 +82,6 @@ module.exports = {
     addClass: addClass,
     removeClass: removeClass,
     getTowerCardIndex: getTowerCardIndex,
-    convertTowerToGridBlock: convertTowerToGridBlock,
+    convertPositionToTower: convertPositionToTower,
     checkIfInSquare: checkIfInSquare
 }

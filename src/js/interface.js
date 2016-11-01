@@ -1,16 +1,13 @@
 // Initiate all the components
 var Tower = require("./classes/Tower.js"),
-    GameEngine = require("./classes/Game.js"),
-    monsterData = require("./gameData/monsterdata.js"),
-    towerData = require("./gameData/towerdata.js");
+    GameEngine = require("./classes/Game.js");
 
-// Import and declare utility functions 
+// Import and declare utility functions
 var utilFunctions = require("./utils.js"),
     addClass = utilFunctions.addClass,
     removeClass = utilFunctions.removeClass,
     getTowerCardIndex = utilFunctions.getTowerCardIndex,
-    checkIfInSquare = utilFunctions.checkIfInSquare,
-    convertTowerToGridBlock = utilFunctions.convertTowerToGridBlock;
+    convertPositionToTower = utilFunctions.convertPositionToTower;
 
 // Cache reused DOM elements
 var infoName = document.getElementById("info-name"),
@@ -221,43 +218,6 @@ document.onkeydown = function(e) {
 
 /* =================== UI Functions ====================*/
 /* =====================================================*/
-/*
-Takes in a position object (location of the click)
-Returns an object with information about what is at that position
-{type: null} if nothing found
-*/
-function checkClickLocation(position) {
-    var element = {};
-    // Loops through activeMonsters
-    for (var i = 0; i < game.activeMonsters.length; i++) {
-        if (checkIfInSquare(position, game.activeMonsters[i].position, game.activeMonsters.sideLength)) {
-            element.type = "monster";
-            element.id = game.activeMonsters[i].id;
-            element.index = i;
-            break;
-        }
-    }
-
-    // If nothing was found, loop through towers
-    if (element.type === undefined) {
-        for (var i = 0; i < game.towers.length; i++) {
-            if (checkIfInSquare(position, game.towers[i].position, game.towers[i].position.sideLength)) {
-                element.type = "tower";
-                element.id = game.towers[i].id;
-                element.index = i;
-                break;
-            }
-        }
-    }
-
-    // If no towers or monsters found return a type of null
-    if (element.type === undefined) {
-        element.type = null;
-    }
-
-    return element;
-}
-
 /* Click event listener on the tower cards
 Used to control what tower is being actively placed on the canvas
 4 possible flows based on the state of the interface
@@ -321,7 +281,7 @@ function onCanvasMouseMovement(e) {
     position.x = e.clientX - canvasContainer.left;
     position.y = e.clientY - canvasContainer.top;
     canvasMousePosition.mousePosition = position;
-    canvasMousePosition.towerPosition = convertTowerToGridBlock(position);
+    canvasMousePosition.towerPosition = convertPositionToTower(position);
     canvasMousePosition.onCanvas = true;
 };
 
@@ -348,28 +308,15 @@ function canvasClick(e) {
     position.y = e.clientY - canvasContainer.top;
 
     // Runs if the user is placing a tower
-    if (activeTowerSelected !== null) { //
+    if (activeTowerSelected !== null) {
         var towerName = activeTowerSelected,
-            goldCost = towerData[towerName].goldCost;
+            towerPlaced = game.placeTower(towerName, towerGridPosition, towerCoordinates);
 
-        // Validate tower placement
-        // NOTE NEED TO REFACTOR THIS TO REFLECT UI PLACEMENT
-        if (game.validateTowerPlacement(towerGridPosition)
-        && game.checkGold(goldCost)) {
-            game.addTower(towerCoordinates, towerName, goldCost);
-
-        } else {
-
-            if (!game.validateTowerPlacement(towerGridPosition)) {
-                activeMessage = {
-                    message: "Invalid Tower Placement",
-                    timer: 50 // frames
-                }
-            } else {
-                activeMessage = {
-                    message: "Not Enough Gold",
-                    timer: 50 // frames
-                }
+        // If the tower was not placed, show an error message
+        if (!towerPlaced.placed) {
+            activeMessage = {
+                message: towerPlaced.message,
+                timer: 50 // frames
             }
         }
 
@@ -377,7 +324,8 @@ function canvasClick(e) {
         activeTowerSelected = null;
     } else {
         // User is not running a tower placement
-        activeCanvasElement = checkClickLocation(position);
+        activeCanvasElement = game.checkClickLocation(position);
+        updateGameInformation();
     }
 
 }
