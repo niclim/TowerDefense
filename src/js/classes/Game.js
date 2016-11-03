@@ -2,8 +2,7 @@
 var Monster = require("./Monster.js"),
     Tower = require("./Tower.js"),
     towerData = require("../gameData/towerdata.js"),
-    utilFunctions = require("../utils.js"),
-    checkIfInSquare = utilFunctions.checkIfInSquare;
+    utils = require("../utils.js");
 
 
 
@@ -120,7 +119,7 @@ GameEngine.prototype.checkClickLocation = function(position) {
     var element = {};
     // Loops through activeMonsters
     for (var i = 0; i < this.activeMonsters.length; i++) {
-        if (checkIfInSquare(position, this.activeMonsters[i].position, this.activeMonsters[i].position.sideLength)) {
+        if (utils.checkIfInSquare(position, this.activeMonsters[i].position, this.activeMonsters[i].position.sideLength)) {
             element.type = "monster";
             element.id = this.activeMonsters[i].id;
             element.index = i;
@@ -131,7 +130,7 @@ GameEngine.prototype.checkClickLocation = function(position) {
     // If nothing was found, loop through towers
     if (element.type === undefined) {
         for (var i = 0; i < this.towers.length; i++) {
-            if (checkIfInSquare(position, this.towers[i].position, this.towers[i].position.sideLength)) {
+            if (utils.checkIfInSquare(position, this.towers[i].position, this.towers[i].position.sideLength)) {
                 element.type = "tower";
                 element.id = this.towers[i].id;
                 element.index = i;

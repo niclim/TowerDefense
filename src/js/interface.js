@@ -3,11 +3,7 @@ var Tower = require("./classes/Tower.js"),
     GameEngine = require("./classes/Game.js");
 
 // Import and declare utility functions
-var utilFunctions = require("./utils.js"),
-    addClass = utilFunctions.addClass,
-    removeClass = utilFunctions.removeClass,
-    getTowerCardIndex = utilFunctions.getTowerCardIndex,
-    convertPositionToTower = utilFunctions.convertPositionToTower;
+var utils = require("./utils.js");
 
 // Cache reused DOM elements
 var infoName = document.getElementById("info-name"),
@@ -233,23 +229,23 @@ Used to control what tower is being actively placed on the canvas
 function towerCardClick() {
 
     var towerName = this.getAttribute("data-tower"),
-        oldTowerIndex = getTowerCardIndex(towerCardList, activeTowerSelected),
-        newTowerIndex = getTowerCardIndex(towerCardList, towerName);
+        oldTowerIndex = utils.getTowerCardIndex(towerCardList, activeTowerSelected),
+        newTowerIndex = utils.getTowerCardIndex(towerCardList, towerName);
 
     if (/disabled/i.test(this.className)) {
         return;
 
     } else if (activeTowerSelected === null) {
         activeTowerSelected = towerName;
-        addClass(towerCards[newTowerIndex], "active");
+        utils.addClass(towerCards[newTowerIndex], "active");
         canvasMousePosition.onCanvas = false;
     } else if (activeTowerSelected === towerName) {
         cancelTowerPlacement();
         canvasMousePosition.onCanvas = false;
     } else {
-        removeClass(towerCards[oldTowerIndex], "active");
+        utils.removeClass(towerCards[oldTowerIndex], "active");
         activeTowerSelected = towerName;
-        addClass(towerCards[newTowerIndex], "active");
+        utils.addClass(towerCards[newTowerIndex], "active");
         canvasMousePosition.onCanvas = false;
 
     }
@@ -260,7 +256,7 @@ Called from towerCardClick (when clicking the active tower card) and on an escap
 Resets the active tower placement state to null
 */
 function cancelTowerPlacement() {
-    removeClass(towerCards[getTowerCardIndex(towerCardList, activeTowerSelected)], "active");
+    utils.removeClass(towerCards[utils.getTowerCardIndex(towerCardList, activeTowerSelected)], "active");
     activeTowerSelected = null;
 }
 
@@ -281,7 +277,7 @@ function onCanvasMouseMovement(e) {
     position.x = e.clientX - canvasContainer.left;
     position.y = e.clientY - canvasContainer.top;
     canvasMousePosition.mousePosition = position;
-    canvasMousePosition.towerPosition = convertPositionToTower(position);
+    canvasMousePosition.towerPosition = utils.convertPositionToTower(position);
     canvasMousePosition.onCanvas = true;
 };
 
@@ -320,7 +316,7 @@ function canvasClick(e) {
             }
         }
 
-        removeClass(towerCards[getTowerCardIndex(towerCardList, activeTowerSelected)], "active");
+        utils.removeClass(towerCards[utils.getTowerCardIndex(towerCardList, activeTowerSelected)], "active");
         activeTowerSelected = null;
     } else {
         // User is not running a tower placement
