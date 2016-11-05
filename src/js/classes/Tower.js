@@ -12,7 +12,8 @@ var Tower = function(position, id) {
     this.type = towerData[id].type; // Type of damage
     this.effect = towerData[id].effect; // Special effect (e.g. slow, splash, etc)
     this.goldCost = towerData[id].goldCost;
-    this.position = position; // object with x and y coordinates - should not change
+    this.position = position; // object with x and y coordinates - references the top left corner of the tower
+    this.position.sideLength = 50;
 }
 // Method the game object uses to run towers
 Tower.prototype.runCycle = function() {
