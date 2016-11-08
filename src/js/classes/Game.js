@@ -2,9 +2,8 @@
 var Monster = require("./Monster.js"),
     Tower = require("./Tower.js"),
     towerData = require("../gameData/towerdata.js"),
-    utils = require("../utils.js");
-
-
+    utils = require("../utils.js"),
+    pathCoordinates = require("../gameData/pathdata.js");
 
 var GameEngine = function() {
     this.userGold = 10;
@@ -13,7 +12,7 @@ var GameEngine = function() {
     this.activeMonsters = []; // List of active monsters in the
     this.towers = []; // object of tower objects
     this.timer = 1;
-    // Goes through and disables towers that can't be used yet
+    this.gameGrid = utils.initiateGrid(pathCoordinates.path);
 }
 
 GameEngine.prototype.addMonster = function(name) {

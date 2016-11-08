@@ -1,4 +1,6 @@
-var towerData = require("../gameData/towerdata.js");
+var towerData = require("../gameData/towerdata.js"),
+    utils = require("../utils.js");
+
 // Position refers to the upper left corner of the elements
 // Tower width - 50 x 50
 var Tower = function(position, id) {
@@ -23,11 +25,7 @@ Tower.prototype.runCycle = function() {
 // Takes in a monster's position and checks whether that is in range based on the range - returns true or false if in range which can be used to
 Tower.prototype.checkInRange = function(monsterPosition) {
     // using sqrt((x2-x1)^2 - (y2-y1)^2)
-    var monsterDistance =
-    Math.sqrt(
-        Math.Pow(monsterPosition.x-this.position.x)
-    -   Math.Pow(monsterPosition.y-this.position.y)
-   );
+    var monsterDistance = utils.getPositionDifference(monsterPosition, this.position);
 
    if (monsterDistance <= this.range) {
        return true;
