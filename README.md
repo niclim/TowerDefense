@@ -8,7 +8,6 @@ Position are defined by the top left corner of the element (monsters and towers 
 ### TODO
 
 * Add in basic game cycle functionality (monsters move and towers shoot things, game gets money when monster dies from tower, game loses life when monster reaches the end, etc)
-* Define a path variable/function/hardcoded value which can be used by the game to generate a path
 * Write tests once the structure better defined
 * Write tests for utils and add comments to it
 

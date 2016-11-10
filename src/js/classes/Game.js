@@ -12,7 +12,8 @@ var GameEngine = function() {
     this.activeMonsters = []; // List of active monsters in the
     this.towers = []; // object of tower objects
     this.timer = 1;
-    this.gameGrid = utils.initiateGrid(pathCoordinates.path);
+    this.gamePath = utils.convertPathToLines(pathCoordinates.path)
+    this.gameGrid = utils.initiateGrid(this.gamePath);
 }
 
 GameEngine.prototype.addMonster = function(name) {

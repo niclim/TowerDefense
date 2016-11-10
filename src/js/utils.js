@@ -129,39 +129,6 @@ module.exports = function() {
         return block;
     }
 
-    /*
-    Input: Path - an array of objects containing coordinates where the path will run to
-    Output: pathLines - an array of objects containing the startPoint (coordinates), distance of the line and direction (left, right, up, down)
-    */
-    function _convertPathToLines(path) {
-        var pathLines = [];
-        for (var i = 0; i < path.length - 1; i++) {
-            var line = {};
-
-            // Assume that the direction is only 4 ways
-            if (path[i+1].x - path[i].x === 0) {
-
-                if (path[i+1].y - path[i].y > 0) {
-                    line.direction = "down";
-                } else {
-                    line.direction = "up";
-                }
-            } else {
-                if (path[i+1].x - path[i].x === 0 > 0) {
-
-                    line.direction = "left";
-                } else {
-                    line.direction = "right";
-                }
-            }
-            line.startPoint = path[i];
-            line.distance = getPositionDifference(path[i], path[i+1]);
-            pathLines.push(line);
-        }
-
-        return pathLines;
-    }
-
 
 /* ================== Public functions =================*/
 /* =====================================================*/
@@ -231,11 +198,44 @@ module.exports = function() {
         }
     }
 
+    /*
+    Input: Path - an array of objects containing coordinates where the path will run to
+    Output: pathLines - an array of objects containing the startPoint (coordinates), distance of the line and direction (left, right, up, down)
+    */
+    function convertPathToLines(path) {
+        var pathLines = [];
+        for (var i = 0; i < path.length - 1; i++) {
+            var line = {};
+
+            // Assume that the direction is only 4 ways
+            if (path[i+1].x - path[i].x === 0) {
+
+                if (path[i+1].y - path[i].y > 0) {
+                    line.direction = "down";
+                } else {
+                    line.direction = "up";
+                }
+            } else {
+                if (path[i+1].x - path[i].x === 0 > 0) {
+
+                    line.direction = "left";
+                } else {
+                    line.direction = "right";
+                }
+            }
+            line.startPoint = path[i];
+            line.distance = getPositionDifference(path[i], path[i+1]);
+            pathLines.push(line);
+        }
+
+        return pathLines;
+    }
+
+
     // Grid is 36 by 24
     // can be initiated by [x][y] - each block has a boolean to represent whether something is there
-    function initiateGrid(path) {
+    function initiateGrid(pathLines) {
         var grid = [],
-            pathLines = _convertPathToLines(path),
             blocks = _createPathBlocks(pathLines);
 
         // Create the grid
@@ -260,6 +260,37 @@ module.exports = function() {
         );
     }
 
+    // Takes in a distance and pathLines and converts it to coordinates
+    function convertDistanceToCoordinates(distance, pathLines) {
+        var coordinates = {};
+
+        for (var i = 0; i < pathLines.length; i ++) {
+            if (distance - pathLines[i].distance <= 0) {
+                break;
+            } else {
+                distance -= pathLines[i].distance;
+            }
+        }
+        coordinates = pathLines[i].startPoint;
+        switch (pathLines[i].direction) {
+            case "up":
+                coordinates.y - distance;
+                break;
+            case "down":
+                coordinates.y + distance;
+                break;
+            case "left":
+                coordinates.x - distance;
+                break;
+            case "right":
+                coordinates.x + distance;
+                break;
+            default:
+                throw new Error("Invalid direction provided in pathLines");
+        }
+        return coordinates
+    }
+
     return {
         addClass: addClass,
         removeClass: removeClass,
@@ -267,6 +298,8 @@ module.exports = function() {
         convertPositionToTower: convertPositionToTower,
         checkIfInSquare: checkIfInSquare,
         initiateGrid: initiateGrid,
-        getPositionDifference: getPositionDifference
+        getPositionDifference: getPositionDifference,
+        convertPathToLines: convertPathToLines,
+        convertDistanceToCoordinates: convertDistanceToCoordinates
     }
 }();
