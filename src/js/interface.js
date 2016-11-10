@@ -229,8 +229,8 @@ Used to control what tower is being actively placed on the canvas
 function towerCardClick() {
 
     var towerName = this.getAttribute("data-tower"),
-        oldTowerIndex = utils.getTowerCardIndex(towerCardList, activeTowerSelected),
-        newTowerIndex = utils.getTowerCardIndex(towerCardList, towerName);
+        oldTowerIndex = towerCardList.indexOf(activeTowerSelected),
+        newTowerIndex = towerCardList.indexOf(towerName);
 
     if (/disabled/i.test(this.className)) {
         return;
@@ -256,7 +256,7 @@ Called from towerCardClick (when clicking the active tower card) and on an escap
 Resets the active tower placement state to null
 */
 function cancelTowerPlacement() {
-    utils.removeClass(towerCards[utils.getTowerCardIndex(towerCardList, activeTowerSelected)], "active");
+    utils.removeClass(towerCards[towerCardList.indexOf(activeTowerSelected)], "active");
     activeTowerSelected = null;
 }
 
@@ -316,7 +316,7 @@ function canvasClick(e) {
             }
         }
 
-        utils.removeClass(towerCards[utils.getTowerCardIndex(towerCardList, activeTowerSelected)], "active");
+        utils.removeClass(towerCards[towerCardList.indexOf(activeTowerSelected)], "active");
         activeTowerSelected = null;
     } else {
         // User is not running a tower placement

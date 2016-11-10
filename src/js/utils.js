@@ -1,3 +1,7 @@
+// Make this file great again!
+// This file needs tests and needs to be cleaned up (with comments and other useful stuff - cant be bothered at the moment)
+// probably can move the game specific grid generation things to the game file
+
 module.exports = function() {
 /* ================== Private functions ================*/
 /* =====================================================*/
@@ -151,11 +155,6 @@ module.exports = function() {
         element.className = arrayOfClasses.join(" ");
     }
 
-    // Gets the index of the tower cards based on a tower's name
-    function getTowerCardIndex(towerCardList, towerName) {
-        return towerCardList.indexOf(towerName);
-    }
-
     /*
     Takes in a position object (x and y coordinates)
     Returns the top left block position and topleft coordinate of the tower
@@ -294,7 +293,6 @@ module.exports = function() {
     return {
         addClass: addClass,
         removeClass: removeClass,
-        getTowerCardIndex: getTowerCardIndex,
         convertPositionToTower: convertPositionToTower,
         checkIfInSquare: checkIfInSquare,
         initiateGrid: initiateGrid,
