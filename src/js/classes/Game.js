@@ -95,8 +95,12 @@ GameEngine.prototype.runCycle = function() {
 
 // grid tower
 GameEngine.prototype.validateTowerPlacement = function(gridPosition) {
-    var positionValid = true;
-    // returns true or false whether tower placement is valid
+    // Checks all 4 positions
+    var positionValid = this.gameGrid[gridPosition.x][gridPosition.y].empty
+    && this.gameGrid[gridPosition.x + 1][gridPosition.y].empty
+    && this.gameGrid[gridPosition.x][gridPosition.y + 1].empty
+    && this.gameGrid[gridPosition.x + 1][gridPosition.y + 1].empty;
+
     return positionValid;
 }
 

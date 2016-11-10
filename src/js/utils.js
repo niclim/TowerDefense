@@ -241,11 +241,15 @@ module.exports = function() {
         for (var x = 0; x < 36; x++) {
             grid[x] = [];
             for (var y = 0; y < 24; y++) {
-                grid[x][y] = true
+                grid[x][y] = {
+                    empty: true
+                };
             }
         }
         blocks.map(function(block, i) {
-            grid[block.x][block.y] = false;
+            grid[block.x][block.y] = {
+                empty: false
+            };
         });
         console.table(grid);
 

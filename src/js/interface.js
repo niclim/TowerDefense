@@ -148,29 +148,30 @@ function renderTowerPlacement() {
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
 
-    if (true) { // check for valid tower placement
+    if (game.validateTowerPlacement(canvasMousePosition.towerPosition.grid)) { // check for valid tower placement
         dynamicContext.fillStyle = "green";
-        dynamicContext.fillRect(coordinates.x,
-                                coordinates.y,
-                                50,
-                                50
-         );
-
-        dynamicContext.globalAlpha = 0.7;
-        dynamicContext.arc(coordinates.x + 25,
-                           coordinates.y + 25,
-                           30,
-                           0,
-                           2 * Math.PI,
-                           false
-         );
-        dynamicContext.fillStyle = 'gray';
-        dynamicContext.fill();
-
     } else {
+        dynamicContext.fillStyle = "red";
         // do some sort of logic to highlight the tiles that the tower would be placed on and show the tower on those positions
         // this would run when tower placement is invalid
     }
+    dynamicContext.fillRect(coordinates.x,
+                            coordinates.y,
+                            50,
+                            50
+     );
+
+    dynamicContext.globalAlpha = 0.7;
+    dynamicContext.arc(coordinates.x + 25,
+                       coordinates.y + 25,
+                       30,
+                       0,
+                       2 * Math.PI,
+                       false
+     );
+    dynamicContext.fillStyle = 'gray';
+    dynamicContext.fill();
+
     dynamicContext.globalAlpha = 1;
     dynamicContext.closePath();
 }
