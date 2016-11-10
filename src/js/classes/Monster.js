@@ -1,4 +1,5 @@
-var monsterData = require("../gameData/monsterdata.js");
+var monsterData = require("../gameData/monsterdata.js"),
+    utils = require("../utils.js");
 
 var Monster = function(id) {
     this.id = id;
@@ -6,11 +7,9 @@ var Monster = function(id) {
     this.maxHp = monsterData[id].maxHp;
     this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
     this.type = monsterData[id].type;
-    this.position = { // All monsters are created in the same position - this position is referencing the topleft corner of the object
-        x: 0,
-        y: 485,
-        sideLength: 30
-    }
+    this.distanceTravelled = 0;
+    this.position = {}; // Initial position is defined by the path
+    this.sideLength = 30;
 };
 // Method the game object uses to move monsters
 Monster.prototype.runCycle = function() {
@@ -38,20 +37,19 @@ Monster.prototype.checkDeath = function() {
     return this.currentHp <= 0;
 };
 
-// Expects up, down, left or right
-Monster.prototype.move = function(direction) {
-    var speed = this.baseMs;
-
+Monster.prototype.move = function(pathLines) {
+    this.distanceTravelled += this.baseMs;
+    this.position = utils.convertDistanceToCoordinates(this.distanceTravelled, pathLines);
     // some basic monster Movement
     //  NOTE such a hassle to figure this out
     //  TODO not finished, not even going to try and finish will figure out how this should work later
-    if (this.position.x <= 50 && this.position.y < 500) {
-        this.position.x += speed;
-    } else if (this.position.x >= 50 && this.position.y >= 90) {
-        this.position.y -= speed;
-    } else if (this.position.x <= 180 && this.position.y >= 80) {
-        this.position.x += speed;
-    }
+    // if (this.position.x <= 50 && this.position.y < 500) {
+    //     this.position.x += speed;
+    // } else if (this.position.x >= 50 && this.position.y >= 90) {
+    //     this.position.y -= speed;
+    // } else if (this.position.x <= 180 && this.position.y >= 80) {
+    //     this.position.x += speed;
+    // }
 
     //  may not be the best way to do this but ill keep it because not even sure how to do this movement part
     // if (typeof direction !== "string") {

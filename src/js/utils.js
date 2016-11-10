@@ -274,23 +274,33 @@ module.exports = function() {
                 distance -= pathLines[i].distance;
             }
         }
-        coordinates = pathLines[i].startPoint;
+
+        if (distance > pathLines[i].distance) {
+            distance = pathLines[i].distance;
+        }
+
+        coordinates = Object.create(pathLines[i].startPoint);
         switch (pathLines[i].direction) {
             case "up":
-                coordinates.y - distance;
+                coordinates.x -= 15;
+                coordinates.y -= distance;
                 break;
             case "down":
-                coordinates.y + distance;
+                coordinates.x -= 15;
+                coordinates.y += distance;
                 break;
             case "left":
-                coordinates.x - distance;
+                coordinates.x -= distance;
+                coordinates.y -= 15;
                 break;
             case "right":
-                coordinates.x + distance;
+                coordinates.x += distance;
+                coordinates.y -= 15;
                 break;
             default:
                 throw new Error("Invalid direction provided in pathLines");
         }
+
         return coordinates
     }
 

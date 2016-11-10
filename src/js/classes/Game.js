@@ -86,7 +86,7 @@ GameEngine.prototype.runCycle = function() {
         this.timer = 10;
     }
     for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
-        this.activeMonsters[i].move();
+        this.activeMonsters[i].move(this.gamePath);
     }
     // Send information to render
 }
@@ -123,7 +123,7 @@ GameEngine.prototype.checkClickLocation = function(position) {
     var element = {};
     // Loops through activeMonsters
     for (var i = 0; i < this.activeMonsters.length; i++) {
-        if (utils.checkIfInSquare(position, this.activeMonsters[i].position, this.activeMonsters[i].position.sideLength)) {
+        if (utils.checkIfInSquare(position, this.activeMonsters[i].position, this.activeMonsters[i].sideLength)) {
             element.type = "monster";
             element.id = this.activeMonsters[i].id;
             element.index = i;

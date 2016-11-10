@@ -10,6 +10,8 @@ Position are defined by the top left corner of the element (monsters and towers 
 * Add in basic game cycle functionality (monsters move and towers shoot things, game gets money when monster dies from tower, game loses life when monster reaches the end, etc)
 * Write tests once the structure better defined
 * Write tests for utils and add comments to it
+* Pull out all the game constants and store them in a file somewhere
+* fix monster movement
 
 ### TODO later
 * Come up with a better name than awesome TD
