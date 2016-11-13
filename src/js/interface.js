@@ -54,7 +54,7 @@ runCycle = function() {
     game.runCycle();
     updateGameInformation();
     // I assume the game is going to run fast than this after? if not need to add updateGameInformation to a few other places
-    setTimeout(runCycle, 1000);
+    setTimeout(runCycle, 100);
 }
 
 renderCycle = function() {

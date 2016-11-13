@@ -236,7 +236,7 @@ module.exports = function() {
     function initiateGrid(pathLines) {
         var grid = [],
             blocks = _createPathBlocks(pathLines);
-
+            console.log(pathLines)
         // Create the grid
         for (var x = 0; x < 36; x++) {
             grid[x] = [];
@@ -263,7 +263,11 @@ module.exports = function() {
         );
     }
 
-    // Takes in a distance and pathLines and converts it to coordinates
+    /*
+    Takes in a distance (int) and pathLines(array of path objects) and converts it to coordinates for a monster
+    
+    Returns a coordinate object
+    */
     function convertDistanceToCoordinates(distance, pathLines) {
         var coordinates = {};
 
@@ -275,26 +279,32 @@ module.exports = function() {
             }
         }
 
-        if (distance > pathLines[i].distance) {
-            distance = pathLines[i].distance;
+        // Case for when monster is at the end of the thingy - there is a better way to write this but not right now
+        if (i === pathLines.length) {
+            i--; // Set the counter value to be the last value in the pathlines array
+            distance =  pathLines[i].distance;
         }
 
+        // Create a new object to return (instead of modifiying startPoint object)
         coordinates = Object.create(pathLines[i].startPoint);
+
         switch (pathLines[i].direction) {
+            // 15 is a half of the monster width
+            // values used to offset the positioning based on the monster direciton movement
             case "up":
                 coordinates.x -= 15;
-                coordinates.y -= distance;
+                coordinates.y -= distance + 15;
                 break;
             case "down":
                 coordinates.x -= 15;
-                coordinates.y += distance;
+                coordinates.y += distance - 15;
                 break;
             case "left":
-                coordinates.x -= distance;
+                coordinates.x -= distance + 15;
                 coordinates.y -= 15;
                 break;
             case "right":
-                coordinates.x += distance;
+                coordinates.x += distance - 15;
                 coordinates.y -= 15;
                 break;
             default:

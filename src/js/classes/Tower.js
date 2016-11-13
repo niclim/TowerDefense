@@ -5,7 +5,7 @@ var towerData = require("../gameData/towerdata.js"),
 // Tower width - 50 x 50
 var Tower = function(position, id) {
     if (towerData[id] === undefined) {
-        throw Error("Invalid tower name, check html dataattribute or towerdata")
+        throw new Error("Invalid tower name, check html dataattribute or towerdata")
     }
     this.id = id;
     this.damage = towerData[id].damage;
