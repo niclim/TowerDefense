@@ -86,6 +86,7 @@ function updateGameInformation() {
 
 // ID refers to the type of monster and index is the index of the active monster in the active monster's array
 function renderMonsterInformation(id, index) {
+    // There will probably be a bug with the index somewhere when a mosnter is removed before this
     var currentHp = game.activeMonsters[index].currentHp,
         maxHp = game.activeMonsters[index].maxHp,
         type = game.activeMonsters[index].type;
