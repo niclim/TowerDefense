@@ -87,6 +87,11 @@ GameEngine.prototype.runCycle = function() {
     }
     for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
         this.activeMonsters[i].move(this.gamePath);
+
+        // The monster is destroyed in the next cycle of runCycle in the monster.checkDeath value
+        if (this.activeMonsters[i].position.end) {
+            this.userLives--;
+        }
     }
     // Send information to render
 }

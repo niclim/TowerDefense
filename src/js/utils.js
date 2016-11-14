@@ -265,11 +265,13 @@ module.exports = function() {
 
     /*
     Takes in a distance (int) and pathLines(array of path objects) and converts it to coordinates for a monster
-    
+
     Returns a coordinate object
     */
     function convertDistanceToCoordinates(distance, pathLines) {
-        var coordinates = {};
+        var coordinates = {},
+            end = false; // Boolean to represent whether the monster is at the end
+
 
         for (var i = 0; i < pathLines.length; i ++) {
             if (distance - pathLines[i].distance <= 0) {
@@ -279,14 +281,17 @@ module.exports = function() {
             }
         }
 
-        // Case for when monster is at the end of the thingy - there is a better way to write this but not right now
         if (i === pathLines.length) {
             i--; // Set the counter value to be the last value in the pathlines array
             distance =  pathLines[i].distance;
+            end = true;
         }
 
         // Create a new object to return (instead of modifiying startPoint object)
         coordinates = Object.create(pathLines[i].startPoint);
+        coordinates.end = end;
+
+        // Case for when monster is at the end of the thingy - there is a better way to write this but not right now
 
         switch (pathLines[i].direction) {
             // 15 is a half of the monster width

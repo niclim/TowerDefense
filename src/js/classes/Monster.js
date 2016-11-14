@@ -34,36 +34,12 @@ Monster.prototype.destroy = function() {
 };
 
 Monster.prototype.checkDeath = function() {
-    return this.currentHp <= 0;
+    return this.currentHp <= 0 || this.position.end;
 };
 
 Monster.prototype.move = function(pathLines) {
     this.distanceTravelled += this.baseMs;
     this.position = utils.convertDistanceToCoordinates(this.distanceTravelled, pathLines);
-    // some basic monster Movement
-    //  NOTE such a hassle to figure this out
-    //  TODO not finished, not even going to try and finish will figure out how this should work later
-    // if (this.position.x <= 50 && this.position.y < 500) {
-    //     this.position.x += speed;
-    // } else if (this.position.x >= 50 && this.position.y >= 90) {
-    //     this.position.y -= speed;
-    // } else if (this.position.x <= 180 && this.position.y >= 80) {
-    //     this.position.x += speed;
-    // }
-
-    //  may not be the best way to do this but ill keep it because not even sure how to do this movement part
-    // if (typeof direction !== "string") {
-    //     throw new TypeError("direction is not a string");
-    // }
-    // direction = direction.toLowerCase();
-    // switch (direction) {
-    //     case "up":
-    //     case "down":
-    //     case "left":
-    //     case "right":
-    //     default:
-    //         throw new Error("Invalid direction");
-    // }
 };
 
 // Can take in a positive or negative number
