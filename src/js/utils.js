@@ -12,6 +12,11 @@
 // returns a block object {x, y} with block numbers
 // Handles edge cases of the block being defined at the edge (36 and 24 which are invalid in the )
 function convertToBlock(position) {
+    if (position.x > (36*25) || position.y > (24*25)) {
+        console.log(position)
+        throw new Error("Position out of grid range");
+    }
+
     var block = {
         x: Math.floor(position.x / 25),
         y: Math.floor(position.y / 25)
@@ -103,7 +108,7 @@ Takes in a distance (int) and pathLines(array of path objects) and converts it t
 Returns a coordinate object
 */
 function convertDistanceToCoordinates(distance, pathLines) {
-    var coordinates = {},
+    var coordinates,
         end = false; // Boolean to represent whether the monster is at the end
 
 
@@ -126,28 +131,47 @@ function convertDistanceToCoordinates(distance, pathLines) {
     coordinates.end = end;
 
     // Case for when monster is at the end of the thingy - there is a better way to write this but not right now
-
-    switch (pathLines[i].direction) {
-        // 15 is a half of the monster width
-        // values used to offset the positioning based on the monster direciton movement
-        case "up":
+    if (!end) {
+        switch (pathLines[i].direction) {
+            // 15 is a half of the monster width
+            // values used to offset the positioning based on the monster direciton movement
+            case "up":
             coordinates.x -= 15;
             coordinates.y -= distance + 15;
             break;
-        case "down":
+            case "down":
             coordinates.x -= 15;
             coordinates.y += distance - 15;
             break;
-        case "left":
+            case "left":
             coordinates.x -= distance + 15;
             coordinates.y -= 15;
             break;
-        case "right":
+            case "right":
             coordinates.x += distance - 15;
             coordinates.y -= 15;
             break;
-        default:
+            default:
             throw new Error("Invalid direction provided in pathLines");
+        }
+    } else {
+        switch (pathLines[i].direction) {
+            case "up":
+                coordinates.y -= pathLines[i].distance;
+                break;
+            case "down":
+                coordinates.y += pathLines[i].distance;
+                break;
+            case "left":
+                coordinates.x -= pathLines[i].distance;
+                break;
+            case "right":
+                coordinates.x += pathLines[i].distance;
+                break;
+            default:
+                throw new Error("Invalid direction provided in pathLines");
+        }
+
     }
 
     return coordinates

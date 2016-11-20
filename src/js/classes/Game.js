@@ -12,8 +12,10 @@ var GameEngine = function() {
     this.activeMonsters = []; // List of active monsters in the
     this.towers = []; // object of tower objects
     this.timer = 1;
-    this.gamePath = _convertPathToLines(pathCoordinates.path)
+    this.gamePath = _convertPathToLines(pathCoordinates.path);
+    console.log(this.gamePath);
     this.gameGrid = _initiateGrid(this.gamePath);
+    console.table(this.gameGrid)
 }
 
 GameEngine.prototype.addMonster = function(name) {
@@ -74,6 +76,16 @@ GameEngine.prototype.checkGold = function(goldCost) {
         return false;
     }
 };
+
+GameEngine.prototype.checkMonsterDeath = function() {
+    for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
+        if (this.activeMonsters[i].checkDeath()) {
+            this.activeMonsters.splice(i, 1);
+            i--;
+            j--;
+        }
+    }
+}
 
 GameEngine.prototype.gameOver = function() {
 
@@ -170,132 +182,19 @@ GameEngine.prototype.runCycle = function() {
 
 // method to upgrade tower
 
-// grid tower
+/*
+Takes in a gridPosition object (points to the top left corner of the tower)
+Towers take up a 2x2 grid - this function checks all positions
+Returns true if the position is a valid placement for a tower
+Returns false if the position is invalid
+*/
 GameEngine.prototype.validateTowerPlacement = function(gridPosition) {
     // Checks all 4 positions
     var positionValid = this.gameGrid[gridPosition.x][gridPosition.y].empty
     && this.gameGrid[gridPosition.x + 1][gridPosition.y].empty
     && this.gameGrid[gridPosition.x][gridPosition.y + 1].empty
     && this.gameGrid[gridPosition.x + 1][gridPosition.y + 1].empty;
-
     return positionValid;
-}
-
-GameEngine.prototype.checkMonsterDeath = function() {
-    for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
-        if (this.activeMonsters[i].checkDeath()) {
-            this.activeMonsters.splice(i, 1);
-            i--;
-            j--;
-        }
-    }
-}
-
-/*
-Converts a pathLines array (an array of objects with a startPoint,
-direction and a distance) into an array of grid blocks ()
-Note that there will be some overlap with blocks, however,
-as they are only used to set grid positions to not empty, overlap is not an issue
-*/
-function _createPathBlocks(pathLines) {
-    var blocks = [];
-    // Loops through all the pathLines and creates blocks based on that
-    for (var i = 0; i < pathLines.length; i++) {
-        // blockAmount refers to the amount of blocks that follow the path
-        var blockAmount = Math.floor(pathLines[i].distance / 25) + 1,
-            pathDirection;
-        /* Set direction
-        x: 1 = right
-        x: -1 = left
-        y: 1 = down
-        y: -1 = up
-        Offset values help center the grid blocks (i.e. inline with the direction)
-        Side values are used to define which side the blocks are on relative to
-        the path direction (i.e. horizontally or vertically)
-        */
-        switch (pathLines[i].direction) {
-            case "up":
-                pathDirection = {
-                    x: 0,
-                    y: -1,
-                    xOffset: 0,
-                    yOffset: -12.5,
-                    xSide: 12.5,
-                    ySide: 0
-                }
-                break;
-            case "down":
-                pathDirection = {
-                    x: 0,
-                    y: 1,
-                    xOffset: 0,
-                    yOffset: 12.5,
-                    xSide: 12.5,
-                    ySide: 0
-                }
-                break;
-            case "left":
-                pathDirection = {
-                    x: -1,
-                    y: 0,
-                    xOffset: 12.5,
-                    yOffset: 0,
-                    xSide: 0,
-                    ySide: 12.5
-                }
-                break;
-            case "right":
-                pathDirection = {
-                    x: 1,
-                    y: 0,
-                    xOffset: 12.5,
-                    yOffset: 0,
-                    xSide: 0,
-                    ySide: 12.5
-                }
-                break;
-            default:
-                throw new Error("Invalid direction provided in pathLines");
-        }
-
-        // Creates block equal to double the amount of the blockAmount (the equivalent amount of blocks to the path distance)
-        // blockBefore refers to blocks either to the left or top of the path
-        // blockAfter refers to blocks either to the right or below of the path
-        // Creates block locations and gives them offsets to their center positions (for clarity in converting to blocks)
-        for (var j = 0; j < blockAmount; j++) {
-
-            var blockBefore = {
-
-                x: pathLines[i].startPoint.x +
-                    pathDirection.xOffset -
-                    pathDirection.xSide +
-                    (pathDirection.x * 25 * j),
-
-                y: pathLines[i].startPoint.y +
-                    pathDirection.yOffset -
-                    pathDirection.ySide +
-                    (pathDirection.y * 25 * j )
-
-            },
-                blockAfter = {
-                    x: pathLines[i].startPoint.x +
-                        pathDirection.xOffset +
-                        pathDirection.xSide +
-                        (pathDirection.x * 25 * j),
-
-                    y: pathLines[i].startPoint.y  +
-                        pathDirection.yOffset +
-                        pathDirection.ySide +
-                        (pathDirection.y * 25 * j)
-            };
-            blocks.push(utils.convertToBlock(blockBefore));
-            blocks.push(utils.convertToBlock(blockAfter));
-        }
-
-
-    }
-
-    return blocks
 }
 
 /*
@@ -330,6 +229,103 @@ function _convertPathToLines(path) {
     }
 
     return pathLines;
+}
+
+/*
+Converts a pathLines array (an array of objects with a startPoint,
+direction and a distance) into an array of grid blocks ()
+Note that there will be some overlap with blocks, however,
+as they are only used to set grid positions to not empty, overlap is not an issue
+*/
+function _createPathBlocks(pathLines) {
+    var blocks = [];
+    // Loops through all the pathLines and creates blocks based on that
+    for (var i = 0; i < pathLines.length; i++) {
+        // blockAmount refers to the amount of blocks that follow the path
+        var blockAmount = Math.floor(pathLines[i].distance / 25) + 1,
+            pathDirection;
+        /* Set direction
+        x: 1 = right
+        x: -1 = left
+        y: 1 = down
+        y: -1 = up
+        Offset values help center the grid blocks (i.e. inline with the direction)
+        Side values are used to define which side the blocks are on relative to
+        the path direction (i.e. horizontally or vertically)
+        */
+        switch (pathLines[i].direction) {
+            case "up":
+                pathDirection = {
+                    x: 0,
+                    y: -1,
+                    xSide: 12.5,
+                    ySide: 0
+                }
+                break;
+            case "down":
+                pathDirection = {
+                    x: 0,
+                    y: 1,
+                    xSide: 12.5,
+                    ySide: 0
+                }
+                break;
+            case "left":
+                pathDirection = {
+                    x: -1,
+                    y: 0,
+                    xSide: 0,
+                    ySide: 12.5
+                }
+                break;
+            case "right":
+                pathDirection = {
+                    x: 1,
+                    y: 0,
+                    xSide: 0,
+                    ySide: 12.5
+                }
+                break;
+            default:
+                throw new Error("Invalid direction provided in pathLines");
+        }
+
+        /*
+        Creates block equal to double the amount of the blockAmount (the equivalent amount of blocks to the path distance)
+        blockBefore refers to blocks either to the left or top of the path
+        blockAfter refers to blocks either to the right or below of the path
+        Creates block locations and gives them offsets to their center positions (for clarity in converting to blocks)
+        */
+        for (var j = 0; j < blockAmount; j++) {
+
+            var blockBefore = {
+
+                x: pathLines[i].startPoint.x +
+                    pathDirection.xSide +
+                    (pathDirection.x * 25 * j),
+
+                y: pathLines[i].startPoint.y +
+                    pathDirection.ySide +
+                    (pathDirection.y * 25 * j )
+
+            },
+                blockAfter = {
+                    x: pathLines[i].startPoint.x +
+                        pathDirection.xSide +
+                        (pathDirection.x * 25 * j),
+
+                    y: pathLines[i].startPoint.y  +
+                        pathDirection.ySide +
+                        (pathDirection.y * 25 * j)
+            };
+            blocks.push(utils.convertToBlock(blockBefore));
+            blocks.push(utils.convertToBlock(blockAfter));
+        }
+
+
+    }
+
+    return blocks
 }
 
 // Grid is 36 by 24
