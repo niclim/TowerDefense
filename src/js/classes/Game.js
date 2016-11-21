@@ -7,20 +7,23 @@ var Monster = require("./Monster.js"),
 
 var GameEngine = function() {
     this.userGold = 10;
-    this.level = 1;
+    this.level = 0;
     this.userLives = 30;
     this.activeMonsters = []; // List of active monsters in the
     this.towers = []; // object of tower objects
     this.timer = 1;
+    this.nextLevelCalled = false;
+    this.monstersToCreate = 0;
     this.gamePath = _convertPathToLines(pathCoordinates.path);
+    this.gameState = "start"; // Possible values are start, lost, won, playing
     console.log(this.gamePath);
     this.gameGrid = _initiateGrid(this.gamePath);
     console.table(this.gameGrid)
 }
 
-GameEngine.prototype.addMonster = function(name) {
+GameEngine.prototype.addMonster = function(level) {
     // add monster (specified by name) to game
-    var monster = new Monster("monster1");
+    var monster = new Monster("monster1");  // NOTE CHANGE THIS TO REPRESENT MONSTER BASED ON LEVEL
     this.activeMonsters.push(monster);
 }
 
@@ -28,7 +31,6 @@ GameEngine.prototype.addTower = function(id, position, goldCost) {
     this.userGold -= goldCost;
     var tower = new Tower(position, id);
     this.towers.push(tower);
-
 }
 
 /*
@@ -68,6 +70,14 @@ GameEngine.prototype.checkClickLocation = function(position) {
     return element;
 }
 
+GameEngine.prototype.checkGameState = function() {
+    if (this.level === 51) { // MAX level
+        this.gameState = "won";
+    } else if (this.userLives <= 0) {
+        this.gameState = "lost";
+    }
+}
+
 // method to check gold before place tower or upgrade
 GameEngine.prototype.checkGold = function(goldCost) {
     if (goldCost <= this.userGold) {
@@ -75,7 +85,7 @@ GameEngine.prototype.checkGold = function(goldCost) {
     } else {
         return false;
     }
-};
+}
 
 GameEngine.prototype.checkMonsterDeath = function() {
     for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
@@ -91,13 +101,21 @@ GameEngine.prototype.gameOver = function() {
 
 }
 
+GameEngine.prototype.gameStart = function() {
+    this.gameState = "playing";
+    this.nextLevel();
+}
+
 GameEngine.prototype.gameWon = function() {
 
 }
 
-// New level method
 GameEngine.prototype.nextLevel = function() {
-
+    // Only calls the next level once - nextLevelCalled is reset on a new monster creation
+    if (this.nextLevelCalled === false) {
+        this.monstersToCreate = 10;
+        this.level++;
+    }
 }
 
 /*
@@ -136,48 +154,73 @@ GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordin
 }
 
 GameEngine.prototype.render = function() {
-    // send state to the display object to render
-    dynamicContext.beginPath();
-    dynamicContext.clearRect(0, 0, dynamicCanvas.width, dynamicCanvas.height);
 
-    // Render towers first so that if monsters are larger they show above towers
-    for (var i = 0, j = this.towers.length; i < j; i ++) {
-        this.towers[i].draw();
+    if (this.gameState === "playing") {
+        // send state to the display object to render
+        dynamicContext.beginPath();
+        dynamicContext.clearRect(0, 0, dynamicCanvas.width, dynamicCanvas.height);
+
+        // Render towers first so that if monsters are larger they show above towers
+        for (var i = 0, j = this.towers.length; i < j; i ++) {
+            this.towers[i].draw();
+        }
+
+        //  loop through list of active monsters and render them
+        //  TODO probably need to find a better way to rend them apart from random rectangle
+        for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
+            this.activeMonsters[i].draw();
+        }
+
+        // Somehow render animations for tower attacks
+
+        dynamicContext.closePath();
+    } else if (this.gameState === "lost") {
+        // Add render method to add thing
+        console.log("you lost lol");
+    } else if (this.gameState === "won") {
+        // Add render method to add thing
+        console.log("congrats you won");
     }
 
-    //  loop through list of active monsters and render them
-    //  TODO probably need to find a better way to rend them apart from random rectangle
-    for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
-        this.activeMonsters[i].draw();
-    }
-
-    dynamicContext.closePath();
-
-    // dynamicContext.
 };
 
 GameEngine.prototype.runCycle = function() {
-    //  beginning of cycle check if any monsters have died if so remove from active monsters
-    this.checkMonsterDeath();
-    // loop through active monsters and towers and run the cycle
-    // Each runCycle method returns information for the gameEngine to
-    // process (e.g. the monster died, tower changed)
+    this.checkGameState();
 
-    //  timer to add monsters
-    this.timer--;
-    if (this.timer < 1) {
-        this.addMonster('blah');
-        this.timer = 10;
-    }
-    for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
-        this.activeMonsters[i].move(this.gamePath);
+    if (this.gameState === "playing") {
+        //  beginning of cycle check if any monsters have died if so remove from active monsters
+        this.checkMonsterDeath();
+        // loop through active monsters and towers and run the cycle
+        // Each runCycle method returns information for the gameEngine to
+        // process (e.g. the monster died, tower changed)
 
-        // The monster is destroyed in the next cycle of runCycle in the monster.checkDeath value
-        if (this.activeMonsters[i].position.end) {
-            this.userLives--;
+        // Adds monsters if there are monsters to create
+        if (this.monstersToCreate > 0) {
+            //  timer to add monsters
+            this.timer--;
+            if (this.timer < 1) {
+                this.addMonster(this.level); // send through the level number
+                this.timer = 10;
+                this.monstersToCreate--;
+                this.nextLevelCalled = false;
+            }
         }
+
+        if (this.activeMonsters.length === 0) {
+            this.nextLevel();
+            this.nextLevelCalled = true;
+        } else {
+            for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
+                this.activeMonsters[i].move(this.gamePath);
+
+                // The monster is destroyed in the next cycle of runCycle in the monster.checkDeath value
+                if (this.activeMonsters[i].position.end) {
+                    this.userLives--;
+                }
+            }
+        }
+
     }
-    // Send information to render
 }
 
 // method to upgrade tower

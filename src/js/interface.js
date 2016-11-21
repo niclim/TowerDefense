@@ -53,7 +53,6 @@ dynamicContext = dynamicCanvas.getContext('2d');
 runCycle = function() {
     game.runCycle();
     updateGameInformation();
-    // I assume the game is going to run fast than this after? if not need to add updateGameInformation to a few other places
     setTimeout(runCycle, 100);
 }
 
@@ -184,6 +183,8 @@ document.getElementById("start-btn").addEventListener("click", function() {
     document.getElementsByClassName("modal-content")[0].style.display = "none";
     document.getElementsByClassName("modal-background")[0].style.display = "none";
 
+    // Set game to start
+    game.gameStart();
     // run repeating function that runs game engine run cycle and rendering
     setTimeout(runCycle, 1000);
     requestAnimationFrame(renderCycle);
