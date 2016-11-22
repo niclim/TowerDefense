@@ -10,6 +10,7 @@ var Monster = function(id) {
     this.distanceTravelled = 0;
     this.position = {}; // Initial position is defined by the path
     this.sideLength = 30;
+    this.giveGold = false;
 };
 // Method the game object uses to move monsters
 Monster.prototype.runCycle = function() {

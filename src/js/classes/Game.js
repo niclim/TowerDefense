@@ -220,6 +220,11 @@ GameEngine.prototype.runCycle = function() {
             }
         }
 
+        // Run tower cycles here - pass in active monsters
+        this.towers.forEach(function(tower) {
+            tower.runCycle(this.activeMonsters); // Pass in active monsters and modify them
+        }.bind(this));
+
     }
 }
 
