@@ -90,6 +90,10 @@ GameEngine.prototype.checkGold = function(goldCost) {
 GameEngine.prototype.checkMonsterDeath = function() {
     for (var i = 0, j = this.activeMonsters.length; i < j; i ++) {
         if (this.activeMonsters[i].checkDeath()) {
+            // giveGold is true when killed by a tower
+            if (this.activeMonsters[i].giveGold) {
+                this.userGold += this.activeMonsters[i].bounty;
+            }
             this.activeMonsters.splice(i, 1);
             i--;
             j--;

@@ -7,6 +7,7 @@ var Monster = function(id) {
     this.maxHp = monsterData[id].maxHp;
     this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
     this.type = monsterData[id].type;
+    this.bounty = monsterData[id].bounty;
     this.distanceTravelled = 0;
     this.position = {}; // Initial position is defined by the path
     this.sideLength = 30;
@@ -49,6 +50,8 @@ Monster.prototype.updateHp = function(hpChange) {
 
     if (this.currentHp > this.maxHp) {
         this.currentHp = this.maxHp;
+    } else if (this.currentHp <= 0) {
+        this.giveGold = true;
     }
 };
 
