@@ -75,20 +75,21 @@ function updateGameInformation() {
     levelInfo.innerHTML = game.level;
 
     if (activeCanvasElement.type === "monster") {
-        renderMonsterInformation(activeCanvasElement.id, activeCanvasElement.index);
+        renderMonsterInformation(activeCanvasElement.index);
     } else if (activeCanvasElement.type === "tower") {
-        renderTowerInformation(activeCanvasElement.id, activeCanvasElement.index);
+        renderTowerInformation(activeCanvasElement.index);
     } else {
         renderDefaultInformation();
     }
 }
 
 // ID refers to the type of monster and index is the index of the active monster in the active monster's array
-function renderMonsterInformation(id, index) {
-    // There will probably be a bug with the index somewhere when a mosnter is removed before this
+function renderMonsterInformation(index) {
     var currentHp = game.activeMonsters[index].currentHp,
         maxHp = game.activeMonsters[index].maxHp,
-        type = game.activeMonsters[index].type;
+        type = game.activeMonsters[index].type,
+        id = game.activeMonsters[index].id;
+
     infoName.innerHTML = id;
     // Change icon to active monster - use a sprite
     infoBox1.innerHTML = "HP: " + currentHp + " / " + maxHp;
@@ -98,7 +99,9 @@ function renderMonsterInformation(id, index) {
 }
 
 // ID refers to the type of tower and index is the index of the active tower in the active tower's array
-function renderTowerInformation(id, index) {
+function renderTowerInformation(index) {
+    var id = game.towers[index].id;
+
     infoName.innerHTML = id;
     // Change icon to active monster - use a sprite
     infoBox1.innerHTML = "Damage: <br> Range: <br> Effect: ";
@@ -214,6 +217,17 @@ document.onkeydown = function(e) {
         cancelTowerPlacement();
     }
 }
+
+// updates activeCanvasElement when monster death (if the active element is a monster)
+document.addEventListener("monsterDeath", function(e) {
+    if (activeCanvasElement.type === "monster") {
+        if (e.detail.index < activeCanvasElement.index) {
+            activeCanvasElement.index--;
+        } else if (e.detail.index === activeCanvasElement.index) {
+            activeCanvasElement = {type: null} // Reset
+        }
+    }
+});
 
 /* =================== UI Functions ====================*/
 /* =====================================================*/

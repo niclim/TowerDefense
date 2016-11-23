@@ -44,7 +44,6 @@ GameEngine.prototype.checkClickLocation = function(position) {
     for (var i = 0; i < this.activeMonsters.length; i++) {
         if (utils.checkIfInSquare(position, this.activeMonsters[i].position, this.activeMonsters[i].sideLength)) {
             element.type = "monster";
-            element.id = this.activeMonsters[i].id;
             element.index = i;
             break;
         }
@@ -55,7 +54,6 @@ GameEngine.prototype.checkClickLocation = function(position) {
         for (var i = 0; i < this.towers.length; i++) {
             if (utils.checkIfInSquare(position, this.towers[i].position, this.towers[i].position.sideLength)) {
                 element.type = "tower";
-                element.id = this.towers[i].id;
                 element.index = i;
                 break;
             }
@@ -94,6 +92,9 @@ GameEngine.prototype.checkMonsterDeath = function() {
             if (this.activeMonsters[i].giveGold) {
                 this.userGold += this.activeMonsters[i].bounty;
             }
+            var monsterDeath = new CustomEvent("monsterDeath", {"detail": {index: i}});
+            document.dispatchEvent(monsterDeath);
+
             this.activeMonsters.splice(i, 1);
             i--;
             j--;
