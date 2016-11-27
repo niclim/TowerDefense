@@ -53,7 +53,7 @@ dynamicContext = dynamicCanvas.getContext('2d');
 runCycle = function() {
     game.runCycle();
     updateGameInformation();
-    setTimeout(runCycle, 100);
+    setTimeout(runCycle, 30);
 }
 
 renderCycle = function() {

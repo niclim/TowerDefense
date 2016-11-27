@@ -190,7 +190,7 @@ GameEngine.prototype.runCycle = function() {
             this.timer--;
             if (this.timer < 1) {
                 this.addMonster(this.level); // send through the level number
-                this.timer = 10;
+                this.timer = 30;
                 this.monstersToCreate--;
                 this.nextLevelCalled = false;
             }
@@ -206,32 +206,25 @@ GameEngine.prototype.runCycle = function() {
                 // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
                 var monsterStatus = activeMonster.runCycle(this.gamePath);
 
-                // Maybe put the projectiles run cycle in here??
                 if (!monsterStatus.alive) {
                     if (monsterStatus.giveGold) {
                         this.userGold += activeMonster.bounty
                     }
                     var monsterDeath = new CustomEvent("monsterDeath", {"detail": {index: i}});
                     document.dispatchEvent(monsterDeath);
-
                     monsterArray.splice(i, 1)
                 }
-
             }.bind(this));
 
-            // Run tower cycles here - pass in active monsters
+            // Run tower cycles here - pass in active monsters - towers only create projectiles
             this.towers.forEach(function(tower) {
-                // This willonly create projectiles
-                tower.runCycle(this.activeMonsters); // Pass in active monsters and modify them
+                tower.runCycle(this.activeMonsters); // Pass in active monsters and attach projectiles to them
             }.bind(this));
         }
 
 
     }
 }
-
-// method to upgrade tower
-
 /*
 Takes in a gridPosition object (points to the top left corner of the tower)
 Towers take up a 2x2 grid - this function checks all positions

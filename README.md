@@ -9,10 +9,8 @@ Towers have a size of 2x2
 
 ### TODO
 
-* Add in basic game cycle functionality (monsters move and towers shoot things, game gets money when monster dies from tower, game loses life when monster reaches the end, etc)
-* Write tests once the structure better defined
+* Write tests
 * Pull out all the game constants and store them in a file somewhere
-* Figure out why there is a delay with projectiles after hitting a monster (and the monster dies)
 
 ### TODO later
 * Come up with a better name than awesome TD
@@ -20,3 +18,4 @@ Towers have a size of 2x2
 * Make some cool sprites
 * Think of better towers and monsters
 * Get a better background (instead of using canvas to generate the background)
+* Figure out why there is a delay with projectiles after hitting a monster (and the monster dies) - only noticable with a slower game cycle speed 
