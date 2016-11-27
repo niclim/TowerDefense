@@ -1,76 +1,11 @@
-// Make this file great again!
-// This file needs tests and needs to be cleaned up (with comments and other useful stuff - cant be bothered at the moment)
-// probably can move the game specific grid generation things to the game file
-
-/* ================== Private functions ================*/
-/* =====================================================*/
-// TODO - add tests
-
 /* ================== Public functions =================*/
 /* =====================================================*/
-// Takes in a position object with coordinates{x, y}
-// returns a block object {x, y} with block numbers
-// Handles edge cases of the block being defined at the edge (36 and 24 which are invalid in the )
-function convertToBlock(position) {
-    if (position.x > (36*25) || position.y > (24*25)) {
-        console.log(position)
-        throw new Error("Position out of grid range");
-    }
-
-    var block = {
-        x: Math.floor(position.x / 25),
-        y: Math.floor(position.y / 25)
-    };
-    // Adjusts if mouse is at end of container
-    // 36 blocks width and 24 blocks height
-    if (block.x >= 35) {
-        block.x--;
-    }
-
-    if (block.y >= 23) {
-        block.y--;
-    }
-
-    return block;
-}
-
 function addClass(element, cssClass) {
     if (element.className === "") {
         element.className = cssClass;
     } else {
         element.className += " " + cssClass;
     }
-}
-
-function removeClass(element, cssClass) {
-    var arrayOfClasses = element.className.split(" ");
-    for (var i = 0, j = arrayOfClasses.length; i < j; i++) {
-        if (arrayOfClasses[i] === cssClass) {
-            arrayOfClasses.splice(i, 1);
-            i--; j--;
-        }
-    }
-    element.className = arrayOfClasses.join(" ");
-}
-
-/*
-Takes in a position object (x and y coordinates)
-Returns the top left block position and topleft coordinate of the tower
-Grid blocks are in 25x25 block increments
-*/
-function convertPositionToTower(position) {
-    var towerPosition = {
-        grid: {},
-        coordinates: {},
-        side: 50
-    };
-
-    towerPosition.grid = convertToBlock(position);
-
-    // Container width and height 900 and 600 px respectively
-    towerPosition.coordinates.x = (towerPosition.grid.x / 36) * 900;
-    towerPosition.coordinates.y = (towerPosition.grid.y / 24) * 600;
-    return towerPosition;
 }
 
 /*
@@ -95,16 +30,8 @@ function checkIfInSquare(point, topLeftPoint, sideLength) {
     }
 }
 
-function getPositionDifference(position1, position2) {
-    return Math.sqrt(
-            Math.pow(position1.x-position2.x, 2) +
-            Math.pow(position1.y-position2.y, 2)
-    );
-}
-
 /*
 Takes in a distance (int) and pathLines(array of path objects) and converts it to coordinates for a monster
-
 Returns a coordinate object
 */
 function convertDistanceToCoordinates(distance, pathLines) {
@@ -177,13 +104,95 @@ function convertDistanceToCoordinates(distance, pathLines) {
     return coordinates
 }
 
-// Moved out to be able to test code
+// Takes in a position object with coordinates{x, y}
+// returns a block object {x, y} with block numbers
+// Handles edge cases of the block being defined at the edge (36 and 24 which are invalid in the )
+function convertToBlock(position) {
+    if (position.x > (36*25) || position.y > (24*25)) {
+        console.log(position)
+        throw new Error("Position out of grid range");
+    }
+
+    var block = {
+        x: Math.floor(position.x / 25),
+        y: Math.floor(position.y / 25)
+    };
+    // Adjusts if mouse is at end of container
+    // 36 blocks width and 24 blocks height
+    if (block.x >= 35) {
+        block.x--;
+    }
+
+    if (block.y >= 23) {
+        block.y--;
+    }
+
+    return block;
+}
+
+/*
+Takes in a position object (x and y coordinates)
+Returns the top left block position and topleft coordinate of the tower
+Grid blocks are in 25x25 block increments
+*/
+function convertPositionToTower(position) {
+    var towerPosition = {
+        grid: {},
+        coordinates: {},
+        side: 50
+    };
+
+    towerPosition.grid = convertToBlock(position);
+
+    // Container width and height 900 and 600 px respectively
+    towerPosition.coordinates.x = (towerPosition.grid.x / 36) * 900;
+    towerPosition.coordinates.y = (towerPosition.grid.y / 24) * 600;
+    return towerPosition;
+}
+/*
+getPathPosition inputs:
+initialPosition: position object {x, y}
+finalPosition: position object {x, y}
+fractionTravelled: decimal of how far along the path
+
+Output: position object {x, y}
+*/
+function getPathPosition(pos1, pos2, fractionTravelled) {
+    var finalPosition = {},
+        angle = Math.atan2(pos2.y - pos1.y, pos2.x - pos1.x), // the line angle (in radians) from pos1 to pos2 with respect to the origin
+        distanceFromPos1 = getPositionDifference(pos1, pos2) * fractionTravelled;
+
+    finalPosition.x = pos1.x + distanceFromPos1 * Math.cos(angle);
+    finalPosition.y = pos1.y + distanceFromPos1 * Math.sin(angle);
+
+    return finalPosition;
+}
+
+function getPositionDifference(position1, position2) {
+    return Math.sqrt(
+            Math.pow(position1.x-position2.x, 2) +
+            Math.pow(position1.y-position2.y, 2)
+    );
+}
+
+function removeClass(element, cssClass) {
+    var arrayOfClasses = element.className.split(" ");
+    for (var i = 0, j = arrayOfClasses.length; i < j; i++) {
+        if (arrayOfClasses[i] === cssClass) {
+            arrayOfClasses.splice(i, 1);
+            i--; j--;
+        }
+    }
+    element.className = arrayOfClasses.join(" ");
+}
+
 module.exports = {
     addClass: addClass,
-    removeClass: removeClass,
-    convertPositionToTower: convertPositionToTower,
     checkIfInSquare: checkIfInSquare,
-    getPositionDifference: getPositionDifference,
     convertToBlock: convertToBlock,
-    convertDistanceToCoordinates: convertDistanceToCoordinates
+    convertDistanceToCoordinates: convertDistanceToCoordinates,
+    convertPositionToTower: convertPositionToTower,
+    getPathPosition: getPathPosition,
+    getPositionDifference: getPositionDifference,
+    removeClass: removeClass
 }

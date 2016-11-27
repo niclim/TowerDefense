@@ -1,5 +1,6 @@
 var towerData = require("../gameData/towerdata.js"),
-    utils = require("../utils.js");
+    utils = require("../utils.js"),
+    Projectile = require("./Projectiles.js");
 
 // Position refers to the upper left corner of the elements
 // Tower width - 50 x 50
@@ -9,7 +10,7 @@ var Tower = function(position, id) {
     }
     this.id = id;
     this.damage = towerData[id].damage;
-    this.speed = towerData[id].speed; // Attack speed
+    this.attackSpeed = towerData[id].attackSpeed; // Attack speed
     this.cooldown = 0;
     this.range = towerData[id].range; // Range of the tower
     this.type = towerData[id].type; // Type of damage
@@ -20,7 +21,6 @@ var Tower = function(position, id) {
 }
 // Method the game object uses to run towers
 Tower.prototype.runCycle = function(activeMonsters) {
-    // how to handle gold from dead monster??? - maybe another variable inside of monster on how it died
     var targetMonster = null;
 
     for (var i = 0; i < activeMonsters.length; i++) {
@@ -30,9 +30,10 @@ Tower.prototype.runCycle = function(activeMonsters) {
         }
     }
 
+    // Create a projectile if there is a monster in range and the tower has a cooldown of 0
     if (targetMonster !== null && this.cooldown === 0) {
-        activeMonsters[targetMonster].updateHp(-this.damage);
-        this.cooldown = this.speed;
+        activeMonsters[targetMonster].projectiles.push(new Projectile(this.id, this.position));
+        this.cooldown = this.attackSpeed;
     }
 
     if (this.cooldown !== 0) {

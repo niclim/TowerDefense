@@ -8,14 +8,34 @@ var Monster = function(id) {
     this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
     this.type = monsterData[id].type;
     this.bounty = monsterData[id].bounty;
+    this.projectiles = [];
     this.distanceTravelled = 0;
     this.position = {}; // Initial position is defined by the path
     this.sideLength = 30;
-    this.giveGold = false;
 };
 // Method the game object uses to move monsters
-Monster.prototype.runCycle = function() {
+Monster.prototype.runCycle = function(gamePath) {
+    var status = {};
+    this.move(gamePath);
 
+    this.projectiles.forEach(function(projectile, i, projectileArray) {
+        projectile.move();
+        if (projectile.end) {
+            this.updateHp(-projectile.damage);
+            projectileArray.splice(i, 1);
+        }
+    }.bind(this));
+
+    this.checkDeath();
+
+    if (this.checkDeath()) {
+        status.alive = false;
+        status.giveGold = !this.position.end; // Does not give gold if the monster reached the end
+    } else {
+        status.alive = true;
+    }
+
+    return status;
 }
 
 Monster.prototype.draw = function() {
@@ -50,8 +70,6 @@ Monster.prototype.updateHp = function(hpChange) {
 
     if (this.currentHp > this.maxHp) {
         this.currentHp = this.maxHp;
-    } else if (this.currentHp <= 0) {
-        this.giveGold = true;
     }
 };
 

@@ -432,4 +432,68 @@ describe("Utilities", function() {
             expect(convertDistanceToCoordinates(overDistance6, pathLines1).y).to.equal(endPoint1.y);
         });
     });
+
+    describe("getPathPosition", function() {
+        var initPos1,
+            initPos2,
+            finalPos1,
+            finalPos2,
+            fraction1,
+            fraction2,
+            output1,
+            output2,
+            output3,
+            output4,
+            output5,
+            output6,
+            output7,
+            output8;
+
+        beforeEach(function() {
+            initPos1 = {x: 0, y: 0};
+            initPos2 = {x: 200, y: 600};
+            finalPos1 = {x: 400, y: 200};
+            finalPos2 = {x: 350, y: 400};
+            fraction1 = 0.5;
+            fraction2 = 1 / 7;
+            output1 = getPathPosition(initPos1, finalPos1, fraction1);
+            output2 = getPathPosition(initPos1, finalPos2, fraction1);
+            output3 = getPathPosition(initPos2, finalPos1, fraction1);
+            output4 = getPathPosition(initPos2, finalPos2, fraction1);
+            output5 = getPathPosition(initPos1, finalPos1, fraction2);
+            output6 = getPathPosition(initPos1, finalPos2, fraction2);
+            output7 = getPathPosition(initPos2, finalPos1, fraction2);
+            output8 = getPathPosition(initPos2, finalPos2, fraction2);
+        });
+
+        it("should take in two position objects and a fraction and return a position object", function() {
+            expect(output1).to.have.all.keys("x", "y");
+            expect(output2).to.have.all.keys("x", "y");
+            expect(output3).to.have.all.keys("x", "y");
+            expect(output4).to.have.all.keys("x", "y");
+            expect(output5).to.have.all.keys("x", "y");
+            expect(output6).to.have.all.keys("x", "y");
+            expect(output7).to.have.all.keys("x", "y");
+            expect(output8).to.have.all.keys("x", "y");
+        });
+
+        it("should return the position of the point between the two input positions", function() {
+            expect(Math.round(output1.x)).to.equal(200);
+            expect(Math.round(output1.y)).to.equal(100);
+            expect(Math.round(output2.x)).to.equal(175);
+            expect(Math.round(output2.y)).to.equal(200);
+            expect(Math.round(output3.x)).to.equal(300);
+            expect(Math.round(output3.y)).to.equal(400);
+            expect(Math.round(output4.x)).to.equal(275);
+            expect(Math.round(output4.y)).to.equal(500);
+            expect(Math.round(output5.x)).to.equal(57);
+            expect(Math.round(output5.y)).to.equal(29);
+            expect(Math.round(output6.x)).to.equal(50);
+            expect(Math.round(output6.y)).to.equal(57);
+            expect(Math.round(output7.x)).to.equal(229);
+            expect(Math.round(output7.y)).to.equal(543);
+            expect(Math.round(output8.x)).to.equal(221);
+            expect(Math.round(output8.y)).to.equal(571);
+        });
+    });
 });
