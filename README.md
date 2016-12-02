@@ -8,7 +8,6 @@ Position are defined by the top left corner of the element (monsters and towers 
 Towers have a size of 2x2
 
 ### TODO
-
 * Write tests
 * Pull out all the game constants and store them in a file somewhere
 
@@ -18,4 +17,4 @@ Towers have a size of 2x2
 * Make some cool sprites
 * Think of better towers and monsters
 * Get a better background (instead of using canvas to generate the background)
-* Figure out why there is a delay with projectiles after hitting a monster (and the monster dies) - only noticable with a slower game cycle speed 
+* Figure out why there is a delay with projectiles after hitting a monster (and the monster dies) - only noticable with a slower game cycle speed

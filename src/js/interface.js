@@ -50,15 +50,17 @@ game = new GameEngine;
 dynamicCanvas = document.getElementById('dynamic');
 dynamicContext = dynamicCanvas.getContext('2d');
 
-runCycle = function() {
-    game.runCycle();
-    updateGameInformation();
-    setTimeout(runCycle, 30);
-}
-
+var lastTime;
 renderCycle = function() {
+    var now = Date.now(),
+        dt = (now - lastTime) / 1000.0;
+
+    game.runCycle(dt);
+
+    lastTime = now;
+    // Renders methods based on state variables
     game.render();
-    // Renders the information and error messages based on the state variables
+    updateGameInformation();
     renderTowerPlacement();
     renderMessage();
     requestAnimationFrame(renderCycle);
@@ -188,8 +190,8 @@ document.getElementById("start-btn").addEventListener("click", function() {
 
     // Set game to start
     game.gameStart();
-    // run repeating function that runs game engine run cycle and rendering
-    setTimeout(runCycle, 1000);
+    // Sets up game loop and render loop
+    lastTime = Date.now();
     requestAnimationFrame(renderCycle);
 });
 

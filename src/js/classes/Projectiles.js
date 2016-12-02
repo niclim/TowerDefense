@@ -9,14 +9,18 @@ var Projectile = function(id, towerPosition) {
     this.currentTravelTime = 0;
     this.end = false;
     this.initialPosition = {
-        x: towerPosition.x + 25,
-        y: towerPosition.y + 25
+        x: towerPosition.x + 25 - 5,
+        y: towerPosition.y + 25 - 5
     };
 }
 
 Projectile.prototype.draw = function(monsterPosition) {
     var fractionTravelled = this.currentTravelTime / this.totalTravelTime,
-        position = utils.getPathPosition(this.initialPosition, monsterPosition, fractionTravelled);
+        adjustedMonsterPosition = {
+            x: monsterPosition.x + 15 - 5,
+            y: monsterPosition.y + 15 - 5
+        },
+        position = utils.getPathPosition(this.initialPosition, adjustedMonsterPosition, fractionTravelled);
 
     // Calculate a fraction based on currentTravelTime / travelTime to get the position
     dynamicContext.beginPath();
@@ -29,9 +33,9 @@ Projectile.prototype.draw = function(monsterPosition) {
     dynamicContext.closePath();
 }
 
-Projectile.prototype.move = function() {
-    this.currentTravelTime += 1;
-    if (this.currentTravelTime === this.totalTravelTime) {
+Projectile.prototype.move = function(dt) {
+    this.currentTravelTime += dt;
+    if (this.currentTravelTime >= this.totalTravelTime) {
         this.end = true;
     }
 }

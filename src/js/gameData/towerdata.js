@@ -1,11 +1,11 @@
 module.exports = {
     basic: {
         projectile: {
-            damage: 25,
-            travelTime: 9, // This is the amount of game cycles required before it hits the monster
+            damage: 5,
+            travelTime:0.5, // time in seconds before impact
             sprite: "abc" // change this to have animations
         },
-        attackSpeed: 15,
+        attackSpeed: 1, // 1 second per attack
         range: 300,
         goldCost: 10,
         type: "basic",

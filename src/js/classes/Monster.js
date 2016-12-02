@@ -14,12 +14,12 @@ var Monster = function(id) {
     this.sideLength = 30;
 };
 // Method the game object uses to move monsters
-Monster.prototype.runCycle = function(gamePath) {
+Monster.prototype.runCycle = function(gamePath, dt) {
     var status = {};
-    this.move(gamePath);
+    this.move(gamePath, dt);
 
     this.projectiles.forEach(function(projectile, i, projectileArray) {
-        projectile.move();
+        projectile.move(dt);
         if (projectile.end) {
             this.updateHp(-projectile.damage);
             projectileArray.splice(i, 1);
@@ -59,8 +59,8 @@ Monster.prototype.checkDeath = function() {
     return this.currentHp <= 0 || this.position.end;
 };
 
-Monster.prototype.move = function(pathLines) {
-    this.distanceTravelled += this.baseMs;
+Monster.prototype.move = function(pathLines, dt) {
+    this.distanceTravelled += this.baseMs * dt;
     this.position = utils.convertDistanceToCoordinates(this.distanceTravelled, pathLines);
 };
 

@@ -20,7 +20,7 @@ var Tower = function(position, id) {
     this.position.sideLength = 50;
 }
 // Method the game object uses to run towers
-Tower.prototype.runCycle = function(activeMonsters) {
+Tower.prototype.runCycle = function(activeMonsters, dt) {
     var targetMonster = null;
 
     for (var i = 0; i < activeMonsters.length; i++) {
@@ -31,13 +31,13 @@ Tower.prototype.runCycle = function(activeMonsters) {
     }
 
     // Create a projectile if there is a monster in range and the tower has a cooldown of 0
-    if (targetMonster !== null && this.cooldown === 0) {
+    if (targetMonster !== null && this.cooldown < 0) {
         activeMonsters[targetMonster].projectiles.push(new Projectile(this.id, this.position));
         this.cooldown = this.attackSpeed;
     }
 
-    if (this.cooldown !== 0) {
-        this.cooldown--;
+    if (this.cooldown >= 0) {
+        this.cooldown -= dt;
     }
 }
 // change this to reference a list or something where a name can be used to determine the properties

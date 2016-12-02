@@ -9,16 +9,14 @@ var GameEngine = function() {
     this.userGold = 10;
     this.level = 0;
     this.userLives = 30;
-    this.activeMonsters = []; // List of active monsters in the
+    this.activeMonsters = []; // List of active monsters in the game
     this.towers = []; // object of tower objects
     this.timer = 1;
     this.nextLevelCalled = false;
     this.monstersToCreate = 0;
     this.gamePath = _convertPathToLines(pathCoordinates.path);
     this.gameState = "start"; // Possible values are start, lost, won, playing
-    console.log(this.gamePath);
     this.gameGrid = _initiateGrid(this.gamePath);
-    console.table(this.gameGrid)
 }
 
 GameEngine.prototype.addMonster = function(level) {
@@ -27,10 +25,15 @@ GameEngine.prototype.addMonster = function(level) {
     this.activeMonsters.push(monster);
 }
 
-GameEngine.prototype.addTower = function(id, position, goldCost) {
+GameEngine.prototype.addTower = function(id, position, gridPosition, goldCost) {
     this.userGold -= goldCost;
     var tower = new Tower(position, id);
     this.towers.push(tower);
+    // Set gameGrid positioning
+    this.gameGrid[gridPosition.x][gridPosition.y] = false;
+    this.gameGrid[gridPosition.x + 1][gridPosition.y] = false;
+    this.gameGrid[gridPosition.x][gridPosition.y + 1] = false;
+    this.gameGrid[gridPosition.x + 1][gridPosition.y + 1] = false;
 }
 
 /*
@@ -120,7 +123,7 @@ GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordin
     if (this.validateTowerPlacement(gridPosition)
     && this.checkGold(goldCost)) {
 
-        this.addTower(towerName, towerCoordinates, goldCost);
+        this.addTower(towerName, towerCoordinates, gridPosition, goldCost);
         return {
             placed: true
         };
@@ -176,7 +179,8 @@ GameEngine.prototype.render = function() {
 
 };
 
-GameEngine.prototype.runCycle = function() {
+// Changed values to be based off dt (change in time since last render)
+GameEngine.prototype.runCycle = function(dt) {
     this.checkGameState();
 
     if (this.gameState === "playing") {
@@ -187,24 +191,28 @@ GameEngine.prototype.runCycle = function() {
         // Adds monsters if there are monsters to create - creates 10 per level
         if (this.monstersToCreate > 0) {
             //  timer to add monsters
-            this.timer--;
-            if (this.timer < 1) {
+            this.timer -= dt;
+            if (this.timer <= 0) {
                 this.addMonster(this.level); // send through the level number
-                this.timer = 30;
+                this.timer = 1; // Every 1 second create a new monster
                 this.monstersToCreate--;
                 this.nextLevelCalled = false;
             }
         }
 
         // Calls the next level if all the monsters are dead - TODO add a delay to space out between levels
-        if (this.activeMonsters.length === 0) {
-            this.nextLevel();
+        // Checks whether there are any monsters left and whether all the monsters have been created
+        if (this.activeMonsters.length === 0 && this.monstersToCreate === 0) {
+            setTimeout(function() {
+                this.nextLevel();
+            }, 2000);
+
             this.nextLevelCalled = true;
         } else {
             this.activeMonsters.forEach(function(activeMonster, i, monsterArray) {
                 // moves the monsters and checks whether they get to the end of the cycle
                 // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
-                var monsterStatus = activeMonster.runCycle(this.gamePath);
+                var monsterStatus = activeMonster.runCycle(this.gamePath, dt);
 
                 if (!monsterStatus.alive) {
                     if (monsterStatus.giveGold) {
@@ -218,7 +226,7 @@ GameEngine.prototype.runCycle = function() {
 
             // Run tower cycles here - pass in active monsters - towers only create projectiles
             this.towers.forEach(function(tower) {
-                tower.runCycle(this.activeMonsters); // Pass in active monsters and attach projectiles to them
+                tower.runCycle(this.activeMonsters, dt); // Pass in active monsters and attach projectiles to them
             }.bind(this));
         }
 
