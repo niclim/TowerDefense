@@ -5,6 +5,8 @@ var Tower = require("./classes/Tower.js"),
 // Import and declare utility functions
 var utils = require("./utils.js");
 
+var constants = require("./gameData/gameConstants.js");
+
 // Cache reused DOM elements
 var infoName = document.getElementById("info-name"),
     infoIcon = document.getElementById("info-icon"),
@@ -14,10 +16,10 @@ var infoName = document.getElementById("info-name"),
     infoBox4 = document.getElementById("info-box-4"),
     levelInfo = document.getElementById("level"),
     goldInfo = document.getElementById("gold"),
-    livesInfo = document.getElementById("lives");
-
-var towerCards = document.getElementsByClassName("tower-card"),
+    livesInfo = document.getElementById("lives"),
+    towerCards = document.getElementsByClassName("tower-card"),
     towerCardList = [];
+
 // Convert from nodelist to array
 towerCards = Array.prototype.slice.call(towerCards);
 
@@ -50,10 +52,11 @@ game = new GameEngine;
 dynamicCanvas = document.getElementById('dynamic');
 dynamicContext = dynamicCanvas.getContext('2d');
 
-var lastTime;
-renderCycle = function() {
+// Declare the game loop
+var lastTime,
+    gameLoop = function() {
     var now = Date.now(),
-        dt = (now - lastTime) / 1000.0;
+        dt = (now - lastTime) / 1000.0; // Convert to seconds
 
     game.runCycle(dt);
 
@@ -62,13 +65,13 @@ renderCycle = function() {
     game.render();
     updateGameInformation();
     renderTowerPlacement();
-    renderMessage();
-    requestAnimationFrame(renderCycle);
+    renderMessage(dt);
+    requestAnimationFrame(gameLoop);
 }
 
 /* ================== Render functions =================*/
 /* =====================================================*/
-// Render functions run every game cycle (on the renderCycle function call)
+// Render functions run every game cycle (on the gameLoop function call)
 // Renders based on the state variables
 
 function updateGameInformation() {
@@ -123,22 +126,21 @@ function renderDefaultInformation() {
     infoBox4.innerHTML = "This 1231241235" ;
 }
 
-// Maybe change this to "renderMessage"
-function renderMessage() {
+function renderMessage(dt) {
     if (activeMessage.message === null) {
         return;
     } else {
-        dynamicContext.globalAlpha = activeMessage.timer / 50;
-        dynamicContext.font = '40pt Droid Sans';
+        dynamicContext.globalAlpha = activeMessage.timer > 0 ? activeMessage.timer : 0; // Sets transparency to 0 if a negative number
+        dynamicContext.font = constants.MESSAGEFONT;
         dynamicContext.textAlign = "center";
-        dynamicContext.fillStyle = "red";
-        dynamicContext.fillText(activeMessage.message, 450, 50);
+        dynamicContext.fillStyle = constants.MESSAGECOLOR;
+        dynamicContext.fillText(activeMessage.message, constants.CANVASWIDTH / 2, 50);
         dynamicContext.globalAlpha = 1;
 
-        if (activeMessage.timer === 0) {
-            activeMessage = {message: null}; // Reset error message
+        if (activeMessage.timer <= 0) {
+            activeMessage = {message: null}; // Reset message
         } else {
-            activeMessage.timer--;
+            activeMessage.timer -= dt;
         }
     }
 }
@@ -162,14 +164,14 @@ function renderTowerPlacement() {
     }
     dynamicContext.fillRect(coordinates.x,
                             coordinates.y,
-                            50,
-                            50
+                            constants.TOWERLENGTH,
+                            constants.TOWERLENGTH
      );
 
     dynamicContext.globalAlpha = 0.7;
-    dynamicContext.arc(coordinates.x + 25,
-                       coordinates.y + 25,
-                       30,
+    dynamicContext.arc(coordinates.x + constants.TOWERLENGTH / 2,
+                       coordinates.y + constants.TOWERLENGTH / 2,
+                       constants.TOWERLENGTH * 0.6,
                        0,
                        2 * Math.PI,
                        false
@@ -192,7 +194,7 @@ document.getElementById("start-btn").addEventListener("click", function() {
     game.gameStart();
     // Sets up game loop and render loop
     lastTime = Date.now();
-    requestAnimationFrame(renderCycle);
+    requestAnimationFrame(gameLoop);
 });
 
 // On clicking the information button, show the information panel
@@ -331,7 +333,7 @@ function canvasClick(e) {
         if (!towerPlaced.placed) {
             activeMessage = {
                 message: towerPlaced.message,
-                timer: 50 // frames
+                timer: constants.MESSAGEDURATION // seconds
             }
         }
 

@@ -3,15 +3,16 @@ var Monster = require("./Monster.js"),
     Tower = require("./Tower.js"),
     towerData = require("../gameData/towerdata.js"),
     utils = require("../utils.js"),
-    pathCoordinates = require("../gameData/pathdata.js");
+    pathCoordinates = require("../gameData/pathdata.js"),
+    constants = require("../gameData/gameConstants.js");
 
 var GameEngine = function() {
-    this.userGold = 10;
+    this.userGold = constants.STARTINGGOLD;
     this.level = 0;
-    this.userLives = 30;
+    this.userLives = constants.STARTINGLIVES;
     this.activeMonsters = []; // List of active monsters in the game
     this.towers = []; // object of tower objects
-    this.timer = 1;
+    this.timer = constants.TIMEBETWEENMONSTERCREATE;
     this.nextLevelCalled = false;
     this.monstersToCreate = 0;
     this.gamePath = _convertPathToLines(pathCoordinates.path);
@@ -72,7 +73,7 @@ GameEngine.prototype.checkClickLocation = function(position) {
 }
 
 GameEngine.prototype.checkGameState = function() {
-    if (this.level === 51) { // MAX level
+    if (this.level === constants.FINALLEVEL + 1) { // MAX level
         this.gameState = "won";
     } else if (this.userLives <= 0) {
         this.gameState = "lost";
@@ -104,7 +105,7 @@ GameEngine.prototype.gameWon = function() {
 GameEngine.prototype.nextLevel = function() {
     // Only calls the next level once - nextLevelCalled is reset on a new monster creation
     if (this.nextLevelCalled === false) {
-        this.monstersToCreate = 10;
+        this.monstersToCreate = constants.MONSTERSPERLEVEL;
         this.level++;
     }
 }
@@ -132,12 +133,12 @@ GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordin
         if (!this.validateTowerPlacement(gridPosition)) {
             return {
                 placed: false,
-                message: "Invalid Tower Placement"
+                message: constants.MESSAGEINVALIDPLACEMENT
             }
         } else {
             return {
                 placed: false,
-                message: "Not Enough Gold"
+                message: constants.MESSAGENOTENOUGHGOLD
             }
         }
     }
@@ -194,7 +195,7 @@ GameEngine.prototype.runCycle = function(dt) {
             this.timer -= dt;
             if (this.timer <= 0) {
                 this.addMonster(this.level); // send through the level number
-                this.timer = 1; // Every 1 second create a new monster
+                this.timer = constants.TIMEBETWEENMONSTERCREATE; // Every 1 second create a new monster
                 this.monstersToCreate--;
                 this.nextLevelCalled = false;
             }
@@ -205,7 +206,7 @@ GameEngine.prototype.runCycle = function(dt) {
         if (this.activeMonsters.length === 0 && this.monstersToCreate === 0) {
             setTimeout(function() {
                 this.nextLevel();
-            }, 2000);
+            }, constants.TIMEBETWEENLEVELS * 1000);
 
             this.nextLevelCalled = true;
         } else {
@@ -293,7 +294,7 @@ function _createPathBlocks(pathLines) {
     // Loops through all the pathLines and creates blocks based on that
     for (var i = 0; i < pathLines.length; i++) {
         // blockAmount refers to the amount of blocks that follow the path
-        var blockAmount = Math.floor(pathLines[i].distance / 25) + 1,
+        var blockAmount = Math.floor(pathLines[i].distance / constants.GRIDSIZE) + 1,
             pathDirection;
         /* Set direction
         x: 1 = right
@@ -309,7 +310,7 @@ function _createPathBlocks(pathLines) {
                 pathDirection = {
                     x: 0,
                     y: -1,
-                    xSide: 12.5,
+                    xSide: constants.GRIDSIZE / 2,
                     ySide: 0
                 }
                 break;
@@ -317,7 +318,7 @@ function _createPathBlocks(pathLines) {
                 pathDirection = {
                     x: 0,
                     y: 1,
-                    xSide: 12.5,
+                    xSide: constants.GRIDSIZE / 2,
                     ySide: 0
                 }
                 break;
@@ -326,7 +327,7 @@ function _createPathBlocks(pathLines) {
                     x: -1,
                     y: 0,
                     xSide: 0,
-                    ySide: 12.5
+                    ySide: constants.GRIDSIZE / 2
                 }
                 break;
             case "right":
@@ -334,7 +335,7 @@ function _createPathBlocks(pathLines) {
                     x: 1,
                     y: 0,
                     xSide: 0,
-                    ySide: 12.5
+                    ySide: constants.GRIDSIZE / 2
                 }
                 break;
             default:
@@ -353,21 +354,21 @@ function _createPathBlocks(pathLines) {
 
                 x: pathLines[i].startPoint.x +
                     pathDirection.xSide +
-                    (pathDirection.x * 25 * j),
+                    (pathDirection.x * constants.GRIDSIZE * j),
 
                 y: pathLines[i].startPoint.y +
                     pathDirection.ySide +
-                    (pathDirection.y * 25 * j )
+                    (pathDirection.y * constants.GRIDSIZE * j )
 
             },
                 blockAfter = {
                     x: pathLines[i].startPoint.x +
                         pathDirection.xSide +
-                        (pathDirection.x * 25 * j),
+                        (pathDirection.x * constants.GRIDSIZE * j),
 
                     y: pathLines[i].startPoint.y  +
                         pathDirection.ySide +
-                        (pathDirection.y * 25 * j)
+                        (pathDirection.y * constants.GRIDSIZE * j)
             };
             blocks.push(utils.convertToBlock(blockBefore));
             blocks.push(utils.convertToBlock(blockAfter));
@@ -383,11 +384,14 @@ function _createPathBlocks(pathLines) {
 // can be initiated by [x][y] - each block has a boolean to represent whether something is there
 function _initiateGrid(pathLines) {
     var grid = [],
-        blocks = _createPathBlocks(pathLines);
+        blocks = _createPathBlocks(pathLines),
+        xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
+        yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE;
+        
     // Create the grid
-    for (var x = 0; x < 36; x++) {
+    for (var x = 0; x < xGridAmount; x++) {
         grid[x] = [];
-        for (var y = 0; y < 24; y++) {
+        for (var y = 0; y < yGridAmount; y++) {
             grid[x][y] = {
                 empty: true
             };

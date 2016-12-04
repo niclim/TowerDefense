@@ -1,6 +1,7 @@
 var towerData = require("../gameData/towerdata.js"),
     utils = require("../utils.js"),
-    Projectile = require("./Projectiles.js");
+    Projectile = require("./Projectiles.js"),
+    constants = require("../gameData/gameConstants.js");
 
 // Position refers to the upper left corner of the elements
 // Tower width - 50 x 50
@@ -17,7 +18,7 @@ var Tower = function(position, id) {
     this.effect = towerData[id].effect; // Special effect (e.g. slow, splash, etc)
     this.goldCost = towerData[id].goldCost;
     this.position = position; // object with x and y coordinates - references the top left corner of the tower
-    this.position.sideLength = 50;
+    this.position.sideLength = constants.TOWERLENGTH;
 }
 // Method the game object uses to run towers
 Tower.prototype.runCycle = function(activeMonsters, dt) {
@@ -58,8 +59,8 @@ Tower.prototype.draw = function() {
     dynamicContext.fillStyle = "green";
     dynamicContext.fillRect(this.position.x,
                             this.position.y,
-                            50,
-                            50);
+                            constants.TOWERLENGTH,
+                            constants.TOWERLENGTH);
     dynamicContext.closePath();
 }
 

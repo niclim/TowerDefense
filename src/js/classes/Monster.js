@@ -1,5 +1,6 @@
 var monsterData = require("../gameData/monsterdata.js"),
-    utils = require("../utils.js");
+    utils = require("../utils.js"),
+    constants = require("../gameData/gameConstants.js");
 
 var Monster = function(id) {
     this.id = id;
@@ -11,7 +12,7 @@ var Monster = function(id) {
     this.projectiles = [];
     this.distanceTravelled = 0;
     this.position = {}; // Initial position is defined by the path
-    this.sideLength = 30;
+    this.sideLength = constants.MONSTERLENGTH;
 };
 // Method the game object uses to move monsters
 Monster.prototype.runCycle = function(gamePath, dt) {
@@ -40,13 +41,13 @@ Monster.prototype.runCycle = function(gamePath, dt) {
 
 Monster.prototype.draw = function() {
     dynamicContext.beginPath();
-    dynamicContext.rect(this.position.x, this.position.y, 30, 30);
+    dynamicContext.rect(this.position.x, this.position.y, constants.MONSTERLENGTH, constants.MONSTERLENGTH);
     dynamicContext.stroke();
     dynamicContext.fillStyle = "red";
     dynamicContext.fillRect(this.position.x,
-                            this.position.y + 30/3,
-                            30 * this.currentHp/this.maxHp,
-                            30/3);
+                            this.position.y + constants.MONSTERLENGTH/3,
+                            constants.MONSTERLENGTH * this.currentHp/this.maxHp,
+                            constants.MONSTERLENGTH/3);
     dynamicContext.closePath();
 
 }
