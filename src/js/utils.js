@@ -65,20 +65,20 @@ function convertDistanceToCoordinates(distance, pathLines) {
             // 15 is a half of the monster width
             // values used to offset the positioning based on the monster direciton movement
             case "up":
-            coordinates.x -= constants.MONSTERLENGTH;
-            coordinates.y -= distance + constants.MONSTERLENGTH;
+            coordinates.x -= constants.MONSTERLENGTH/2;
+            coordinates.y -= distance + constants.MONSTERLENGTH/2;
             break;
             case "down":
-            coordinates.x -= constants.MONSTERLENGTH;
-            coordinates.y += distance - constants.MONSTERLENGTH;
+            coordinates.x -= constants.MONSTERLENGTH/2;
+            coordinates.y += distance - constants.MONSTERLENGTH/2;
             break;
             case "left":
-            coordinates.x -= distance + constants.MONSTERLENGTH;
-            coordinates.y -= constants.MONSTERLENGTH;
+            coordinates.x -= distance + constants.MONSTERLENGTH/2;
+            coordinates.y -= constants.MONSTERLENGTH/2;
             break;
             case "right":
-            coordinates.x += distance - constants.MONSTERLENGTH;
-            coordinates.y -= constants.MONSTERLENGTH;
+            coordinates.x += distance - constants.MONSTERLENGTH/2;
+            coordinates.y -= constants.MONSTERLENGTH/2;
             break;
             default:
             throw new Error("Invalid direction provided in pathLines");
