@@ -1,3 +1,5 @@
+var constants = require("./gameData/gameConstants.js");
+
 /* ================== Public functions =================*/
 /* =====================================================*/
 function addClass(element, cssClass) {
@@ -63,20 +65,20 @@ function convertDistanceToCoordinates(distance, pathLines) {
             // 15 is a half of the monster width
             // values used to offset the positioning based on the monster direciton movement
             case "up":
-            coordinates.x -= 15;
-            coordinates.y -= distance + 15;
+            coordinates.x -= constants.MONSTERLENGTH;
+            coordinates.y -= distance + constants.MONSTERLENGTH;
             break;
             case "down":
-            coordinates.x -= 15;
-            coordinates.y += distance - 15;
+            coordinates.x -= constants.MONSTERLENGTH;
+            coordinates.y += distance - constants.MONSTERLENGTH;
             break;
             case "left":
-            coordinates.x -= distance + 15;
-            coordinates.y -= 15;
+            coordinates.x -= distance + constants.MONSTERLENGTH;
+            coordinates.y -= constants.MONSTERLENGTH;
             break;
             case "right":
-            coordinates.x += distance - 15;
-            coordinates.y -= 15;
+            coordinates.x += distance - constants.MONSTERLENGTH;
+            coordinates.y -= constants.MONSTERLENGTH;
             break;
             default:
             throw new Error("Invalid direction provided in pathLines");
@@ -108,22 +110,26 @@ function convertDistanceToCoordinates(distance, pathLines) {
 // returns a block object {x, y} with block numbers
 // Handles edge cases of the block being defined at the edge (36 and 24 which are invalid in the )
 function convertToBlock(position) {
-    if (position.x > (36*25) || position.y > (24*25)) {
+    var xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
+        yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE;
+
+    if (position.x > (xGridAmount * (constants.TOWERLENGTH/2)) ||
+        position.y > (yGridAmount * (constants.TOWERLENGTH/2))) {
         console.log(position)
         throw new Error("Position out of grid range");
     }
 
     var block = {
-        x: Math.floor(position.x / 25),
-        y: Math.floor(position.y / 25)
+        x: Math.floor(position.x / (constants.TOWERLENGTH/2)),
+        y: Math.floor(position.y / (constants.TOWERLENGTH/2))
     };
     // Adjusts if mouse is at end of container
     // 36 blocks width and 24 blocks height
-    if (block.x >= 35) {
+    if (block.x >= xGridAmount - 1) {
         block.x--;
     }
 
-    if (block.y >= 23) {
+    if (block.y >= yGridAmount - 1) {
         block.y--;
     }
 
@@ -139,14 +145,17 @@ function convertPositionToTower(position) {
     var towerPosition = {
         grid: {},
         coordinates: {},
-        side: 50
-    };
+        side: constants.TOWERLENGTH
+    },
+        xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
+        yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE;
+
 
     towerPosition.grid = convertToBlock(position);
 
     // Container width and height 900 and 600 px respectively
-    towerPosition.coordinates.x = (towerPosition.grid.x / 36) * 900;
-    towerPosition.coordinates.y = (towerPosition.grid.y / 24) * 600;
+    towerPosition.coordinates.x = (towerPosition.grid.x / xGridAmount) * constants.CANVASWIDTH;
+    towerPosition.coordinates.y = (towerPosition.grid.y / yGridAmount) * constants.CANVASHEIGHT;
     return towerPosition;
 }
 /*

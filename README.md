@@ -9,7 +9,6 @@ Towers have a size of 2x2
 
 ### TODO
 * Write tests
-* Pull out all the game constants and store them in a file somewhere
 
 ### TODO later
 * Come up with a better name than awesome TD
