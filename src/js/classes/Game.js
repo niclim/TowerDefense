@@ -31,10 +31,10 @@ GameEngine.prototype.addTower = function(id, position, gridPosition, goldCost) {
     var tower = new Tower(position, id);
     this.towers.push(tower);
     // Set gameGrid positioning
-    this.gameGrid[gridPosition.x][gridPosition.y] = false;
-    this.gameGrid[gridPosition.x + 1][gridPosition.y] = false;
-    this.gameGrid[gridPosition.x][gridPosition.y + 1] = false;
-    this.gameGrid[gridPosition.x + 1][gridPosition.y + 1] = false;
+    this.gameGrid[gridPosition.x][gridPosition.y] = {empty: false};
+    this.gameGrid[gridPosition.x + 1][gridPosition.y] = {empty: false};
+    this.gameGrid[gridPosition.x][gridPosition.y + 1] = {empty: false};
+    this.gameGrid[gridPosition.x + 1][gridPosition.y + 1] = {empty: false};
 }
 
 /*
@@ -104,10 +104,9 @@ GameEngine.prototype.gameWon = function() {
 
 GameEngine.prototype.nextLevel = function() {
     // Only calls the next level once - nextLevelCalled is reset on a new monster creation
-    if (this.nextLevelCalled === false) {
-        this.monstersToCreate = constants.MONSTERSPERLEVEL;
-        this.level++;
-    }
+    this.monstersToCreate = constants.MONSTERSPERLEVEL;
+    this.level++;
+    this.nextLevelCalled = false;
 }
 
 /*
@@ -204,11 +203,13 @@ GameEngine.prototype.runCycle = function(dt) {
         // Calls the next level if all the monsters are dead - TODO add a delay to space out between levels
         // Checks whether there are any monsters left and whether all the monsters have been created
         if (this.activeMonsters.length === 0 && this.monstersToCreate === 0) {
-            setTimeout(function() {
-                this.nextLevel();
-            }, constants.TIMEBETWEENLEVELS * 1000);
+            if (!this.nextLevelCalled) {
+                setTimeout(function() {
+                    this.nextLevel();
+                }.bind(this), constants.TIMEBETWEENLEVELS * 1000);
 
-            this.nextLevelCalled = true;
+                this.nextLevelCalled = true;
+            }
         } else {
             this.activeMonsters.forEach(function(activeMonster, i, monsterArray) {
                 // moves the monsters and checks whether they get to the end of the cycle
@@ -218,10 +219,12 @@ GameEngine.prototype.runCycle = function(dt) {
                 if (!monsterStatus.alive) {
                     if (monsterStatus.giveGold) {
                         this.userGold += activeMonster.bounty
+                    } else {
+                        this.userLives--;
                     }
-                    var monsterDeath = new CustomEvent("monsterDeath", {"detail": {index: i}});
+                    var monsterDeath = new CustomEvent("unitRemoved", {"detail": {index: i, element: "monster"}});
                     document.dispatchEvent(monsterDeath);
-                    monsterArray.splice(i, 1)
+                    monsterArray.splice(i, 1);
                 }
             }.bind(this));
 
@@ -234,6 +237,19 @@ GameEngine.prototype.runCycle = function(dt) {
 
     }
 }
+
+GameEngine.prototype.sellTower = function(towerIndex) {
+    var towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}});
+    document.dispatchEvent(towerDeath);
+    this.userGold += this.towers[towerIndex].totalCost;
+    this.towers.splice(towerIndex, 1);
+    return true;
+}
+
+GameEngine.prototype.upgradeTower = function(towerIndex) {
+    return true;
+}
+
 /*
 Takes in a gridPosition object (points to the top left corner of the tower)
 Towers take up a 2x2 grid - this function checks all positions
@@ -352,26 +368,36 @@ function _createPathBlocks(pathLines) {
 
             var blockBefore = {
 
-                x: pathLines[i].startPoint.x +
+                x: pathLines[i].startPoint.x -
                     pathDirection.xSide +
-                    (pathDirection.x * constants.GRIDSIZE * j),
+                    (pathDirection.x * constants.GRIDSIZE * j) +
+                    (pathDirection.x * constants.GRIDSIZE / 2), // Adds a slight offset
 
-                y: pathLines[i].startPoint.y +
+                y: pathLines[i].startPoint.y -
                     pathDirection.ySide +
-                    (pathDirection.y * constants.GRIDSIZE * j )
+                    (pathDirection.y * constants.GRIDSIZE * j ) +
+                    (pathDirection.y * constants.GRIDSIZE / 2) // Adds a slight offset
 
             },
                 blockAfter = {
                     x: pathLines[i].startPoint.x +
                         pathDirection.xSide +
-                        (pathDirection.x * constants.GRIDSIZE * j),
+                        (pathDirection.x * constants.GRIDSIZE * j) +
+                        (pathDirection.x * constants.GRIDSIZE / 2), // Adds a slight offset
 
                     y: pathLines[i].startPoint.y  +
                         pathDirection.ySide +
-                        (pathDirection.y * constants.GRIDSIZE * j)
+                        (pathDirection.y * constants.GRIDSIZE * j) +
+                        (pathDirection.y * constants.GRIDSIZE / 2) // Adds a slight offset
             };
-            blocks.push(utils.convertToBlock(blockBefore));
-            blocks.push(utils.convertToBlock(blockAfter));
+            // Edge case for when the path exits the screen (there is definitely a better way to handle this)
+            // This is such a bad solution lol. 
+            if (blockBefore.x < constants.CANVASWIDTH && blockBefore.y < constants.CANVASHEIGHT) {
+                blocks.push(utils.convertToBlock(blockBefore));
+            }
+            if (blockAfter.x < constants.CANVASWIDTH && blockAfter.y < constants.CANVASHEIGHT) {
+                blocks.push(utils.convertToBlock(blockAfter));
+            }
         }
 
 
@@ -387,7 +413,7 @@ function _initiateGrid(pathLines) {
         blocks = _createPathBlocks(pathLines),
         xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
         yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE;
-        
+
     // Create the grid
     for (var x = 0; x < xGridAmount; x++) {
         grid[x] = [];
@@ -398,7 +424,7 @@ function _initiateGrid(pathLines) {
         }
     }
     // Loop through the blocks (which are on the path) and
-    blocks.map(function(block, i) {
+    blocks.map(function(block) {
         grid[block.x][block.y] = {
             empty: false
         };
