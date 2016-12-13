@@ -5,7 +5,8 @@ var Tower = require("./classes/Tower.js"),
 // Import and declare utility functions
 var utils = require("./utils.js");
 
-var constants = require("./gameData/gameConstants.js");
+var constants = require("./gameData/gameConstants.js"),
+    towerData = require("./gameData/towerdata.js");
 
 // Cache reused DOM elements
 var infoName = document.getElementById("info-name"),
@@ -53,8 +54,8 @@ dynamicCanvas = document.getElementById('dynamic');
 dynamicContext = dynamicCanvas.getContext('2d');
 
 // Declare the game loop
-var lastTime,
-    gameLoop = function() {
+var lastTime;
+function gameLoop() {
     var now = Date.now(),
         dt = (now - lastTime) / 1000.0; // Convert to seconds
 
@@ -63,7 +64,7 @@ var lastTime,
     lastTime = now;
     // Renders methods based on state variables
     game.render();
-    updateGameInformation();
+    updateGameDependentInformation();
     renderTowerPlacement();
     renderMessage(dt);
     requestAnimationFrame(gameLoop);
@@ -71,9 +72,16 @@ var lastTime,
 
 /* ================== Render functions =================*/
 /* =====================================================*/
-// Render functions run every game cycle (on the gameLoop function call)
-// Renders based on the state variables
 
+function updateGameDependentInformation() {
+    if (activeCanvasElement.type === "monster") {
+        document.getElementById("monsterHp").innerHTML = game.activeMonsters[activeCanvasElement.index].currentHp;
+    } else if (activeCanvasElement.type === "tower") {
+        // Add any relevant tower information here
+    }
+}
+
+// Moved this outside of the gameLoop, will only update the relevant data when necessary
 function updateGameInformation() {
     livesInfo.innerHTML = game.userLives;
     goldInfo.innerHTML = game.userGold;
@@ -97,7 +105,7 @@ function renderMonsterInformation(index) {
 
     infoName.innerHTML = id;
     // Change icon to active monster - use a sprite
-    infoBox1.innerHTML = "HP: " + currentHp + " / " + maxHp;
+    infoBox1.innerHTML = "HP: <span id='monsterHp'>" + currentHp + "</span> / " + maxHp;
     infoBox2.innerHTML = "Type: " + type;
     infoBox3.innerHTML = "Strengths: All sorts mate" ;
     infoBox4.innerHTML = "Weaknesses: Ducks" ;
@@ -105,16 +113,30 @@ function renderMonsterInformation(index) {
 
 // ID refers to the type of tower and index is the index of the active tower in the active tower's array
 function renderTowerInformation(index) {
-    var id = game.towers[index].id;
+    var id = game.towers[index].id,
+        damage = towerData[id].projectile.damage,
+        type = towerData[id].projectile.type,
+        effect = towerData[id].projectile.effect,
+        range = game.towers[index].range,
+        speed = game.towers[index].attackSpeed;
+
+    // Get callbacks to upgrade and sell tower
 
     infoName.innerHTML = id;
-    // Change icon to active monster - use a sprite
-    infoBox1.innerHTML = "Damage: <br> Range: <br> Effect: ";
-    infoBox2.innerHTML = "Attack Speed: <br> Type: " ;
-    infoBox3.innerHTML = "<a class='waves-effect waves-light btn red'>Upgrade</a>" ;
-    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red'>Sell</a>" ;
     // Change icon to tower monster - use a sprite
+    infoBox1.innerHTML = "Damage: " + damage + " <br>Range: " + range + " <br>Effect: " + effect;
+    infoBox2.innerHTML = "Attack Speed: " + speed + " <br>Type: " + type;
+    infoBox3.innerHTML = "<a class='waves-effect waves-light btn red'>Upgrade</a>";
+    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red'>Sell</a>";
 
+    infoBox3.getElementsByTagName("a")[0].addEventListener("click", function() {
+        // Add tower upgrade function here
+    });
+
+    infoBox4.getElementsByTagName("a")[0].addEventListener("click", function() {
+        game.sellTower(activeCanvasElement.index);
+        updateGameInformation();
+    });
 }
 
 function renderDefaultInformation() {
@@ -194,7 +216,7 @@ document.getElementById("start-btn").addEventListener("click", function() {
     game.gameStart();
     // Sets up game loop and render loop
     lastTime = Date.now();
-    requestAnimationFrame(gameLoop);
+    gameLoop();
 });
 
 // On clicking the information button, show the information panel
@@ -222,17 +244,30 @@ document.onkeydown = function(e) {
     }
 }
 
-// updates activeCanvasElement when monster death (if the active element is a monster)
-document.addEventListener("monsterDeath", function(e) {
-    if (activeCanvasElement.type === "monster") {
+// updates activeCanvasElement when monster death or tower removed affects the current selected target
+document.addEventListener("unitRemoved", function(e) {
+    // Updates if the active element is the same as the type of unit removed
+    if (activeCanvasElement.type === e.detail.element) {
         if (e.detail.index < activeCanvasElement.index) {
-            activeCanvasElement.index--;
+            activeCanvasElement.index--; // Update positioning in element
         } else if (e.detail.index === activeCanvasElement.index) {
             activeCanvasElement = {type: null} // Reset
         }
+        updateGameInformation();
     }
 });
 
+// This is the upgrade click event listener
+infoBox3.addEventListener("click", function(e) {
+    console.log(e)
+})
+
+// This is the sell tower event listener
+infoBox4.addEventListener("click", function(e) {
+    if (activeCanvasElement) {
+
+    }
+})
 /* =================== UI Functions ====================*/
 /* =====================================================*/
 /* Click event listener on the tower cards

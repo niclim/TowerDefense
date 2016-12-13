@@ -241,7 +241,7 @@ GameEngine.prototype.runCycle = function(dt) {
 GameEngine.prototype.sellTower = function(towerIndex) {
     var towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}});
     document.dispatchEvent(towerDeath);
-    this.userGold += this.towers[towerIndex].totalCost;
+    this.userGold += Math.floor(this.towers[towerIndex].totalCost * 0.75);
     this.towers.splice(towerIndex, 1);
     return true;
 }
@@ -391,7 +391,7 @@ function _createPathBlocks(pathLines) {
                         (pathDirection.y * constants.GRIDSIZE / 2) // Adds a slight offset
             };
             // Edge case for when the path exits the screen (there is definitely a better way to handle this)
-            // This is such a bad solution lol. 
+            // This is such a bad solution lol.
             if (blockBefore.x < constants.CANVASWIDTH && blockBefore.y < constants.CANVASHEIGHT) {
                 blocks.push(utils.convertToBlock(blockBefore));
             }

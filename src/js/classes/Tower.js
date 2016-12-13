@@ -10,13 +10,12 @@ var Tower = function(position, id) {
         throw new Error("Invalid tower name, check html dataattribute or towerdata")
     }
     this.id = id;
-    this.damage = towerData[id].damage;
     this.attackSpeed = towerData[id].attackSpeed; // Attack speed
     this.cooldown = 0;
     this.range = towerData[id].range; // Range of the tower
-    this.type = towerData[id].type; // Type of damage
     this.effect = towerData[id].effect; // Special effect (e.g. slow, splash, etc)
     this.goldCost = towerData[id].goldCost;
+    this.totalCost = towerData[id].totalCost;
     this.position = position; // object with x and y coordinates - references the top left corner of the tower
     this.position.sideLength = constants.TOWERLENGTH;
 }

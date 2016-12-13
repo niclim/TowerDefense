@@ -16,9 +16,4 @@ module.exports = {
     MESSAGEDURATION: 0.8,
     MESSAGEINVALIDPLACEMENT: "Invalid Tower Placement",
     MESSAGENOTENOUGHGOLD: "Not Enough Gold",
-
-
-
-
-
 }
