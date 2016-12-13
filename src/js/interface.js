@@ -74,6 +74,10 @@ function gameLoop() {
 /* =====================================================*/
 
 function updateGameDependentInformation() {
+    livesInfo.innerHTML = game.userLives;
+    goldInfo.innerHTML = game.userGold;
+    levelInfo.innerHTML = game.level;
+
     if (activeCanvasElement.type === "monster") {
         document.getElementById("monsterHp").innerHTML = game.activeMonsters[activeCanvasElement.index].currentHp;
     } else if (activeCanvasElement.type === "tower") {
@@ -82,11 +86,7 @@ function updateGameDependentInformation() {
 }
 
 // Moved this outside of the gameLoop, will only update the relevant data when necessary
-function updateGameInformation() {
-    livesInfo.innerHTML = game.userLives;
-    goldInfo.innerHTML = game.userGold;
-    levelInfo.innerHTML = game.level;
-
+function updateInformationPanel() {
     if (activeCanvasElement.type === "monster") {
         renderMonsterInformation(activeCanvasElement.index);
     } else if (activeCanvasElement.type === "tower") {
@@ -135,7 +135,7 @@ function renderTowerInformation(index) {
 
     infoBox4.getElementsByTagName("a")[0].addEventListener("click", function() {
         game.sellTower(activeCanvasElement.index);
-        updateGameInformation();
+        updateInformationPanel();
     });
 }
 
@@ -253,7 +253,7 @@ document.addEventListener("unitRemoved", function(e) {
         } else if (e.detail.index === activeCanvasElement.index) {
             activeCanvasElement = {type: null} // Reset
         }
-        updateGameInformation();
+        updateInformationPanel();
     }
 });
 
@@ -377,7 +377,7 @@ function canvasClick(e) {
     } else {
         // User is not running a tower placement
         activeCanvasElement = game.checkClickLocation(position);
-        updateGameInformation();
+        updateInformationPanel();
     }
 
 }
