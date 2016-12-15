@@ -49,7 +49,7 @@ var activeCanvasElement = {type: null},
     };
 
 //  creates global variables
-game = new GameEngine;
+game = new GameEngine; // Privatize this later
 dynamicCanvas = document.getElementById('dynamic');
 dynamicContext = dynamicCanvas.getContext('2d');
 
@@ -118,7 +118,8 @@ function renderTowerInformation(index) {
         type = towerData[id].projectile.type,
         effect = towerData[id].projectile.effect,
         range = game.towers[index].range,
-        speed = game.towers[index].attackSpeed;
+        speed = game.towers[index].attackSpeed,
+        upgradeAvailable = towerData[id].upgrade.available;
 
     // Get callbacks to upgrade and sell tower
 
@@ -126,11 +127,20 @@ function renderTowerInformation(index) {
     // Change icon to tower monster - use a sprite
     infoBox1.innerHTML = "Damage: " + damage + " <br>Range: " + range + " <br>Effect: " + effect;
     infoBox2.innerHTML = "Attack Speed: " + speed + " <br>Type: " + type;
-    infoBox3.innerHTML = "<a class='waves-effect waves-light btn red'>Upgrade</a>";
+    infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red'>Upgrade</a>" : "";
     infoBox4.innerHTML = "<a class='waves-effect waves-light btn red'>Sell</a>";
 
+    // These are destroyed when different information is rendered
     infoBox3.getElementsByTagName("a")[0].addEventListener("click", function() {
-        // Add tower upgrade function here
+        var upgraded = game.upgradeTower(activeCanvasElement.index);
+        if (upgraded) {
+            updateInformationPanel();
+        } else {
+            activeMessage = {
+                message: constants.MESSAGENOTENOUGHGOLD,
+                timer: constants.MESSAGEDURATION // seconds
+            }
+        }
     });
 
     infoBox4.getElementsByTagName("a")[0].addEventListener("click", function() {
@@ -257,17 +267,6 @@ document.addEventListener("unitRemoved", function(e) {
     }
 });
 
-// This is the upgrade click event listener
-infoBox3.addEventListener("click", function(e) {
-    console.log(e)
-})
-
-// This is the sell tower event listener
-infoBox4.addEventListener("click", function(e) {
-    if (activeCanvasElement) {
-
-    }
-})
 /* =================== UI Functions ====================*/
 /* =====================================================*/
 /* Click event listener on the tower cards

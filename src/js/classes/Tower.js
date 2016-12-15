@@ -16,6 +16,7 @@ var Tower = function(position, id) {
     this.effect = towerData[id].effect; // Special effect (e.g. slow, splash, etc)
     this.goldCost = towerData[id].goldCost;
     this.totalCost = towerData[id].totalCost;
+    this.upgrade = towerData[id].upgrade;
     this.position = position; // object with x and y coordinates - references the top left corner of the tower
     this.position.sideLength = constants.TOWERLENGTH;
 }

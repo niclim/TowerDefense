@@ -8,12 +8,13 @@ Position are defined by the top left corner of the element (monsters and towers 
 Towers have a size of 2x2
 
 ### TODO
-* Write tests
+* Complete unit test coverage
+* Build out game data
 
 ### TODO later
+* Add range displays for towers during placement and when clicked
+* Add messages for when something is sold
 * Come up with a better name than awesome TD
 * Think of a theme to go with the better name than awesome TD
 * Make some cool sprites
-* Think of better towers and monsters
 * Get a better background (instead of using canvas to generate the background)
-* Figure out why there is a delay with projectiles after hitting a monster (and the monster dies) - only noticable with a slower game cycle speed

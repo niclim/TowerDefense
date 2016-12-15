@@ -238,16 +238,26 @@ GameEngine.prototype.runCycle = function(dt) {
     }
 }
 
-GameEngine.prototype.sellTower = function(towerIndex) {
+GameEngine.prototype.sellTower = function(towerIndex) {    
     var towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}});
     document.dispatchEvent(towerDeath);
     this.userGold += Math.floor(this.towers[towerIndex].totalCost * 0.75);
     this.towers.splice(towerIndex, 1);
+
     return true;
 }
 
 GameEngine.prototype.upgradeTower = function(towerIndex) {
-    return true;
+    // Check for sufficient gold
+    if (this.towers[towerIndex].upgrade.cost > this.userGold) {
+        return false;
+    } else {
+        // Create a the upgraded tower at the same position and replace that in the towers array
+        var upgradedTower = new Tower(this.towers[towerIndex].position, this.towers[towerIndex].upgrade.name);
+        this.userGold -= this.towers[towerIndex].upgrade.cost;
+        this.towers.splice(towerIndex, 1, upgradedTower);
+        return true;
+    }
 }
 
 /*

@@ -10,6 +10,11 @@ module.exports = {
         attackSpeed: 1, // 1 second per attack
         range: 300,
         goldCost: 10,
-        totalCost: 10 // Used for upgraded towers
+        totalCost: 10, // Used for upgraded towers
+        upgrade: {
+            available: true,
+            cost: 20,
+            name: "advanced"
+        }
     }
 };
