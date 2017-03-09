@@ -119,7 +119,7 @@ function renderTowerInformation(index) {
         effect = towerData[id].projectile.effect,
         range = game.towers[index].range,
         speed = game.towers[index].attackSpeed,
-        upgradeAvailable = towerData[id].upgrade.available;
+        upgradeAvailable = towerData[id].upgrade.length !== 0;
 
     // Get callbacks to upgrade and sell tower
 
@@ -131,17 +131,21 @@ function renderTowerInformation(index) {
     infoBox4.innerHTML = "<a class='waves-effect waves-light btn red'>Sell</a>";
 
     // These are destroyed when different information is rendered
-    infoBox3.getElementsByTagName("a")[0].addEventListener("click", function() {
-        var upgraded = game.upgradeTower(activeCanvasElement.index);
-        if (upgraded) {
-            updateInformationPanel();
-        } else {
-            activeMessage = {
-                message: constants.MESSAGENOTENOUGHGOLD,
-                timer: constants.MESSAGEDURATION // seconds
+    // Refactor this so that you dont ened to add new event listeners everytime this is readded
+    if (upgradeAvailable) {
+        // TODO - this needs to show a different screen for upgrades to be able to choose different upgrades
+        infoBox3.getElementsByTagName("a")[0].addEventListener("click", function() {
+            var upgraded = game.upgradeTower(activeCanvasElement.index);
+            if (upgraded) {
+                updateInformationPanel();
+            } else {
+                activeMessage = {
+                    message: constants.MESSAGENOTENOUGHGOLD,
+                    timer: constants.MESSAGEDURATION // seconds
+                }
             }
-        }
-    });
+        });
+    }
 
     infoBox4.getElementsByTagName("a")[0].addEventListener("click", function() {
         game.sellTower(activeCanvasElement.index);

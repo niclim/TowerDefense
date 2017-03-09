@@ -8,6 +8,8 @@ Position are defined by the top left corner of the element (monsters and towers 
 Towers have a size of 2x2
 
 ### TODO
+* Add upgrades and different types of towers
+* Add upgrade screen so that users can choose different towers to upgrade from
 * Complete unit test coverage
 * Build out game data
 

@@ -15,8 +15,8 @@ var GameEngine = function() {
     this.timer = constants.TIMEBETWEENMONSTERCREATE;
     this.nextLevelCalled = false;
     this.monstersToCreate = 0;
-    this.gamePath = _convertPathToLines(pathCoordinates.path);
     this.gameState = "start"; // Possible values are start, lost, won, playing
+    this.gamePath = _convertPathToLines(pathCoordinates.path);
     this.gameGrid = _initiateGrid(this.gamePath);
 }
 
@@ -238,23 +238,35 @@ GameEngine.prototype.runCycle = function(dt) {
     }
 }
 
-GameEngine.prototype.sellTower = function(towerIndex) {    
-    var towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}});
+GameEngine.prototype.sellTower = function(towerIndex) {
+    var gridPosition = utils.convertToBlock(this.towers[towerIndex].position),
+        towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}});
+    // Dispatch the tower death event for the ui to update
     document.dispatchEvent(towerDeath);
+
     this.userGold += Math.floor(this.towers[towerIndex].totalCost * 0.75);
     this.towers.splice(towerIndex, 1);
 
+    // Remove tower from the game grid
+    this.gameGrid[gridPosition.x][gridPosition.y].empty = true;
+    this.gameGrid[gridPosition.x + 1][gridPosition.y].empty = true;
+    this.gameGrid[gridPosition.x][gridPosition.y + 1].empty = true;
+    this.gameGrid[gridPosition.x + 1][gridPosition.y + 1].empty = true;
     return true;
 }
 
 GameEngine.prototype.upgradeTower = function(towerIndex) {
+    // TODO CHANGE upgrade[0] to upgrade[index] when added
     // Check for sufficient gold
-    if (this.towers[towerIndex].upgrade.cost > this.userGold) {
+    var upgradeName  = this.towers[towerIndex].upgrade[0].name;
+
+    if (towerData[upgradeName].goldCost > this.userGold) {
         return false;
     } else {
         // Create a the upgraded tower at the same position and replace that in the towers array
-        var upgradedTower = new Tower(this.towers[towerIndex].position, this.towers[towerIndex].upgrade.name);
-        this.userGold -= this.towers[towerIndex].upgrade.cost;
+        // TODO for now, upgrade is going to be 0, need to add to handle multiple upgrades
+        var upgradedTower = new Tower(this.towers[towerIndex].position, this.towers[towerIndex].upgrade[0].name);
+        this.userGold -= towerData[upgradeName].goldCost;
         this.towers.splice(towerIndex, 1, upgradedTower);
         return true;
     }
