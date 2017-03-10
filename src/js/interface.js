@@ -112,16 +112,23 @@ function renderMonsterInformation(index) {
 }
 
 // ID refers to the type of tower and index is the index of the active tower in the active tower's array
+// TODO add number of targetrs
 function renderTowerInformation(index) {
     var id = game.towers[index].id,
         damage = towerData[id].projectile.damage,
         type = towerData[id].projectile.type,
-        effect = towerData[id].projectile.effect,
+        effect = "",
         range = game.towers[index].range,
         speed = game.towers[index].attackSpeed,
         upgradeAvailable = towerData[id].upgrade.length !== 0;
 
-    // Get callbacks to upgrade and sell tower
+    if (towerData[id].projectile.effects.length === 0) {
+        effect = "None"
+    } else {
+        towerData[id].projectile.effects.forEach(function(e) {
+            effect += e + " ";
+        });
+    }
 
     infoName.innerHTML = id;
     // Change icon to tower monster - use a sprite

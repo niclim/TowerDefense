@@ -1,51 +1,103 @@
 module.exports = {
+    // Basic tower tree here
     basic: {
         projectile: {
             damage: 5,
             travelTime:0.5, // time in seconds before impact
-            sprite: "abc", // change this to have animations
+            sprite: "TODO", // change this to have animations
             type: "normal", //
-            effect: "none"
+            effects: []
         },
-        sprite: "asdasda", 
+        sprite: "TODO",
+        targets: 1,
         attackSpeed: 1, // 1 second per attack
         range: 300,
         goldCost: 10,
         totalCost: 10, // Used for upgraded towers
-        upgrade: [{
-            name: "advanced"
-        }]
+        upgrade: [
+            {
+                name: "advanced"
+            },
+            {
+                name: "multishot"
+            }
+        ]
     },
     advanced: {
         projectile: {
             damage: 15,
             travelTime:0.5, // time in seconds before impact
-            sprite: "abc", // change this to have animations
-            type: "normal", //
-            effect: "none"
+            sprite: "TODO", // change this to have animations
+            type: "normal",
+            effects: []
         },
-        sprite: "asdasda", 
-        attackSpeed: 0.8, // 1 second per attack
+        sprite: "TODO",
+        targets: 1,
+        attackSpeed: 0.8,
         range: 400,
         goldCost: 20,
-        totalCost: 30, // Used for upgraded towers
-        upgrade: [{
-            name: "expert"
-        }]
+        totalCost: 30,
+        upgrade: [
+            {
+                name: "expert"
+            }
+        ]
     },
     expert: {
         projectile: {
             damage: 45,
             travelTime:0.5, // time in seconds before impact
-            sprite: "abc", // change this to have animations
-            type: "normal", //
-            effect: "none"
+            sprite: "TODO", // change this to have animations
+            type: "normal",
+            effects: []
         },
-        sprite: "asdasda", 
-        attackSpeed: 0.8, // 1 second per attack
+        sprite: "TODO",
+        targets: 1,
+        attackSpeed: 0.8,
         range: 400,
         goldCost: 60,
-        totalCost: 90, // Used for upgraded towers
+        totalCost: 90,
         upgrade: []
+    },
+    multishot: {
+        projectile: {
+            damage: 5,
+            travelTime:0.5, // time in seconds before impact
+            sprite: "TODO", // change this to have animations
+            type: "normal",
+            effects: []
+        },
+        sprite: "TODO",
+        targets: 3,
+        attackSpeed: 0.8,
+        range: 400,
+        goldCost: 20,
+        totalCost: 30,
+        upgrade: [
+            {
+                name: "expertMultishot"
+            }
+        ]
+    },
+    expertMultishot: {
+        projectile: {
+            damage: 30,
+            travelTime:0.5, // time in seconds before impact
+            sprite: "TODO", // change this to have animations
+            type: "normal",
+            effects: []
+        },
+        sprite: "TODO",
+        targets: 4,
+        attackSpeed: 0.8,
+        range: 400,
+        goldCost: 100,
+        totalCost: 130,
+        upgrade: []
+    },
+
+    // Heavy tower tree here
+    heavy: {
+        
     }
 };

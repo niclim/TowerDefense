@@ -12,6 +12,7 @@ Towers have a size of 2x2
 * Add upgrade screen so that users can choose different towers to upgrade from
 * Complete unit test coverage
 * Build out game data
+* Build base monsters (different types and different bosses) and use level as a multiplier to generate different levels
 
 ### TODO later
 * Add range displays for towers during placement and when clicked
