@@ -13,6 +13,15 @@ Towers have a size of 2x2
 * Complete unit test coverage
 * Build out game data
 * Build base monsters (different types and different bosses) and use level as a multiplier to generate different levels
+* add the following effects:
+ - multiple targets
+ - damage over timer
+ - splash
+ - slow
+ - damage amplifier
+ - bounce to next monster
+ - freeze
+ * do some balancing (towers are definitely not balanced lol.)
 
 ### TODO later
 * Add range displays for towers during placement and when clicked
