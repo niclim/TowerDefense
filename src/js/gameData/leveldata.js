@@ -1,5 +1,6 @@
-module.exports = {
-    level: {
-
-    }
-};
+module.exports = [
+        {
+            multiplier: 1,
+            type: "basic"
+        }
+];

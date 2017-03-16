@@ -2,6 +2,7 @@
 var Monster = require("./Monster.js"),
     Tower = require("./Tower.js"),
     towerData = require("../gameData/towerdata.js"),
+    levelData = require("../gameData/leveldata.js"),
     utils = require("../utils.js"),
     pathCoordinates = require("../gameData/pathdata.js"),
     constants = require("../gameData/gameConstants.js");
@@ -21,8 +22,8 @@ var GameEngine = function() {
 }
 
 GameEngine.prototype.addMonster = function(level) {
-    // add monster (specified by name) to game
-    var monster = new Monster("monster1");  // NOTE CHANGE THIS TO REPRESENT MONSTER BASED ON LEVEL
+    level--; // Change to access correct array
+    var monster = new Monster(levelData[level].type, levelData[level].multiplier);
     this.activeMonsters.push(monster);
 }
 
@@ -307,7 +308,6 @@ function _convertPathToLines(path) {
             }
         } else {
             if (path[i+1].x - path[i].x === 0 > 0) {
-
                 line.direction = "left";
             } else {
                 line.direction = "right";
