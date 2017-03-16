@@ -105,7 +105,7 @@ GameEngine.prototype.gameWon = function() {
 
 GameEngine.prototype.nextLevel = function() {
     // Only calls the next level once - nextLevelCalled is reset on a new monster creation
-    this.monstersToCreate = constants.MONSTERSPERLEVEL;
+    this.monstersToCreate = levelData[this.level].amount; // this.level refers to the next level
     this.level++;
     this.nextLevelCalled = false;
 }
