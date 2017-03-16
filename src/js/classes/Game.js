@@ -23,7 +23,8 @@ var GameEngine = function() {
 
 GameEngine.prototype.addMonster = function(level) {
     level--; // Change to access correct array
-    var monster = new Monster(levelData[level].type, levelData[level].multiplier);
+    var multiplier = level / 10,
+        monster = new Monster(levelData[level].type, multiplier);
     this.activeMonsters.push(monster);
 }
 
@@ -421,8 +422,6 @@ function _createPathBlocks(pathLines) {
                 blocks.push(utils.convertToBlock(blockAfter));
             }
         }
-
-
     }
 
     return blocks
@@ -446,7 +445,7 @@ function _initiateGrid(pathLines) {
         }
     }
     // Loop through the blocks (which are on the path) and
-    blocks.map(function(block) {
+    blocks.forEach(function(block) {
         grid[block.x][block.y] = {
             empty: false
         };

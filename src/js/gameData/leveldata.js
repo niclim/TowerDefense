@@ -1,7 +1,14 @@
 module.exports = [
         {
-            multiplier: 1,
             type: "basic",
             amount: 10
-        }
+        },
+        {
+            type: "fire",
+            amount: 10
+        },
+        {
+            type: "ice",
+            amount: 10
+        },
 ];

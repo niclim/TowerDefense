@@ -251,7 +251,7 @@ These event listeners control the application by interacting with the game
 object and by changing the state variables (which the render functions use
 to read)
 */
-towerCards.map(function(towerCard, i) {
+towerCards.forEach(function(towerCard, i) {
     towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
 });

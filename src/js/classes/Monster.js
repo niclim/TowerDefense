@@ -4,11 +4,11 @@ var monsterData = require("../gameData/monsterdata.js"),
 
 var Monster = function(id, multiplier) {
     this.id = id;
-    this.currentHp = monsterData[id].maxHp * multiplier;
-    this.maxHp = monsterData[id].maxHp * multiplier;
+    this.currentHp = Math.floor(monsterData[id].maxHp * multiplier);
+    this.maxHp = Math.floor(monsterData[id].maxHp * multiplier);
     this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
     this.type = monsterData[id].type;
-    this.bounty = monsterData[id].bounty * multiplier;
+    this.bounty = Math.floor(monsterData[id].bounty * multiplier);
     this.projectiles = [];
     this.distanceTravelled = 0;
     this.position = {}; // Initial position is defined by the path
@@ -51,10 +51,6 @@ Monster.prototype.draw = function() {
     dynamicContext.closePath();
 
 }
-
-Monster.prototype.destroy = function() {
-
-};
 
 Monster.prototype.checkDeath = function() {
     return this.currentHp <= 0 || this.position.end;
