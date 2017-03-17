@@ -1,14 +1,13 @@
 # Awesome Tower Defense
 This is a tower defense game - still in progress
 
-##Notes - general dev notes
+## Notes - general dev notes
 
 Position are defined by the top left corner of the element (monsters and towers are square blocks). The monsters and towers have a sideLength value which can be used to compute the coordinate square used to determine position
 
 Towers have a size of 2x2
 
 ### TODO
-* Add upgrades and different types of towers
 * Add upgrade screen so that users can choose different towers to upgrade from
 * Complete unit test coverage
 * add the following effects:

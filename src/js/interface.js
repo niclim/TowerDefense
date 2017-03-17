@@ -134,30 +134,8 @@ function renderTowerInformation(index) {
     // Change icon to tower monster - use a sprite
     infoBox1.innerHTML = "Damage: " + damage + " <br>Range: " + range + " <br>Effect: " + effect;
     infoBox2.innerHTML = "Attack Speed: " + speed + " <br>Type: " + type;
-    infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red'>Upgrade</a>" : "";
-    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red'>Sell</a>";
-
-    // These are destroyed when different information is rendered
-    // Refactor this so that you dont ened to add new event listeners everytime this is readded
-    if (upgradeAvailable) {
-        // TODO - this needs to show a different screen for upgrades to be able to choose different upgrades
-        infoBox3.getElementsByTagName("a")[0].addEventListener("click", function() {
-            var upgraded = game.upgradeTower(activeCanvasElement.index);
-            if (upgraded) {
-                updateInformationPanel();
-            } else {
-                activeMessage = {
-                    message: constants.MESSAGENOTENOUGHGOLD,
-                    timer: constants.MESSAGEDURATION // seconds
-                }
-            }
-        });
-    }
-
-    infoBox4.getElementsByTagName("a")[0].addEventListener("click", function() {
-        game.sellTower(activeCanvasElement.index);
-        updateInformationPanel();
-    });
+    infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red' id='upgradeButton'>Upgrade</a>" : "";
+    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red' id='sellButton'>Sell</a>";
 }
 
 function renderDefaultInformation() {
@@ -229,11 +207,9 @@ function renderTowerPlacement() {
 /* ================ UI Event Listeners =================*/
 /* =====================================================*/
 document.getElementById("start-btn").addEventListener("click", function() {
-    // Hides the modal lightbox
     document.getElementsByClassName("modal-content")[0].style.display = "none";
     document.getElementsByClassName("modal-background")[0].style.display = "none";
 
-    // Set game to start
     game.gameStart();
     // Sets up game loop and render loop
     lastTime = Date.now();
@@ -277,6 +253,17 @@ document.addEventListener("unitRemoved", function(e) {
         updateInformationPanel();
     }
 });
+
+// Adds event listeners only to the info box
+document.getElementsByClassName("side-section left")[0].addEventListener("click", function(e) {
+    if (activeCanvasElement.type === "tower") {
+        if (e.target.id === "upgradeButton") {
+            showUpgradeOptions();
+        } else if (e.target.id === "sellButton") {
+            sellTower();
+        }
+    }
+})
 
 /* =================== UI Functions ====================*/
 /* =====================================================*/
@@ -389,5 +376,21 @@ function canvasClick(e) {
         activeCanvasElement = game.checkClickLocation(position);
         updateInformationPanel();
     }
+}
 
+function sellTower() {
+    game.sellTower(activeCanvasElement.index);
+    updateInformationPanel();
+}
+
+function showUpgradeOptions() {
+    var upgraded = game.upgradeTower(activeCanvasElement.index);
+    if (upgraded) {
+        updateInformationPanel();
+    } else {
+        activeMessage = {
+            message: constants.MESSAGENOTENOUGHGOLD,
+            timer: constants.MESSAGEDURATION // seconds
+        }
+    }
 }
