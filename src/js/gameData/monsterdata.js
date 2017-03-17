@@ -34,5 +34,35 @@ module.exports = {
         baseMs: 100,
         type: "light",
         bounty: 4
+    },
+    boss1: {
+        maxHp: 500,
+        baseMs: 80,
+        type: "normal",
+        bounty: 20
+    },
+    boss2: {
+        maxHp: 1500,
+        baseMs: 80,
+        type: "fire",
+        bounty: 40
+    },
+    boss3: {
+        maxHp: 2500,
+        baseMs: 100,
+        type: "fire",
+        bounty: 100
+    },
+    boss4: {
+        maxHp: 4500,
+        baseMs: 85,
+        type: "fire",
+        bounty: 40
+    },
+    boss5: {
+        maxHp: 6000,
+        baseMs: 95,
+        type: "fire",
+        bounty: 40
     }
 };

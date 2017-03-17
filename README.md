@@ -11,8 +11,6 @@ Towers have a size of 2x2
 * Add upgrades and different types of towers
 * Add upgrade screen so that users can choose different towers to upgrade from
 * Complete unit test coverage
-* Build out game data
-* Build base monsters (different types and different bosses) and use level as a multiplier to generate different levels
 * add the following effects:
  - multiple targets
  - damage over timer
@@ -21,7 +19,7 @@ Towers have a size of 2x2
  - damage amplifier
  - bounce to next monster
  - freeze
- * do some balancing (towers are definitely not balanced lol.)
+ * do some balancing (towers and levels are definitely not balanced lol.)
 
 ### TODO later
 * Add range displays for towers during placement and when clicked
