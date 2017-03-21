@@ -176,12 +176,11 @@ function renderTowerPlacement() {
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
 
-    if (game.validateTowerPlacement(canvasMousePosition.towerPosition.grid)) { // check for valid tower placement
+    // Draw grid validation placement
+    if (game.validateTowerPlacement(canvasMousePosition.towerPosition.grid)) {
         dynamicContext.fillStyle = "green";
     } else {
         dynamicContext.fillStyle = "red";
-        // do some sort of logic to highlight the tiles that the tower would be placed on and show the tower on those positions
-        // this would run when tower placement is invalid
     }
     dynamicContext.fillRect(coordinates.x,
                             coordinates.y,
@@ -189,6 +188,7 @@ function renderTowerPlacement() {
                             constants.TOWERLENGTH
      );
 
+     // Draw tower
     dynamicContext.globalAlpha = 0.7;
     dynamicContext.arc(coordinates.x + constants.TOWERLENGTH / 2,
                        coordinates.y + constants.TOWERLENGTH / 2,
@@ -206,15 +206,9 @@ function renderTowerPlacement() {
 
 /* ================ UI Event Listeners =================*/
 /* =====================================================*/
-document.getElementById("start-btn").addEventListener("click", function() {
-    document.getElementsByClassName("modal-content")[0].style.display = "none";
-    document.getElementsByClassName("modal-background")[0].style.display = "none";
 
-    game.gameStart();
-    // Sets up game loop and render loop
-    lastTime = Date.now();
-    gameLoop();
-});
+// TODO Add these event listeners into a on modal click event function
+document.getElementById("start-btn").addEventListener("click", startGame);
 
 // On clicking the information button, show the information panel
 document.getElementById("information-btn").addEventListener("click", function() {
@@ -258,7 +252,7 @@ document.addEventListener("unitRemoved", function(e) {
 document.getElementsByClassName("side-section left")[0].addEventListener("click", function(e) {
     if (activeCanvasElement.type === "tower") {
         if (e.target.id === "upgradeButton") {
-            showUpgradeOptions();
+            showUpgradeOptions(activeCanvasElement.index);
         } else if (e.target.id === "sellButton") {
             sellTower();
         }
@@ -267,6 +261,16 @@ document.getElementsByClassName("side-section left")[0].addEventListener("click"
 
 /* =================== UI Functions ====================*/
 /* =====================================================*/
+function startGame() {
+    document.getElementById("mainModal").style.display = "none";
+    document.getElementsByClassName("modal-background")[0].style.display = "none";
+
+    game.gameStart();
+    // Sets up game loop and render loop
+    lastTime = Date.now();
+    gameLoop();
+}
+
 /* Click event listener on the tower cards
 Used to control what tower is being actively placed on the canvas
 4 possible flows based on the state of the interface
@@ -300,7 +304,6 @@ function towerCardClick() {
         activeTowerSelected = towerName;
         utils.addClass(towerCards[newTowerIndex], "active");
         canvasMousePosition.onCanvas = false;
-
     }
 }
 
@@ -383,8 +386,33 @@ function sellTower() {
     updateInformationPanel();
 }
 
-function showUpgradeOptions() {
-    var upgraded = game.upgradeTower(activeCanvasElement.index);
+// At the moment expects only towers with upgrades should be able to access this
+function showUpgradeOptions(towerIndex) {
+    // Figure out where to show the upgrade contianer
+    document.getElementById("mainModal").style.display = "block";
+    document.getElementsByClassName("modal-background")[0].style.display = "block";
+
+    var towerId = game.towers[towerIndex].id,
+        upgrades = towerData[towerId].upgrade;
+
+    // Todo move HTML out into a template
+    var title = "Upgrade Tower",
+        content = "";
+
+    upgrades.forEach(function(upgradeObj) {
+        var towerDataObject = towerData[upgradeObj.name];
+        content += "<a class='waves-effect waves-light btn-large red' data-upgradename='" + upgradeObj.name + "'>" + upgradeObj.name + " Upgrade</a>";
+    });
+
+    document.getElementById("mainModalTitle").innerHTML = title;
+    document.getElementById("mainModalContent").innerHTML = content;
+
+}
+
+// TODO update this to sort out things
+function upgradeTower(towerIndex, upgradeName) {
+    console.log('asdasda')
+/*    var upgraded = game.upgradeTower(activeCanvasElement.index);
     if (upgraded) {
         updateInformationPanel();
     } else {
@@ -393,4 +421,4 @@ function showUpgradeOptions() {
             timer: constants.MESSAGEDURATION // seconds
         }
     }
-}
+*/}

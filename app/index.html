@@ -107,16 +107,18 @@
         </ul>
     </footer>
 
-    <div class="modal-content card-panel">
-        <h3 class="modal-title">Welcome to Awesome TD!</h3>
+    <div id="mainModal" class="modal-content card-panel">
+        <h3 id="mainModalTitle" class="modal-title">Welcome to Awesome TD!</h3>
 
-        <p class="modal-information">
-            This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
-            On game reset this modal-content container will show and prompt to restart game.
-        </p>
-        <div class="modal-actions">
-            <a id="start-btn" class="waves-effect waves-light btn-large red">Start Game</a>
-            <a id="information-btn" class="waves-effect waves-light btn-large red"><i class="material-icons left">info</i>Information</a>
+        <div id="mainModalContent" class="modal-information">
+            <p>
+                This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
+                On game reset this modal-content container will show and prompt to restart game.
+            </p>
+            <div class="modal-actions">
+                <a id="start-btn" class="waves-effect waves-light btn-large red">Start Game</a>
+                <a id="information-btn" class="waves-effect waves-light btn-large red"><i class="material-icons left">info</i>Information</a>
+            </div>
         </div>
     </div>
     <div class="modal-background"></div>
