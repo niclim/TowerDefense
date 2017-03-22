@@ -419,7 +419,6 @@ function showUpgradeOptions(towerIndex) {
 
 }
 
-// TODO update this to sort out things
 function upgradeTower(towerIndex, upgradeName) {
    var upgraded = game.upgradeTower(towerIndex, upgradeName);
     if (upgraded) {

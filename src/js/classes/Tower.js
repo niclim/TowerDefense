@@ -17,6 +17,7 @@ var Tower = function(position, id) {
     this.goldCost = towerData[id].goldCost;
     this.totalCost = towerData[id].totalCost;
     this.upgrade = towerData[id].upgrade;
+    this.targets = towerData[id].targets;
     this.position = position; // object with x and y coordinates - references the top left corner of the tower
     this.position.sideLength = constants.TOWERLENGTH;
 }
@@ -24,16 +25,16 @@ var Tower = function(position, id) {
 Tower.prototype.runCycle = function(activeMonsters, dt) {
     var targetMonster = null;
 
-    for (var i = 0; i < activeMonsters.length; i++) {
-        if (this.checkInRange(activeMonsters[i].position)) {
-            targetMonster = i;
-            break;
-        }
-    }
+    if (this.cooldown < 0) {
+        // Creates projectiles up to the number of targets specified by the tower
+        var firedShots = 0;
+        activeMonsters.forEach(function(monster) {
+            if (this.checkInRange(monster.position) && (firedShots < this.targets)) {
+                monster.projectiles.push(new Projectile(this.id, this.position));
+                firedShots++;
+            }
+        }.bind(this));
 
-    // Create a projectile if there is a monster in range and the tower has a cooldown of 0
-    if (targetMonster !== null && this.cooldown < 0) {
-        activeMonsters[targetMonster].projectiles.push(new Projectile(this.id, this.position));
         this.cooldown = this.attackSpeed;
     }
 
@@ -41,7 +42,7 @@ Tower.prototype.runCycle = function(activeMonsters, dt) {
         this.cooldown -= dt;
     }
 }
-// change this to reference a list or something where a name can be used to determine the properties
+
 // Takes in a monster's position and checks whether that is in range based on the range - returns true or false if in range which can be used to
 Tower.prototype.checkInRange = function(monsterPosition) {
     // using sqrt((x2-x1)^2 - (y2-y1)^2)
@@ -54,6 +55,7 @@ Tower.prototype.checkInRange = function(monsterPosition) {
    }
 }
 
+// TODO figure out a better way to render towers
 Tower.prototype.draw = function() {
     dynamicContext.beginPath();
     dynamicContext.fillStyle = "green";

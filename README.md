@@ -8,9 +8,9 @@ Position are defined by the top left corner of the element (monsters and towers 
 Towers have a size of 2x2
 
 ### TODO
+* When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops)
 * Complete unit test coverage
 * add the following effects:
- - multiple targets
  - damage over timer
  - splash
  - slow
