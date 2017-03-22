@@ -257,17 +257,13 @@ GameEngine.prototype.sellTower = function(towerIndex) {
     return true;
 }
 
-GameEngine.prototype.upgradeTower = function(towerIndex) {
-    // TODO CHANGE upgrade[0] to upgrade[index] when added
+GameEngine.prototype.upgradeTower = function(towerIndex, upgradeName) {
     // Check for sufficient gold
-    var upgradeName  = this.towers[towerIndex].upgrade[0].name;
-
     if (towerData[upgradeName].goldCost > this.userGold) {
         return false;
     } else {
         // Create a the upgraded tower at the same position and replace that in the towers array
-        // TODO for now, upgrade is going to be 0, need to add to handle multiple upgrades
-        var upgradedTower = new Tower(this.towers[towerIndex].position, this.towers[towerIndex].upgrade[0].name);
+        var upgradedTower = new Tower(this.towers[towerIndex].position, upgradeName);
         this.userGold -= towerData[upgradeName].goldCost;
         this.towers.splice(towerIndex, 1, upgradedTower);
         return true;

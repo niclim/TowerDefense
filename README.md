@@ -8,8 +8,6 @@ Position are defined by the top left corner of the element (monsters and towers 
 Towers have a size of 2x2
 
 ### TODO
-* Update how modal event listeners work (one function that delegates relevant based on whatever)
-* Add upgrade screen so that users can choose different towers to upgrade from
 * Complete unit test coverage
 * add the following effects:
  - multiple targets

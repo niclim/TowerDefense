@@ -206,15 +206,7 @@ function renderTowerPlacement() {
 
 /* ================ UI Event Listeners =================*/
 /* =====================================================*/
-
-// TODO Add these event listeners into a on modal click event function
-document.getElementById("start-btn").addEventListener("click", startGame);
-
-// On clicking the information button, show the information panel
-document.getElementById("information-btn").addEventListener("click", function() {
-    // TODO - add information modal information thingy
-    console.log("show information container here");
-});
+document.getElementById("mainModal").addEventListener("click", modalClick);
 
 /*
 These event listeners control the application by interacting with the game
@@ -261,10 +253,28 @@ document.getElementsByClassName("side-section left")[0].addEventListener("click"
 
 /* =================== UI Functions ====================*/
 /* =====================================================*/
-function startGame() {
+function modalClick(e) {
+    var clickTarget = e.target.getAttribute("data-action");
+
+    switch (clickTarget) {
+        case "start":
+            startGame();
+            break;
+        case "information":
+            console.log("show information container here");
+            break;
+        case "upgrade":
+            var upgradeName = e.target.getAttribute("data-upgradename");
+            upgradeTower(activeCanvasElement.index, upgradeName);
+            break;
+        default:
+            return;
+    }
     document.getElementById("mainModal").style.display = "none";
     document.getElementsByClassName("modal-background")[0].style.display = "none";
+}
 
+function startGame() {
     game.gameStart();
     // Sets up game loop and render loop
     lastTime = Date.now();
@@ -401,7 +411,7 @@ function showUpgradeOptions(towerIndex) {
 
     upgrades.forEach(function(upgradeObj) {
         var towerDataObject = towerData[upgradeObj.name];
-        content += "<a class='waves-effect waves-light btn-large red' data-upgradename='" + upgradeObj.name + "'>" + upgradeObj.name + " Upgrade</a>";
+        content += "<a class='waves-effect waves-light btn-large red' data-action='upgrade' data-upgradename='" + upgradeObj.name + "'>" + upgradeObj.name + " Upgrade</a>";
     });
 
     document.getElementById("mainModalTitle").innerHTML = title;
@@ -411,8 +421,7 @@ function showUpgradeOptions(towerIndex) {
 
 // TODO update this to sort out things
 function upgradeTower(towerIndex, upgradeName) {
-    console.log('asdasda')
-/*    var upgraded = game.upgradeTower(activeCanvasElement.index);
+   var upgraded = game.upgradeTower(towerIndex, upgradeName);
     if (upgraded) {
         updateInformationPanel();
     } else {
@@ -421,4 +430,4 @@ function upgradeTower(towerIndex, upgradeName) {
             timer: constants.MESSAGEDURATION // seconds
         }
     }
-*/}
+}
