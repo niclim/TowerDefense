@@ -7,7 +7,7 @@ module.exports = {
             travelTime: 0.5, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal", //
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -30,7 +30,7 @@ module.exports = {
             travelTime: 0.5, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -50,7 +50,7 @@ module.exports = {
             travelTime: 0.5, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -66,7 +66,7 @@ module.exports = {
             travelTime: 0.5, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 3,
@@ -86,7 +86,7 @@ module.exports = {
             travelTime: 0.5, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 4,
@@ -104,7 +104,7 @@ module.exports = {
             travelTime: 0.8, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -127,7 +127,7 @@ module.exports = {
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -150,7 +150,7 @@ module.exports = {
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -166,12 +166,12 @@ module.exports = {
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: [
-                {
-                    type: "splash",
-                    radius: 200
+            effects: {
+                splash: {
+                    radius: 200,
+                    timer: 0
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -187,12 +187,12 @@ module.exports = {
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: [
-                {
-                    type: "amplify",
-                    amount: 1.5 // damage multiplier
+            effects: {
+                amplify: {
+                    amount: 1.5,
+                    timer: 3
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -215,12 +215,12 @@ module.exports = {
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: [
-                {
-                    type: "amplify",
-                    amount: 1.5 // damage multiplier
+            effects: {
+                amplify: {
+                    amount: 1.5,
+                    timer: 3
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 3,
@@ -236,12 +236,12 @@ module.exports = {
             travelTime: 0.3, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "normal",
-            effects: [
-                {
-                    type: "amplify",
-                    amount: 2 // damage multiplier
+            effects: {
+                amplify: {
+                    amount: 2,
+                    timer: 3
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -259,12 +259,12 @@ module.exports = {
             travelTime: 0.3, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: [
-                {
-                    type: "dot",
-                    dps: 5
+            effects: {
+                dot: {
+                    amount: 5, // dps
+                    timer: 2
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -287,7 +287,7 @@ module.exports = {
             travelTime: 0.01, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 30,
@@ -310,7 +310,7 @@ module.exports = {
             travelTime: 0.01, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 30,
@@ -326,7 +326,7 @@ module.exports = {
             travelTime: 0.01, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 30,
@@ -342,12 +342,12 @@ module.exports = {
             travelTime: 0.01, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: [
-                {
-                    type: "dot",
-                    dps: 10
+            effects: {
+                dot: {
+                    amount: 10, // dps
+                    timer: 3
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -367,12 +367,12 @@ module.exports = {
             travelTime: 0.01, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: [
-                {
-                    type: "dot",
-                    dps: 30
+            effects: {
+                dot: {
+                    amount: 30, // dps
+                    timer: 4
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -390,12 +390,12 @@ module.exports = {
             travelTime: 0.8, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "ice",
-            effects: [
-                {
-                    type: "slow",
-                    slow: 0.3 // decimal of how slow - higher is more slow
+            effects: {
+                slow: {
+                    amount: 0.3, // %slow
+                    timer: 2
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -418,12 +418,12 @@ module.exports = {
             travelTime: 0.2, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "ice",
-            effects: [
-                {
-                    type: "slow",
-                    slow: 0.4 // decimal of how slow - higher is more slow
+            effects: {
+                slow: {
+                    amount: 0.4, // %slow
+                    timer: 3
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 30,
@@ -443,12 +443,12 @@ module.exports = {
             travelTime: 0.2, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "ice",
-            effects: [
-                {
-                    type: "slow",
-                    slow: 0.5 // decimal of how slow - higher is more slow
+            effects: {
+                slow: {
+                    amount: 0.5, // %slow
+                    timer: 3
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 30,
@@ -464,12 +464,12 @@ module.exports = {
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "ice",
-            effects: [
-                {
-                    type: "slow",
-                    slow: 0.5 // decimal of how slow - higher is more slow
+            effects: {
+                slow: {
+                    amount: 0.5, // %slow
+                    timer: 3
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -492,12 +492,12 @@ module.exports = {
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "ice",
-            effects: [
-                {
-                    type: "slow",
-                    slow: 0.65 // decimal of how slow - higher is more slow
+            effects: {
+                slow: {
+                    amount: 0.65, // %slow
+                    timer: 3
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -513,13 +513,12 @@ module.exports = {
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "ice",
-            effects: [
-                {
-                    type: "freeze",
-                    duration: 1,
-                    chance: 0.2
+            effects: {
+                freeze: {
+                    chance: 0.2,
+                    timer: 1
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -536,7 +535,7 @@ module.exports = {
             travelTime: 0.1, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "light",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -559,7 +558,7 @@ module.exports = {
             travelTime: 0.1, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "light",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -579,7 +578,7 @@ module.exports = {
             travelTime: 0.1, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "light",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -599,13 +598,12 @@ module.exports = {
             travelTime: 0.1, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "light",
-            effects: [
-                {
-                    type: "bounce",
-                    range: 300,
-                    bounces: 2
+            effects: {
+                bounce: {
+                    amount: 2, // %slow
+                    range: 300
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -628,13 +626,12 @@ module.exports = {
             travelTime: 0.1, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "light",
-            effects: [
-                {
-                    type: "bounce",
-                    range: 300,
-                    bounces: 2
+            effects: {
+                bounce: {
+                    amount: 2, // %slow
+                    range: 300
                 }
-            ]
+            }
         },
         sprite: "TODO",
         targets: 1,
@@ -650,7 +647,7 @@ module.exports = {
             travelTime: 0.1, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "light",
-            effects: []
+            effects: {}
         },
         sprite: "TODO",
         targets: 3,

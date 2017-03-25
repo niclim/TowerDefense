@@ -13,6 +13,7 @@ var Monster = function(id, multiplier) {
     this.distanceTravelled = 0;
     this.position = {}; // Initial position is defined by the path
     this.sideLength = constants.MONSTERLENGTH;
+    this.effects = {};
 };
 // Method the game object uses to move monsters
 Monster.prototype.runCycle = function(gamePath, dt) {
@@ -22,12 +23,16 @@ Monster.prototype.runCycle = function(gamePath, dt) {
     this.projectiles.forEach(function(projectile, i, projectileArray) {
         projectile.move(dt);
         if (projectile.end) {
+            // Add effect to monster with timer
+            Object.assign(this.effects, projectile.effects);
+
             this.updateHp(-projectile.damage);
             projectileArray.splice(i, 1);
         }
     }.bind(this));
 
-    this.checkDeath();
+    // Handle effects here and timers
+    this.handleEffects();
 
     if (this.checkDeath()) {
         status.alive = false;
@@ -55,6 +60,13 @@ Monster.prototype.draw = function() {
 Monster.prototype.checkDeath = function() {
     return this.currentHp <= 0 || this.position.end;
 };
+
+Monster.prototype.handleEffects = function() {
+
+    // Effects to handle: splash, slow, freeze, dot, amplify
+
+    
+}
 
 Monster.prototype.move = function(pathLines, dt) {
     this.distanceTravelled += this.baseMs * dt;

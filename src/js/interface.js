@@ -122,12 +122,9 @@ function renderTowerInformation(index) {
         speed = game.towers[index].attackSpeed,
         upgradeAvailable = towerData[id].upgrade.length !== 0;
 
-    if (towerData[id].projectile.effects.length === 0) {
-        effect = "None"
-    } else {
-        towerData[id].projectile.effects.forEach(function(e) {
-            effect += e + " ";
-        });
+    for (key in towerData[id].projectile.effects) {
+        effect += key + " ";
+        // Todo map information about effects
     }
 
     infoName.innerHTML = id;
