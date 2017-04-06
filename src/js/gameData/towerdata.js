@@ -168,8 +168,7 @@ module.exports = {
             type: "normal",
             effects: {
                 splash: {
-                    radius: 200,
-                    timer: 0
+                    radius: 200
                 }
             }
         },

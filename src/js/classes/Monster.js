@@ -26,10 +26,11 @@ Monster.prototype.runCycle = function(gamePath, dt) {
             // Object.assign doesn't do deep merge - only need to go one level down to prevent reference copying
             for (key in projectile.effects) {
                 this.effects[key] = Object.assign({}, projectile.effects[key]);
-                // Copy over ID so game can create antoher projectile for bounce
-                if (this.effects.hasOwnProperty("bounce")) {
-                    this.effects.bounce.id = projectile.id;
-                }
+            }
+
+            // Copy over ID so game can create antoher projectile for bounce
+            if (this.effects.hasOwnProperty("bounce")) {
+                this.effects.bounce.id = projectile.id;
             }
 
             this.updateHp(-projectile.damage);
@@ -39,14 +40,6 @@ Monster.prototype.runCycle = function(gamePath, dt) {
 
     // Handle effects here and timers
     this.handleEffects(dt);
-
-    if (this.checkDeath()) {
-        status.alive = false;
-        status.giveGold = !this.position.end; // Does not give gold if the monster reached the end
-    } else {
-        status.alive = true;
-    }
-
     return status;
 }
 
@@ -73,7 +66,11 @@ Monster.prototype.handleEffects = function(dt) {
     for (key in this.effects) {
         switch (key) {
             case "freeze":
-                console.log('handle freeze here')
+                if (Math.random() < this.effects.freeze.chance) {
+                    this.effects.frozen = {
+                        timer: this.effects.freeze.timer
+                    }
+                }
                 delete this.effects[key];
                 break;
             case "splash":
@@ -86,6 +83,7 @@ Monster.prototype.handleEffects = function(dt) {
                 this.updateHp(this.effects[key].amount * dt * -1);
             case "slow":
             case "amplify":
+            case "frozen":
                 // Reduce timer
                 this.effects[key].timer -= dt;
                 if (this.effects[key].timer < 0) {
@@ -101,9 +99,13 @@ Monster.prototype.handleEffects = function(dt) {
 Monster.prototype.move = function(pathLines, dt) {
     var modifier = 1;
 
-    if (this.effects.hasOwnProperty("slow")) {
+    // Freeze is priority
+    if (this.effects.hasOwnProperty("freeze")) {
+        modifier = 0;
+    } else if (this.effects.hasOwnProperty("slow")) {
         modifier = 1 - this.effects.slow.amount;
     }
+
 
     this.distanceTravelled += this.baseMs * dt * modifier;
     this.position = utils.convertDistanceToCoordinates(this.distanceTravelled, pathLines);
@@ -122,6 +124,13 @@ Monster.prototype.updateHp = function(hpChange) {
 
     if (this.currentHp > this.maxHp) {
         this.currentHp = this.maxHp;
+    }
+
+    if (this.checkDeath()) {
+        status.alive = false;
+        status.giveGold = !this.position.end; // Does not give gold if the monster reached the end
+    } else {
+        status.alive = true;
     }
 };
 

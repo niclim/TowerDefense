@@ -105,6 +105,58 @@ GameEngine.prototype.gameWon = function() {
 
 }
 
+GameEngine.prototype.handleEffects = function(activeMonster, i) {
+    // TODO pull this out into an external function
+    // Handle splash,bounce here
+    if (activeMonster.effects.hasOwnProperty("splash")) {
+        // Search all monsters in range of this
+        var splashRange = activeMonster.effects.splash.radius;
+
+        this.activeMonsters.forEach((searchMonster, j) => {
+            if (i !== j) {
+                var distance = utils.getPositionDifference(searchMonster.position, activeMonster.position);
+                if (distance < splashRange) {
+                    activeMonster.updateHp(-activeMonster.effects.splash.radius);
+                }
+            }
+        })
+
+        delete this.effects.splash;
+    } else if (activeMonster.effects.hasOwnProperty("bounce")) {
+        var bounceRange = activeMonster.effects.bounce.range;
+        if (activeMonster.effects.bounce.amount > 0) {
+            // search all monsters in range of bounce
+            this.activeMonsters.some((searchMonster, j) => {
+                if (i !== j) {
+                    var distance = utils.getPositionDifference(searchMonster.position, activeMonster.position)
+                    if (distance < bounceRange) {
+                        var id = activeMonster.effects.bounce.id,
+                        position = activeMonster.position;
+
+                        position.x += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
+                        position.y += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
+
+                        var addedProjectile = new Projectile(id, position);
+
+                        // Reduce the number of bounces based on previous projectile
+                        // TODO figure out a way to prevent bouncing to same monster - if it matters?
+                        addedProjectile.effects.bounce.amount = activeMonster.effects.bounce.amount - 1;
+
+                        searchMonster.projectiles.push(addedProjectile);
+                        return true;
+                    } else {
+                        // Keep searching
+                        return false;
+                    }
+                }
+            });
+        }
+
+        delete activeMonster.effects.bounce;
+    }
+
+}
+
 GameEngine.prototype.nextLevel = function() {
     // Only calls the next level once - nextLevelCalled is reset on a new monster creation
     this.monstersToCreate = levelData[this.level].amount; // this.level refers to the next level
@@ -219,43 +271,8 @@ GameEngine.prototype.runCycle = function(dt) {
                 // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
                 var monsterStatus = activeMonster.runCycle(this.gamePath, dt);
 
-                // TODO pull this out into an external function
-                // Handle splash,bounce here
-                if (activeMonster.effects.hasOwnProperty("splash")) {
-                    // Search all monsters in range of this
-                    delete this.effects.splash;
-                } else if (activeMonster.effects.hasOwnProperty("bounce")) {
-                    var bounceRange = activeMonster.effects.bounce.range;
-                    if (activeMonster.effects.bounce.amount > 0) {
-                        // search all monsters in range of bounce
-                        this.activeMonsters.some((searchMonster, j) => {
-                            if (i !== j) {
-                                var distance = utils.getPositionDifference(searchMonster.position, activeMonster.position)
-                                if (distance < bounceRange) {
-                                    var id = activeMonster.effects.bounce.id,
-                                    position = activeMonster.position;
-
-                                    position.x += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
-                                    position.y += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
-
-                                    var addedProjectile = new Projectile(id, position);
-
-                                    // Reduce the number of bounces based on previous projectile
-                                    // TODO figure out a way to prevent bouncing to same monster - if it matters?
-                                    addedProjectile.effects.bounce.amount = activeMonster.effects.bounce.amount - 1;
-
-                                    searchMonster.projectiles.push(addedProjectile);
-                                    return true;
-                                } else {
-                                    // Keep searching
-                                    return false;
-                                }
-                            }
-                        });
-                    }
-
-                    delete activeMonster.effects.bounce;
-                }
+                // Handles external effects to the monsters (splash and bounce effects)
+                this.handleEffects(activeMonster, i);
 
                 if (!monsterStatus.alive) {
                     if (monsterStatus.giveGold) {
@@ -274,10 +291,6 @@ GameEngine.prototype.runCycle = function(dt) {
                 tower.runCycle(this.activeMonsters, dt); // Pass in active monsters and attach projectiles to them
             });
         }
-
-
-
-
     }
 }
 
