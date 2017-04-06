@@ -242,11 +242,12 @@ GameEngine.prototype.runCycle = function(dt) {
 
 GameEngine.prototype.sellTower = function(towerIndex) {
     var gridPosition = utils.convertToBlock(this.towers[towerIndex].position),
-        towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}});
+        towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}}),
+        sellPrice = Math.floor(this.towers[towerIndex].totalCost * 0.75);
     // Dispatch the tower death event for the ui to update
     document.dispatchEvent(towerDeath);
 
-    this.userGold += Math.floor(this.towers[towerIndex].totalCost * 0.75);
+    this.userGold += sellPrice;
     this.towers.splice(towerIndex, 1);
 
     // Remove tower from the game grid
@@ -254,7 +255,7 @@ GameEngine.prototype.sellTower = function(towerIndex) {
     this.gameGrid[gridPosition.x + 1][gridPosition.y].empty = true;
     this.gameGrid[gridPosition.x][gridPosition.y + 1].empty = true;
     this.gameGrid[gridPosition.x + 1][gridPosition.y + 1].empty = true;
-    return true;
+    return sellPrice;
 }
 
 GameEngine.prototype.upgradeTower = function(towerIndex, upgradeName) {

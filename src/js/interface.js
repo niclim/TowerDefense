@@ -102,7 +102,7 @@ function renderMonsterInformation(index) {
         maxHp = game.activeMonsters[index].maxHp,
         type = game.activeMonsters[index].type,
         id = game.activeMonsters[index].id;
-        
+
     infoName.innerHTML = id;
     // Change icon to active monster - use a sprite
     infoBox1.innerHTML = "HP: <span id='monsterHp'>" + currentHp + "</span> / " + maxHp;
@@ -389,7 +389,11 @@ function canvasClick(e) {
 }
 
 function sellTower() {
-    game.sellTower(activeCanvasElement.index);
+    var sellPrice = game.sellTower(activeCanvasElement.index);
+    activeMessage = {
+        message: constants.MESSAGETOWERSOLD + sellPrice + " Gold",
+        timer: constants.MESSAGEDURATION // seconds
+    }
     updateInformationPanel();
 }
 

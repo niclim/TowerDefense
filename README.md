@@ -11,17 +11,13 @@ Towers have a size of 2x2
 * When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops)
 * Complete unit test coverage
 * add the following effects:
- - damage over timer
  - splash
- - slow
- - damage amplifier
  - bounce to next monster
  - freeze
  * do some balancing (towers and levels are definitely not balanced lol.)
 
 ### TODO later
 * Add range displays for towers during placement and when clicked
-* Add messages for when something is sold
 * Come up with a better name than awesome TD
 * Think of a theme to go with the better name than awesome TD
 * Make some cool sprites
