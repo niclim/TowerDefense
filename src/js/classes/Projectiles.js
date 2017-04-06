@@ -4,11 +4,15 @@ var towerData = require("../gameData/towerdata.js"),
 
 // Projectiles are attached to monsters
 var Projectile = function(id, towerPosition) {
+    this.id = id;
     this.damage = towerData[id].projectile.damage;
     this.totalTravelTime = towerData[id].projectile.travelTime;
     this.sprite = towerData[id].projectile.sprite;
     this.type = towerData[id].projectile.type;
-    this.effects = towerData[id].projectile.effects;
+    this.effects = {};
+    for (key in towerData[id].projectile.effects) {
+        this.effects[key] = Object.assign({}, towerData[id].projectile.effects[key]);
+    }
     this.currentTravelTime = 0;
     this.end = false;
     this.initialPosition = {

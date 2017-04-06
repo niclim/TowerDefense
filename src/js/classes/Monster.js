@@ -26,6 +26,10 @@ Monster.prototype.runCycle = function(gamePath, dt) {
             // Object.assign doesn't do deep merge - only need to go one level down to prevent reference copying
             for (key in projectile.effects) {
                 this.effects[key] = Object.assign({}, projectile.effects[key]);
+                // Copy over ID so game can create antoher projectile for bounce
+                if (this.effects.hasOwnProperty("bounce")) {
+                    this.effects.bounce.id = projectile.id;
+                }
             }
 
             this.updateHp(-projectile.damage);
@@ -73,12 +77,10 @@ Monster.prototype.handleEffects = function(dt) {
                 delete this.effects[key];
                 break;
             case "splash":
-                console.log('handle splash here')
-                delete this.effects[key];
+                // These are handled in the game.runCycle method
                 break;
             case "bounce":
-                console.log('handle bounce here')
-                delete this.effects[key];
+                // These are handled in the game.runCycle method
                 break;
             case "dot":
                 this.updateHp(this.effects[key].amount * dt * -1);

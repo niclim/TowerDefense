@@ -1,6 +1,7 @@
 //  require Monster to gain access
 var Monster = require("./Monster.js"),
     Tower = require("./Tower.js"),
+    Projectile = require("./Projectiles.js"),
     towerData = require("../gameData/towerdata.js"),
     levelData = require("../gameData/leveldata.js"),
     utils = require("../utils.js"),
@@ -213,10 +214,48 @@ GameEngine.prototype.runCycle = function(dt) {
                 this.nextLevelCalled = true;
             }
         } else {
-            this.activeMonsters.forEach(function(activeMonster, i, monsterArray) {
+            this.activeMonsters.forEach((activeMonster, i, monsterArray) => {
                 // moves the monsters and checks whether they get to the end of the cycle
                 // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
                 var monsterStatus = activeMonster.runCycle(this.gamePath, dt);
+
+                // TODO pull this out into an external function
+                // Handle splash,bounce here
+                if (activeMonster.effects.hasOwnProperty("splash")) {
+                    // Search all monsters in range of this
+                    delete this.effects.splash;
+                } else if (activeMonster.effects.hasOwnProperty("bounce")) {
+                    var bounceRange = activeMonster.effects.bounce.range;
+                    if (activeMonster.effects.bounce.amount > 0) {
+                        // search all monsters in range of bounce
+                        this.activeMonsters.some((searchMonster, j) => {
+                            if (i !== j) {
+                                var distance = utils.getPositionDifference(searchMonster.position, activeMonster.position)
+                                if (distance < bounceRange) {
+                                    var id = activeMonster.effects.bounce.id,
+                                    position = activeMonster.position;
+
+                                    position.x += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
+                                    position.y += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
+
+                                    var addedProjectile = new Projectile(id, position);
+
+                                    // Reduce the number of bounces based on previous projectile
+                                    // TODO figure out a way to prevent bouncing to same monster - if it matters?
+                                    addedProjectile.effects.bounce.amount = activeMonster.effects.bounce.amount - 1;
+
+                                    searchMonster.projectiles.push(addedProjectile);
+                                    return true;
+                                } else {
+                                    // Keep searching
+                                    return false;
+                                }
+                            }
+                        });
+                    }
+
+                    delete activeMonster.effects.bounce;
+                }
 
                 if (!monsterStatus.alive) {
                     if (monsterStatus.giveGold) {
@@ -228,13 +267,15 @@ GameEngine.prototype.runCycle = function(dt) {
                     document.dispatchEvent(monsterDeath);
                     monsterArray.splice(i, 1);
                 }
-            }.bind(this));
+            });
 
             // Run tower cycles here - pass in active monsters - towers only create projectiles
-            this.towers.forEach(function(tower) {
+            this.towers.forEach((tower) => {
                 tower.runCycle(this.activeMonsters, dt); // Pass in active monsters and attach projectiles to them
-            }.bind(this));
+            });
         }
+
+
 
 
     }

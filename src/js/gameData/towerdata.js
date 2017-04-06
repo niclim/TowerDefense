@@ -600,7 +600,7 @@ module.exports = {
             type: "light",
             effects: {
                 bounce: {
-                    amount: 2, // %slow
+                    amount: 2,
                     range: 300
                 }
             }
@@ -628,7 +628,7 @@ module.exports = {
             type: "light",
             effects: {
                 bounce: {
-                    amount: 2, // %slow
+                    amount: 2,
                     range: 300
                 }
             }

@@ -9,10 +9,10 @@ Towers have a size of 2x2
 
 ### TODO
 * When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops)
+* convert to ES6
 * Complete unit test coverage
 * add the following effects:
  - splash
- - bounce to next monster
  - freeze
  * do some balancing (towers and levels are definitely not balanced lol.)
 
