@@ -79,7 +79,7 @@ function updateGameDependentInformation() {
     levelInfo.innerHTML = game.level;
 
     if (activeCanvasElement.type === "monster") {
-        document.getElementById("monsterHp").innerHTML = game.activeMonsters[activeCanvasElement.index].currentHp;
+        document.getElementById("monsterHp").innerHTML = Math.floor(game.activeMonsters[activeCanvasElement.index].currentHp);
     } else if (activeCanvasElement.type === "tower") {
         // Add any relevant tower information here
     }
@@ -98,11 +98,11 @@ function updateInformationPanel() {
 
 // ID refers to the type of monster and index is the index of the active monster in the active monster's array
 function renderMonsterInformation(index) {
-    var currentHp = game.activeMonsters[index].currentHp,
+    var currentHp = Math.floor(game.activeMonsters[index].currentHp),
         maxHp = game.activeMonsters[index].maxHp,
         type = game.activeMonsters[index].type,
         id = game.activeMonsters[index].id;
-
+        
     infoName.innerHTML = id;
     // Change icon to active monster - use a sprite
     infoBox1.innerHTML = "HP: <span id='monsterHp'>" + currentHp + "</span> / " + maxHp;

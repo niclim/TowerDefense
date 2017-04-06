@@ -23,8 +23,10 @@ Monster.prototype.runCycle = function(gamePath, dt) {
     this.projectiles.forEach(function(projectile, i, projectileArray) {
         projectile.move(dt);
         if (projectile.end) {
-            // Add effect to monster with timer
-            Object.assign(this.effects, projectile.effects);
+            // Object.assign doesn't do deep merge - only need to go one level down to prevent reference copying
+            for (key in projectile.effects) {
+                this.effects[key] = Object.assign({}, projectile.effects[key]);
+            }
 
             this.updateHp(-projectile.damage);
             projectileArray.splice(i, 1);
@@ -32,7 +34,7 @@ Monster.prototype.runCycle = function(gamePath, dt) {
     }.bind(this));
 
     // Handle effects here and timers
-    this.handleEffects();
+    this.handleEffects(dt);
 
     if (this.checkDeath()) {
         status.alive = false;
@@ -61,21 +63,60 @@ Monster.prototype.checkDeath = function() {
     return this.currentHp <= 0 || this.position.end;
 };
 
-Monster.prototype.handleEffects = function() {
-
-    // Effects to handle: splash, slow, freeze, dot, amplify
-
-    
+Monster.prototype.handleEffects = function(dt) {
+    // Loop through all the effects on the monster
+    // Effects to handle: splash, slow, freeze, dot, amplify, bounce
+    for (key in this.effects) {
+        switch (key) {
+            case "freeze":
+                console.log('handle freeze here')
+                delete this.effects[key];
+                break;
+            case "splash":
+                console.log('handle splash here')
+                delete this.effects[key];
+                break;
+            case "bounce":
+                console.log('handle bounce here')
+                delete this.effects[key];
+                break;
+            case "dot":
+                this.updateHp(this.effects[key].amount * dt * -1);
+            case "slow":
+            case "amplify":
+                // Reduce timer
+                this.effects[key].timer -= dt;
+                if (this.effects[key].timer < 0) {
+                    delete this.effects[key];
+                }
+                break;
+            default:
+                console.log(key, "unexpected key in effects object");
+        }
+    }
 }
 
 Monster.prototype.move = function(pathLines, dt) {
-    this.distanceTravelled += this.baseMs * dt;
+    var modifier = 1;
+
+    if (this.effects.hasOwnProperty("slow")) {
+        modifier = 1 - this.effects.slow.amount;
+    }
+
+    this.distanceTravelled += this.baseMs * dt * modifier;
     this.position = utils.convertDistanceToCoordinates(this.distanceTravelled, pathLines);
 };
 
 // Can take in a positive or negative number
 Monster.prototype.updateHp = function(hpChange) {
-    this.currentHp += hpChange;
+    var modifier = 1;
+
+    // Only amplifies damage if the monster is taking damage
+    if (hpChange < 0 && this.effects.hasOwnProperty("amplify")) {
+        modifier = this.effects.amplify.amount;
+    }
+
+    this.currentHp += hpChange * modifier;
 
     if (this.currentHp > this.maxHp) {
         this.currentHp = this.maxHp;
