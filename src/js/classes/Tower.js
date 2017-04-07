@@ -56,13 +56,18 @@ Tower.prototype.checkInRange = function(monsterPosition) {
 }
 
 // TODO figure out a better way to render towers
-Tower.prototype.draw = function() {
+Tower.prototype.draw = function(active) {
     dynamicContext.beginPath();
     dynamicContext.fillStyle = "green";
     dynamicContext.fillRect(this.position.x,
                             this.position.y,
                             constants.TOWERLENGTH,
                             constants.TOWERLENGTH);
+    // Draw range radius
+    if (active) {
+        dynamicContext.arc(this.position.x, this.position.y, this.range, 0, 2 * Math.PI);
+        dynamicContext.stroke();
+    }
     dynamicContext.closePath();
 }
 

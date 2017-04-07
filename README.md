@@ -10,12 +10,11 @@ Towers have a size of 2x2
 ### TODO
 * When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops)
 * Complete upgrade lb
-* exclude compiled files from committing
 * Complete unit test coverage
- * do some balancing (towers and levels are definitely not balanced lol.)
+* do some balancing (towers and levels are definitely not balanced lol.)
+* Add range displays for towers during placement
 
 ### TODO later
-* Add range displays for towers during placement and when clicked
 * Come up with a better name than awesome TD
 * Think of a theme to go with the better name than awesome TD
 * Make some cool sprites

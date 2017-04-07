@@ -193,7 +193,7 @@ GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordin
     }
 }
 
-GameEngine.prototype.render = function() {
+GameEngine.prototype.render = function(activeCanvasElement) {
 
     if (this.gameState === "playing") {
         // send state to the display object to render
@@ -201,8 +201,9 @@ GameEngine.prototype.render = function() {
         dynamicContext.clearRect(0, 0, dynamicCanvas.width, dynamicCanvas.height);
 
         // Render towers first so that if monsters are larger they show above towers
-        this.towers.forEach(function(tower) {
-            tower.draw();
+        this.towers.forEach((tower, i) => {
+            var active = activeCanvasElement.type === "tower" && activeCanvasElement.index === i;
+            tower.draw(active);
         });
 
         //  loop through list of active monsters and render them

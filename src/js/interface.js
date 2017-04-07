@@ -63,7 +63,7 @@ function gameLoop() {
 
     lastTime = now;
     // Renders methods based on state variables
-    game.render();
+    game.render(activeCanvasElement);
     updateGameDependentInformation();
     renderTowerPlacement();
     renderMessage(dt);
