@@ -9,7 +9,7 @@ Towers have a size of 2x2
 
 ### TODO
 * When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops)
-* convert to ES6 and add babel
+* Complete upgrade lb
 * Complete unit test coverage
  * do some balancing (towers and levels are definitely not balanced lol.)
 

@@ -48,23 +48,27 @@ Returns an object with information about what is at that position
 GameEngine.prototype.checkClickLocation = function(position) {
     var element = {};
     // Loops through activeMonsters
-    for (var i = 0; i < this.activeMonsters.length; i++) {
-        if (utils.checkIfInSquare(position, this.activeMonsters[i].position, this.activeMonsters[i].sideLength)) {
+    this.activeMonsters.some((activeMonster, i) => {
+        if (utils.checkIfInSquare(position, activeMonster.position, activeMonster.sideLength)) {
             element.type = "monster";
             element.index = i;
-            break;
+            return true;
+        } else {
+            return false;
         }
-    }
+    })
 
     // If nothing was found, loop through towers
     if (element.type === undefined) {
-        for (var i = 0; i < this.towers.length; i++) {
-            if (utils.checkIfInSquare(position, this.towers[i].position, this.towers[i].position.sideLength)) {
+        this.towers.some((tower, i) => {
+            if (utils.checkIfInSquare(position, tower.position, tower.position.sideLength)) {
                 element.type = "tower";
                 element.index = i;
-                break;
+                return true;
+            } else {
+                return false;
             }
-        }
+        });
     }
 
     // If no towers or monsters found return a type of null
@@ -85,11 +89,7 @@ GameEngine.prototype.checkGameState = function() {
 
 // method to check gold before place tower or upgrade
 GameEngine.prototype.checkGold = function(goldCost) {
-    if (goldCost <= this.userGold) {
-        return true;
-    } else {
-        return false;
-    }
+    return goldCost <= this.userGold
 }
 
 GameEngine.prototype.gameOver = function() {
@@ -119,9 +119,9 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
                     activeMonster.updateHp(-activeMonster.effects.splash.radius);
                 }
             }
-        })
-
+        });
         delete this.effects.splash;
+
     } else if (activeMonster.effects.hasOwnProperty("bounce")) {
         var bounceRange = activeMonster.effects.bounce.range;
         if (activeMonster.effects.bounce.amount > 0) {
@@ -175,15 +175,10 @@ Returns an object with a boolean to represent whether the tower is placed and an
 GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordinates) {
     var goldCost = towerData[towerName].goldCost;
     // Validate tower placement
-    if (this.validateTowerPlacement(gridPosition)
-    && this.checkGold(goldCost)) {
-
+    if (this.validateTowerPlacement(gridPosition) && this.checkGold(goldCost)) {
         this.addTower(towerName, towerCoordinates, gridPosition, goldCost);
-        return {
-            placed: true
-        };
+        return { placed: true };
     } else {
-
         if (!this.validateTowerPlacement(gridPosition)) {
             return {
                 placed: false,
@@ -196,7 +191,6 @@ GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordin
             }
         }
     }
-
 }
 
 GameEngine.prototype.render = function() {
@@ -209,7 +203,7 @@ GameEngine.prototype.render = function() {
         // Render towers first so that if monsters are larger they show above towers
         this.towers.forEach(function(tower) {
             tower.draw();
-        })
+        });
 
         //  loop through list of active monsters and render them
         //  TODO probably need to find a better way to rend them apart from random rectangle

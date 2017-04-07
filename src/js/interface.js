@@ -105,10 +105,10 @@ function renderMonsterInformation(index) {
 
     infoName.innerHTML = id;
     // Change icon to active monster - use a sprite
-    infoBox1.innerHTML = "HP: <span id='monsterHp'>" + currentHp + "</span> / " + maxHp;
-    infoBox2.innerHTML = "Type: " + type;
-    infoBox3.innerHTML = "Strengths: All sorts mate" ;
-    infoBox4.innerHTML = "Weaknesses: Ducks" ;
+    infoBox1.innerHTML = `HP: <span id='monsterHp'>${currentHp}</span> / ${maxHp}`;
+    infoBox2.innerHTML = `Type: ${type}`;
+    infoBox3.innerHTML = `Strengths: ` ;
+    infoBox4.innerHTML = `Weaknesses: ` ;
 }
 
 // ID refers to the type of tower and index is the index of the active tower in the active tower's array
@@ -129,8 +129,8 @@ function renderTowerInformation(index) {
 
     infoName.innerHTML = id;
     // Change icon to tower monster - use a sprite
-    infoBox1.innerHTML = "Damage: " + damage + " <br>Range: " + range + " <br>Effect: " + effect;
-    infoBox2.innerHTML = "Attack Speed: " + speed + " <br>Type: " + type;
+    infoBox1.innerHTML = `Damage: ${damage} <br>Range: ${range}<br>Effect: ${effect}`;
+    infoBox2.innerHTML = `Attack Speed: ${speed}<br>Type: ${type}`;
     infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red' id='upgradeButton'>Upgrade</a>" : "";
     infoBox4.innerHTML = "<a class='waves-effect waves-light btn red' id='sellButton'>Sell</a>";
 }
@@ -412,7 +412,7 @@ function showUpgradeOptions(towerIndex) {
 
     upgrades.forEach((upgradeObj) => {
         var towerDataObject = towerData[upgradeObj.name];
-        content += "<a class='waves-effect waves-light btn-large red' data-action='upgrade' data-upgradename='" + upgradeObj.name + "'>" + upgradeObj.name + " Upgrade</a>";
+        content += `<a class='waves-effect waves-light btn-large red' data-action='upgrade' data-upgradename='${upgradeObj.name}'> ${upgradeObj.name}  Upgrade</a>`;
     });
 
     document.getElementById("mainModalTitle").innerHTML = title;
