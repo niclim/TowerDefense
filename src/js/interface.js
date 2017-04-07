@@ -210,7 +210,7 @@ These event listeners control the application by interacting with the game
 object and by changing the state variables (which the render functions use
 to read)
 */
-towerCards.forEach(function(towerCard, i) {
+towerCards.forEach((towerCard, i) => {
     towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
 });
@@ -218,14 +218,14 @@ towerCards.forEach(function(towerCard, i) {
 document.getElementById("dynamic").onmousemove = onCanvasMouseMovement;
 document.getElementById("dynamic").addEventListener("click", canvasClick);
 
-document.onkeydown = function(e) {
+document.onkeydown = (e) => {
     if (e.keyCode === 27) {
         cancelTowerPlacement();
     }
 }
 
 // updates activeCanvasElement when monster death or tower removed affects the current selected target
-document.addEventListener("unitRemoved", function(e) {
+document.addEventListener("unitRemoved", (e) => {
     // Updates if the active element is the same as the type of unit removed
     if (activeCanvasElement.type === e.detail.element) {
         if (e.detail.index < activeCanvasElement.index) {
@@ -238,7 +238,7 @@ document.addEventListener("unitRemoved", function(e) {
 });
 
 // Adds event listeners only to the info box
-document.getElementsByClassName("side-section left")[0].addEventListener("click", function(e) {
+document.getElementsByClassName("side-section left")[0].addEventListener("click", (e) => {
     if (activeCanvasElement.type === "tower") {
         if (e.target.id === "upgradeButton") {
             showUpgradeOptions(activeCanvasElement.index);
@@ -410,7 +410,7 @@ function showUpgradeOptions(towerIndex) {
     var title = "Upgrade Tower",
         content = "";
 
-    upgrades.forEach(function(upgradeObj) {
+    upgrades.forEach((upgradeObj) => {
         var towerDataObject = towerData[upgradeObj.name];
         content += "<a class='waves-effect waves-light btn-large red' data-action='upgrade' data-upgradename='" + upgradeObj.name + "'>" + upgradeObj.name + " Upgrade</a>";
     });

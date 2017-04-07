@@ -20,7 +20,7 @@ Monster.prototype.runCycle = function(gamePath, dt) {
     var status = {};
     this.move(gamePath, dt);
 
-    this.projectiles.forEach(function(projectile, i, projectileArray) {
+    this.projectiles.forEach((projectile, i, projectileArray) => {
         projectile.move(dt);
         if (projectile.end) {
             // Object.assign doesn't do deep merge - only need to go one level down to prevent reference copying
@@ -38,7 +38,7 @@ Monster.prototype.runCycle = function(gamePath, dt) {
             this.updateHp(-projectile.damage);
             projectileArray.splice(i, 1);
         }
-    }.bind(this));
+    });
 
     // Handle effects here and timers
     this.handleEffects(dt);

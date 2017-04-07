@@ -28,12 +28,12 @@ Tower.prototype.runCycle = function(activeMonsters, dt) {
     if (this.cooldown < 0) {
         // Creates projectiles up to the number of targets specified by the tower
         var firedShots = 0;
-        activeMonsters.forEach(function(monster) {
+        activeMonsters.forEach((monster) => {
             if (this.checkInRange(monster.position) && (firedShots < this.targets)) {
                 monster.projectiles.push(new Projectile(this.id, this.position));
                 firedShots++;
             }
-        }.bind(this));
+        });
 
         this.cooldown = this.attackSpeed;
     }

@@ -213,11 +213,11 @@ GameEngine.prototype.render = function() {
 
         //  loop through list of active monsters and render them
         //  TODO probably need to find a better way to rend them apart from random rectangle
-        this.activeMonsters.forEach(function(activeMonster) {
+        this.activeMonsters.forEach((activeMonster) => {
             activeMonster.draw();
 
             // Renders projectile animations that are active for each monster
-            activeMonster.projectiles.forEach(function(projectile) {
+            activeMonster.projectiles.forEach((projectile) => {
                 projectile.draw(activeMonster.position);
             });
         });
@@ -259,9 +259,9 @@ GameEngine.prototype.runCycle = function(dt) {
         // Checks whether there are any monsters left and whether all the monsters have been created
         if (this.activeMonsters.length === 0 && this.monstersToCreate === 0) {
             if (!this.nextLevelCalled) {
-                setTimeout(function() {
+                setTimeout(() => {
                     this.nextLevel();
-                }.bind(this), constants.TIMEBETWEENLEVELS * 1000);
+                }, constants.TIMEBETWEENLEVELS * 1000);
 
                 this.nextLevelCalled = true;
             }
@@ -496,7 +496,7 @@ function _initiateGrid(pathLines) {
         }
     }
     // Loop through the blocks (which are on the path) and
-    blocks.forEach(function(block) {
+    blocks.forEach((block) => {
         grid[block.x][block.y] = {
             empty: false
         };
