@@ -44,3 +44,7 @@ jspm_packages
 reference
 .sass-cache
 .gitignore
+
+# compiled assests
+/app/css/*
+/app/js/*
