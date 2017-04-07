@@ -25,6 +25,8 @@ Monster.prototype.runCycle = function(gamePath, dt) {
         if (projectile.end) {
             // Object.assign doesn't do deep merge - only need to go one level down to prevent reference copying
             for (key in projectile.effects) {
+                // TODO figure out how to prioritize multiple effects with different values, e.g. two slows with 0.5 and 0.2 (prioritize the higher one)
+
                 this.effects[key] = Object.assign({}, projectile.effects[key]);
             }
 
@@ -40,6 +42,12 @@ Monster.prototype.runCycle = function(gamePath, dt) {
 
     // Handle effects here and timers
     this.handleEffects(dt);
+    if (this.checkDeath()) {
+        status.alive = false;
+        status.giveGold = !this.position.end; // Does not give gold if the monster reached the end
+    } else {
+        status.alive = true;
+    }
     return status;
 }
 
@@ -99,13 +107,12 @@ Monster.prototype.handleEffects = function(dt) {
 Monster.prototype.move = function(pathLines, dt) {
     var modifier = 1;
 
-    // Freeze is priority
+    // Freeze is priority over slow (should be highest to lowest)
     if (this.effects.hasOwnProperty("freeze")) {
         modifier = 0;
     } else if (this.effects.hasOwnProperty("slow")) {
         modifier = 1 - this.effects.slow.amount;
     }
-
 
     this.distanceTravelled += this.baseMs * dt * modifier;
     this.position = utils.convertDistanceToCoordinates(this.distanceTravelled, pathLines);
@@ -126,12 +133,7 @@ Monster.prototype.updateHp = function(hpChange) {
         this.currentHp = this.maxHp;
     }
 
-    if (this.checkDeath()) {
-        status.alive = false;
-        status.giveGold = !this.position.end; // Does not give gold if the monster reached the end
-    } else {
-        status.alive = true;
-    }
+
 };
 
 module.exports = Monster;
