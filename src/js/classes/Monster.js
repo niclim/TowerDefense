@@ -17,7 +17,6 @@ var Monster = function(id, multiplier) {
 };
 // Method the game object uses to move monsters
 Monster.prototype.runCycle = function(gamePath, dt) {
-    var status = {};
     this.move(gamePath, dt);
 
     this.projectiles.forEach((projectile, i, projectileArray) => {
@@ -42,13 +41,6 @@ Monster.prototype.runCycle = function(gamePath, dt) {
 
     // Handle effects here and timers
     this.handleEffects(dt);
-    if (this.checkDeath()) {
-        status.alive = false;
-        status.giveGold = !this.position.end; // Does not give gold if the monster reached the end
-    } else {
-        status.alive = true;
-    }
-    return status;
 }
 
 Monster.prototype.draw = function() {
@@ -65,7 +57,15 @@ Monster.prototype.draw = function() {
 }
 
 Monster.prototype.checkDeath = function() {
-    return this.currentHp <= 0 || this.position.end;
+    var status = {};
+
+    if (this.currentHp <= 0 || this.position.end) {
+        status.alive = false;
+        status.giveGold = !this.position.end; // Does not give gold if the monster reached the end
+    } else {
+        status.alive = true;
+    }
+    return status;
 };
 
 Monster.prototype.handleEffects = function(dt) {
@@ -132,8 +132,6 @@ Monster.prototype.updateHp = function(hpChange) {
     if (this.currentHp > this.maxHp) {
         this.currentHp = this.maxHp;
     }
-
-
 };
 
 module.exports = Monster;

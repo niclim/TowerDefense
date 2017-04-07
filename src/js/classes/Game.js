@@ -269,10 +269,12 @@ GameEngine.prototype.runCycle = function(dt) {
             this.activeMonsters.forEach((activeMonster, i, monsterArray) => {
                 // moves the monsters and checks whether they get to the end of the cycle
                 // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
-                var monsterStatus = activeMonster.runCycle(this.gamePath, dt);
+                activeMonster.runCycle(this.gamePath, dt);
 
                 // Handles external effects to the monsters (splash and bounce effects)
                 this.handleEffects(activeMonster, i);
+
+                var monsterStatus = activeMonster.checkDeath();
 
                 if (!monsterStatus.alive) {
                     if (monsterStatus.giveGold) {
