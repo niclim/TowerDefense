@@ -123,6 +123,9 @@ function renderTowerInformation(index) {
         upgradeAvailable = towerData[id].upgrade.length !== 0;
 
     for (key in towerData[id].projectile.effects) {
+        console.log(towerData)
+        console.log(id)
+        console.log(key)
         effect += key + " ";
         // Todo map information about effects
     }

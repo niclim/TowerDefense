@@ -23,7 +23,7 @@ Monster.prototype.runCycle = function(gamePath, dt) {
         projectile.move(dt);
         if (projectile.end) {
             // Object.assign doesn't do deep merge - only need to go one level down to prevent reference copying
-            for (key in projectile.effects) {
+            for (var key in projectile.effects) {
                 // TODO figure out how to prioritize multiple effects with different values, e.g. two slows with 0.5 and 0.2 (prioritize the higher one)
 
                 this.effects[key] = Object.assign({}, projectile.effects[key]);
@@ -71,7 +71,7 @@ Monster.prototype.checkDeath = function() {
 Monster.prototype.handleEffects = function(dt) {
     // Loop through all the effects on the monster
     // Effects to handle: splash, slow, freeze, dot, amplify, bounce
-    for (key in this.effects) {
+    for (var key in this.effects) {
         switch (key) {
             case "freeze":
                 if (Math.random() < this.effects.freeze.chance) {

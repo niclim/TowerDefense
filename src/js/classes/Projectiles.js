@@ -10,9 +10,11 @@ var Projectile = function(id, towerPosition) {
     this.sprite = towerData[id].projectile.sprite;
     this.type = towerData[id].projectile.type;
     this.effects = {};
-    for (key in towerData[id].projectile.effects) {
+
+    for (var key in towerData[id].projectile.effects) {
         this.effects[key] = Object.assign({}, towerData[id].projectile.effects[key]);
     }
+
     this.currentTravelTime = 0;
     this.end = false;
     this.initialPosition = {
