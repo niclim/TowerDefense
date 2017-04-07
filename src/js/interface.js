@@ -49,9 +49,9 @@ var activeCanvasElement = {type: null},
     };
 
 //  creates global variables
-game = new GameEngine; // Privatize this later
-dynamicCanvas = document.getElementById('dynamic');
-dynamicContext = dynamicCanvas.getContext('2d');
+window.game = new GameEngine; // Privatize this later
+window.dynamicCanvas = document.getElementById('dynamic');
+window.dynamicContext = dynamicCanvas.getContext('2d');
 
 // Declare the game loop
 var lastTime;
