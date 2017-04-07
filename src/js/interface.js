@@ -122,7 +122,7 @@ function renderTowerInformation(index) {
         speed = game.towers[index].attackSpeed,
         upgradeAvailable = towerData[id].upgrade.length !== 0;
 
-    for (key in towerData[id].projectile.effects) {
+    for (var key in towerData[id].projectile.effects) {
         console.log(towerData)
         console.log(id)
         console.log(key)
