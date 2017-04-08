@@ -22,7 +22,8 @@ module.exports = {
             {
                 name: "multishot"
             }
-        ]
+        ],
+        color: 'green'
     },
     advanced: {
         projectile: {
@@ -119,7 +120,8 @@ module.exports = {
             {
                 name: "cannon"
             }
-        ]
+        ],
+        color: 'black'
     },
     siege: {
         projectile: {
@@ -278,7 +280,8 @@ module.exports = {
             {
                 name: "flamethrower"
             }
-        ]
+        ],
+        color: 'red'
     },
     broiler: {
         projectile: {
@@ -409,7 +412,8 @@ module.exports = {
             {
                 name: "frost"
             }
-        ]
+        ],
+        color: 'blue'
     },
     blizzard: {
         projectile: {
@@ -549,7 +553,8 @@ module.exports = {
             {
                 name: "electric"
             }
-        ]
+        ],
+        color: 'yellow'
     },
     laser: {
         projectile: {
