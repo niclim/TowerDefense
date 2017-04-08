@@ -72,7 +72,7 @@
                 </div>
             </div>
         </section>
-        <section class="side-section left card-panel">
+        <section id="informationPanel" class="side-section left card-panel">
             <h2>Information</h2>
             <div class="row">
                 <h5 id="info-name">Awesome TD</h5>
@@ -107,20 +107,7 @@
         </ul>
     </footer>
 
-    <div id="mainModal" class="modal-content card-panel">
-        <h3 id="mainModalTitle" class="modal-title">Welcome to Awesome TD!</h3>
-
-        <div id="mainModalContent" class="modal-information">
-            <p>
-                This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
-                On game reset this modal-content container will show and prompt to restart game.
-            </p>
-            <div class="modal-actions">
-                <a data-action="start" class="waves-effect waves-light btn-large red">Start Game</a>
-                <a data-action="information" class="waves-effect waves-light btn-large red"><i class="material-icons left">info</i>Information</a>
-            </div>
-        </div>
-    </div>
+    <div id="mainModal" class="modal-content card-panel" style="display:none;"></div>
     <div class="modal-background"></div>
     <script src="js/main.min.js"></script>
 </body>

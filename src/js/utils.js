@@ -191,13 +191,23 @@ function removeClass(element, cssClass) {
     element.className = arrayOfClasses.join(" ");
 }
 
+// Inserts variables into a html template -
+function compileTemplate(template, object) {
+    var html = template;
+    for (var key in object) {
+        html = html.replace(`{{${key}}}`, object[key]);
+    }
+    return html
+}
+
 module.exports = {
-    addClass: addClass,
-    checkIfInSquare: checkIfInSquare,
-    convertToBlock: convertToBlock,
-    convertDistanceToCoordinates: convertDistanceToCoordinates,
-    convertPositionToTower: convertPositionToTower,
-    getPathPosition: getPathPosition,
-    getPositionDifference: getPositionDifference,
-    removeClass: removeClass
+    addClass,
+    checkIfInSquare,
+    convertToBlock,
+    convertDistanceToCoordinates,
+    convertPositionToTower,
+    getPathPosition,
+    getPositionDifference,
+    removeClass,
+    compileTemplate
 }
