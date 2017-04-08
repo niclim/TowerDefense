@@ -116,11 +116,11 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
             if (i !== j) {
                 var distance = utils.getPositionDifference(searchMonster.position, activeMonster.position);
                 if (distance < splashRange) {
-                    activeMonster.updateHp(-activeMonster.effects.splash.radius);
+                    searchMonster.updateHp(-activeMonster.effects.splash.damage);
                 }
             }
         });
-        delete this.effects.splash;
+        delete activeMonster.effects.splash;
 
     } else if (activeMonster.effects.hasOwnProperty("bounce")) {
         var bounceRange = activeMonster.effects.bounce.range;

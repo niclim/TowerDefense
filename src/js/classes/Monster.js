@@ -32,6 +32,8 @@ Monster.prototype.runCycle = function(gamePath, dt) {
             // Copy over ID so game can create antoher projectile for bounce
             if (this.effects.hasOwnProperty("bounce")) {
                 this.effects.bounce.id = projectile.id;
+            } else if (this.effects.hasOwnProperty("splash")) {
+                this.effects.splash.damage = projectile.damage;
             }
 
             this.updateHp(-projectile.damage);
