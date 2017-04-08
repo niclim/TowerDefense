@@ -216,15 +216,15 @@ function renderTowerPlacement() {
         return
     };
 
-    var coordinates = canvasMousePosition.towerPosition.coordinates,
-        towerRange = towerData[activeTowerSelected].range;
+    var towerData = utils.getTowerData(activeTowerSelected);
+    var coordinates = canvasMousePosition.towerPosition.coordinates;
 
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
 
     // Draw grid validation placement
     if (game.validateTowerPlacement(canvasMousePosition.towerPosition.grid)) {
-        dynamicContext.fillStyle = "green";
+        dynamicContext.fillStyle = towerData.color;
     } else {
         dynamicContext.fillStyle = "red";
     }
@@ -248,7 +248,7 @@ function renderTowerPlacement() {
 
     // Draw tower radius
     dynamicContext.globalAlpha = 0.3;
-    dynamicContext.arc(coordinates.x, coordinates.y, towerRange, 0, 2 * Math.PI);
+    dynamicContext.arc(coordinates.x, coordinates.y, towerData.range, 0, 2 * Math.PI);
     dynamicContext.fillStyle = 'gray';
     dynamicContext.fill();
 
@@ -318,6 +318,8 @@ function modalClick(e) {
         case "upgrade":
             var upgradeName = e.target.getAttribute("data-upgradename");
             upgradeTower(activeCanvasElement.index, upgradeName);
+            break;
+        case "close":
             break;
         default:
             return;
@@ -472,6 +474,7 @@ function showUpgradeOptions(towerIndex) {
 
     document.getElementById("mainModalTitle").innerHTML = title;
     document.getElementById("mainModalContent").innerHTML = content;
+    document.getElementById("mainModalFooter").style.display = "block";
 
 }
 

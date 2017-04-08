@@ -9,17 +9,19 @@ var Tower = function(position, id) {
     if (towerData[id] === undefined) {
         throw new Error("Invalid tower name, check html dataattribute or towerdata")
     }
+    var loadedTowerData = towerData[id];
     this.id = id;
-    this.attackSpeed = towerData[id].attackSpeed; // Attack speed
+    this.attackSpeed = loadedTowerData.attackSpeed; // Attack speed
     this.cooldown = 0;
-    this.range = towerData[id].range; // Range of the tower
-    this.effects = towerData[id].effects; // Special effect (e.g. slow, splash, etc)
-    this.goldCost = towerData[id].goldCost;
-    this.totalCost = towerData[id].totalCost;
-    this.upgrade = towerData[id].upgrade;
-    this.targets = towerData[id].targets;
+    this.range = loadedTowerData.range; // Range of the tower
+    this.effects = loadedTowerData.effects; // Special effect (e.g. slow, splash, etc)
+    this.goldCost = loadedTowerData.goldCost;
+    this.totalCost = loadedTowerData.totalCost;
+    this.upgrade = loadedTowerData.upgrade;
+    this.targets = loadedTowerData.targets;
     this.position = position; // object with x and y coordinates - references the top left corner of the tower
     this.position.sideLength = constants.TOWERLENGTH;
+    this.renderColor = loadedTowerData.color;
 }
 // Method the game object uses to run towers
 Tower.prototype.runCycle = function(activeMonsters, dt) {
@@ -65,9 +67,8 @@ Tower.prototype.draw = function(active) {
         0,
         2 * Math.PI
     );
-    dynamicContext.fillStyle = "#333";
+    dynamicContext.fillStyle = this.renderColor;
     dynamicContext.fill();
-
     // Draw range radius
     if (active) {
         dynamicContext.globalAlpha = 0.3;

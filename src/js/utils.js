@@ -1,4 +1,5 @@
-var constants = require("./gameData/gameConstants.js");
+var constants = require("./gameData/gameConstants.js"),
+    towerData = require("./gameData/towerdata.js");
 
 /* ================== Public functions =================*/
 /* =====================================================*/
@@ -191,6 +192,10 @@ function removeClass(element, cssClass) {
     element.className = arrayOfClasses.join(" ");
 }
 
+function getTowerData(towerType) {
+    return towerData[towerType];
+}
+
 // Inserts variables into a html template -
 function compileTemplate(template, object) {
     var html = template;
@@ -199,7 +204,6 @@ function compileTemplate(template, object) {
     }
     return html
 }
-
 module.exports = {
     addClass,
     checkIfInSquare,
@@ -209,5 +213,8 @@ module.exports = {
     getPathPosition,
     getPositionDifference,
     removeClass,
-    compileTemplate
+    compileTemplate,
+    getTowerData
 }
+
+
