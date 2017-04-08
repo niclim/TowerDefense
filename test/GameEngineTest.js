@@ -1,30 +1,25 @@
 var expect = chai.expect;
+
 describe("Game", function() {
-  describe("Game Start", function() {
-    var game;
-    beforeEach(function(){
-      game = new GameEngine();
-    });
-    it("should start with 10 user gold", function() {
-      expect(game.userGold).to.equal(10);
-    });
 
-    it("should start with 30 lives", function() {
-      expect(game.userLives).to.equal(30);
-    });
+    describe("Game initialization", function() {
+        var game;
 
-    it("should start at level 1", function() {
-      expect(game.level).to.equal(1);
-    });
-  });
+        beforeEach(function() {
+            game = new GameEngine();
+        });
 
-  describe("Game Cycle", function() {
-    it("should be called when the game starts", function() {
+        it("should initialize userGold, level, userLives, activeMonsters, towers, timer, nextLevelCalled, monstersToCreate, gameState", function() {
 
+        });
+
+        it("should create a pathLines array based on the path information", function() {
+
+        })
+
+        it("should generate a gameGrid based on the pathLines array", function() {
+
+        });
     });
 
-    it("should be called on requestAnimationFrame (loops)", function() {
-
-    });
-  });
 });

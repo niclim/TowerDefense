@@ -38,8 +38,8 @@ gulp.task("browserSync", function() {
 
 // Add tests here
 
-// Watch
-gulp.task("watch", ["browserSync", "sass", "webpack"], function() {
+// Default gulp task
+gulp.task("default", ["browserSync", "sass", "webpack"], function() {
   gulp.watch("src/scss/**/*.scss", ["sass"]);
   gulp.watch("src/js/**/*.js", ["webpack"]);
   gulp.watch('app/*.html', browserSync.reload);

@@ -5,6 +5,9 @@ var Tower = require("./classes/Tower.js"),
 // Import and declare utility functions
 var utils = require("./utils.js");
 
+var constants = require("./gameData/gameConstants.js"),
+    towerData = require("./gameData/towerdata.js");
+
 // Cache reused DOM elements
 var infoName = document.getElementById("info-name"),
     infoIcon = document.getElementById("info-icon"),
@@ -14,10 +17,10 @@ var infoName = document.getElementById("info-name"),
     infoBox4 = document.getElementById("info-box-4"),
     levelInfo = document.getElementById("level"),
     goldInfo = document.getElementById("gold"),
-    livesInfo = document.getElementById("lives");
-
-var towerCards = document.getElementsByClassName("tower-card"),
+    livesInfo = document.getElementById("lives"),
+    towerCards = document.getElementsByClassName("tower-card"),
     towerCardList = [];
+
 // Convert from nodelist to array
 towerCards = Array.prototype.slice.call(towerCards);
 
@@ -46,67 +49,93 @@ var activeCanvasElement = {type: null},
     };
 
 //  creates global variables
-game = new GameEngine;
-dynamicCanvas = document.getElementById('dynamic');
-dynamicContext = dynamicCanvas.getContext('2d');
+window.game = new GameEngine; // Privatize this later
+window.dynamicCanvas = document.getElementById('dynamic');
+window.dynamicContext = dynamicCanvas.getContext('2d');
 
-runCycle = function() {
-    game.runCycle();
-    updateGameInformation();
-    // I assume the game is going to run fast than this after? if not need to add updateGameInformation to a few other places
-    setTimeout(runCycle, 1000);
-}
+// Declare the game loop
+var lastTime;
+function gameLoop() {
+    var now = Date.now(),
+        dt = (now - lastTime) / 1000.0; // Convert to seconds
 
-renderCycle = function() {
-    game.render();
-    // Renders the information and error messages based on the state variables
+    game.runCycle(dt);
+
+    lastTime = now;
+    // Renders methods based on state variables
+    game.render(activeCanvasElement);
+    updateGameDependentInformation();
     renderTowerPlacement();
-    renderMessage();
-    requestAnimationFrame(renderCycle);
+    renderMessage(dt);
+    requestAnimationFrame(gameLoop);
 }
 
 /* ================== Render functions =================*/
 /* =====================================================*/
-// Render functions run every game cycle (on the renderCycle function call)
-// Renders based on the state variables
 
-function updateGameInformation() {
+function updateGameDependentInformation() {
     livesInfo.innerHTML = game.userLives;
     goldInfo.innerHTML = game.userGold;
     levelInfo.innerHTML = game.level;
 
     if (activeCanvasElement.type === "monster") {
-        renderMonsterInformation(activeCanvasElement.id, activeCanvasElement.index);
+        document.getElementById("monsterHp").innerHTML = Math.floor(game.activeMonsters[activeCanvasElement.index].currentHp);
     } else if (activeCanvasElement.type === "tower") {
-        renderTowerInformation(activeCanvasElement.id, activeCanvasElement.index);
+        // Add any relevant tower information here
+    }
+}
+
+// Moved this outside of the gameLoop, will only update the relevant data when necessary
+function updateInformationPanel() {
+    if (activeCanvasElement.type === "monster") {
+        renderMonsterInformation(activeCanvasElement.index);
+    } else if (activeCanvasElement.type === "tower") {
+        renderTowerInformation(activeCanvasElement.index);
     } else {
         renderDefaultInformation();
     }
 }
 
 // ID refers to the type of monster and index is the index of the active monster in the active monster's array
-function renderMonsterInformation(id, index) {
-    var currentHp = game.activeMonsters[index].currentHp,
+function renderMonsterInformation(index) {
+    var currentHp = Math.floor(game.activeMonsters[index].currentHp),
         maxHp = game.activeMonsters[index].maxHp,
-        type = game.activeMonsters[index].type;
+        type = game.activeMonsters[index].type,
+        id = game.activeMonsters[index].id;
+
     infoName.innerHTML = id;
     // Change icon to active monster - use a sprite
-    infoBox1.innerHTML = "HP: " + currentHp + " / " + maxHp;
-    infoBox2.innerHTML = "Type: " + type;
-    infoBox3.innerHTML = "Strengths: All sorts mate" ;
-    infoBox4.innerHTML = "Weaknesses: Ducks" ;
+    infoBox1.innerHTML = `HP: <span id='monsterHp'>${currentHp}</span> / ${maxHp}`;
+    infoBox2.innerHTML = `Type: ${type}`;
+    infoBox3.innerHTML = `Strengths: ` ;
+    infoBox4.innerHTML = `Weaknesses: ` ;
 }
 
 // ID refers to the type of tower and index is the index of the active tower in the active tower's array
-function renderTowerInformation(id, index) {
-    infoName.innerHTML = id;
-    // Change icon to active monster - use a sprite
-    infoBox1.innerHTML = "Damage: <br> Range: <br> Effect: ";
-    infoBox2.innerHTML = "Attack Speed: <br> Type: " ;
-    infoBox3.innerHTML = "<a class='waves-effect waves-light btn red'>Upgrade</a>" ;
-    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red'>Sell</a>" ;
-    // Change icon to tower monster - use a sprite
+// TODO add number of targetrs
+function renderTowerInformation(index) {
+    var id = game.towers[index].id,
+        damage = towerData[id].projectile.damage,
+        type = towerData[id].projectile.type,
+        effect = "",
+        range = game.towers[index].range,
+        speed = game.towers[index].attackSpeed,
+        upgradeAvailable = towerData[id].upgrade.length !== 0;
 
+    for (var key in towerData[id].projectile.effects) {
+        console.log(towerData)
+        console.log(id)
+        console.log(key)
+        effect += key + " ";
+        // Todo map information about effects
+    }
+
+    infoName.innerHTML = id;
+    // Change icon to tower monster - use a sprite
+    infoBox1.innerHTML = `Damage: ${damage} <br>Range: ${range}<br>Effect: ${effect}`;
+    infoBox2.innerHTML = `Attack Speed: ${speed}<br>Type: ${type}`;
+    infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red' id='upgradeButton'>Upgrade</a>" : "";
+    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red' id='sellButton'>Sell</a>";
 }
 
 function renderDefaultInformation() {
@@ -118,22 +147,21 @@ function renderDefaultInformation() {
     infoBox4.innerHTML = "This 1231241235" ;
 }
 
-// Maybe change this to "renderMessage"
-function renderMessage() {
+function renderMessage(dt) {
     if (activeMessage.message === null) {
         return;
     } else {
-        dynamicContext.globalAlpha = activeMessage.timer / 50;
-        dynamicContext.font = '40pt Droid Sans';
+        dynamicContext.globalAlpha = activeMessage.timer > 0 ? activeMessage.timer : 0; // Sets transparency to 0 if a negative number
+        dynamicContext.font = constants.MESSAGEFONT;
         dynamicContext.textAlign = "center";
-        dynamicContext.fillStyle = "red";
-        dynamicContext.fillText(activeMessage.message, 450, 50);
+        dynamicContext.fillStyle = constants.MESSAGECOLOR;
+        dynamicContext.fillText(activeMessage.message, constants.CANVASWIDTH / 2, 50);
         dynamicContext.globalAlpha = 1;
 
-        if (activeMessage.timer === 0) {
-            activeMessage = {message: null}; // Reset error message
+        if (activeMessage.timer <= 0) {
+            activeMessage = {message: null}; // Reset message
         } else {
-            activeMessage.timer--;
+            activeMessage.timer -= dt;
         }
     }
 }
@@ -148,57 +176,44 @@ function renderTowerPlacement() {
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
 
-    if (true) { // check for valid tower placement
+    // Draw grid validation placement
+    if (game.validateTowerPlacement(canvasMousePosition.towerPosition.grid)) {
         dynamicContext.fillStyle = "green";
-        dynamicContext.fillRect(coordinates.x,
-                                coordinates.y,
-                                50,
-                                50
-         );
-
-        dynamicContext.globalAlpha = 0.7;
-        dynamicContext.arc(coordinates.x + 25,
-                           coordinates.y + 25,
-                           30,
-                           0,
-                           2 * Math.PI,
-                           false
-         );
-        dynamicContext.fillStyle = 'gray';
-        dynamicContext.fill();
-
     } else {
-        // do some sort of logic to highlight the tiles that the tower would be placed on and show the tower on those positions
-        // this would run when tower placement is invalid
+        dynamicContext.fillStyle = "red";
     }
+    dynamicContext.fillRect(coordinates.x,
+                            coordinates.y,
+                            constants.TOWERLENGTH,
+                            constants.TOWERLENGTH
+     );
+
+     // Draw tower
+    dynamicContext.globalAlpha = 0.7;
+    dynamicContext.arc(coordinates.x + constants.TOWERLENGTH / 2,
+                       coordinates.y + constants.TOWERLENGTH / 2,
+                       constants.TOWERLENGTH * 0.6,
+                       0,
+                       2 * Math.PI,
+                       false
+     );
+    dynamicContext.fillStyle = 'gray';
+    dynamicContext.fill();
+
     dynamicContext.globalAlpha = 1;
     dynamicContext.closePath();
 }
 
 /* ================ UI Event Listeners =================*/
 /* =====================================================*/
-document.getElementById("start-btn").addEventListener("click", function() {
-    // Hides the modal lightbox
-    document.getElementsByClassName("modal-content")[0].style.display = "none";
-    document.getElementsByClassName("modal-background")[0].style.display = "none";
-
-    // run repeating function that runs game engine run cycle and rendering
-    setTimeout(runCycle, 1000);
-    requestAnimationFrame(renderCycle);
-});
-
-// On clicking the information button, show the information panel
-document.getElementById("information-btn").addEventListener("click", function() {
-    // TODO - add information modal information thingy
-    console.log("show information container here");
-});
+document.getElementById("mainModal").addEventListener("click", modalClick);
 
 /*
 These event listeners control the application by interacting with the game
 object and by changing the state variables (which the render functions use
 to read)
 */
-towerCards.map(function(towerCard, i) {
+towerCards.forEach((towerCard, i) => {
     towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
 });
@@ -206,14 +221,66 @@ towerCards.map(function(towerCard, i) {
 document.getElementById("dynamic").onmousemove = onCanvasMouseMovement;
 document.getElementById("dynamic").addEventListener("click", canvasClick);
 
-document.onkeydown = function(e) {
+document.onkeydown = (e) => {
     if (e.keyCode === 27) {
         cancelTowerPlacement();
     }
 }
 
+// updates activeCanvasElement when monster death or tower removed affects the current selected target
+document.addEventListener("unitRemoved", (e) => {
+    // Updates if the active element is the same as the type of unit removed
+    if (activeCanvasElement.type === e.detail.element) {
+        if (e.detail.index < activeCanvasElement.index) {
+            activeCanvasElement.index--; // Update positioning in element
+        } else if (e.detail.index === activeCanvasElement.index) {
+            activeCanvasElement = {type: null} // Reset
+        }
+        updateInformationPanel();
+    }
+});
+
+// Adds event listeners only to the info box
+document.getElementsByClassName("side-section left")[0].addEventListener("click", (e) => {
+    if (activeCanvasElement.type === "tower") {
+        if (e.target.id === "upgradeButton") {
+            showUpgradeOptions(activeCanvasElement.index);
+        } else if (e.target.id === "sellButton") {
+            sellTower();
+        }
+    }
+})
+
 /* =================== UI Functions ====================*/
 /* =====================================================*/
+function modalClick(e) {
+    var clickTarget = e.target.getAttribute("data-action");
+
+    switch (clickTarget) {
+        case "start":
+            startGame();
+            break;
+        case "information":
+            console.log("show information container here");
+            break;
+        case "upgrade":
+            var upgradeName = e.target.getAttribute("data-upgradename");
+            upgradeTower(activeCanvasElement.index, upgradeName);
+            break;
+        default:
+            return;
+    }
+    document.getElementById("mainModal").style.display = "none";
+    document.getElementsByClassName("modal-background")[0].style.display = "none";
+}
+
+function startGame() {
+    game.gameStart();
+    // Sets up game loop and render loop
+    lastTime = Date.now();
+    gameLoop();
+}
+
 /* Click event listener on the tower cards
 Used to control what tower is being actively placed on the canvas
 4 possible flows based on the state of the interface
@@ -229,8 +296,8 @@ Used to control what tower is being actively placed on the canvas
 function towerCardClick() {
 
     var towerName = this.getAttribute("data-tower"),
-        oldTowerIndex = utils.getTowerCardIndex(towerCardList, activeTowerSelected),
-        newTowerIndex = utils.getTowerCardIndex(towerCardList, towerName);
+        oldTowerIndex = towerCardList.indexOf(activeTowerSelected),
+        newTowerIndex = towerCardList.indexOf(towerName);
 
     if (/disabled/i.test(this.className)) {
         return;
@@ -247,7 +314,6 @@ function towerCardClick() {
         activeTowerSelected = towerName;
         utils.addClass(towerCards[newTowerIndex], "active");
         canvasMousePosition.onCanvas = false;
-
     }
 }
 
@@ -256,7 +322,7 @@ Called from towerCardClick (when clicking the active tower card) and on an escap
 Resets the active tower placement state to null
 */
 function cancelTowerPlacement() {
-    utils.removeClass(towerCards[utils.getTowerCardIndex(towerCardList, activeTowerSelected)], "active");
+    utils.removeClass(towerCards[towerCardList.indexOf(activeTowerSelected)], "active");
     activeTowerSelected = null;
 }
 
@@ -312,16 +378,59 @@ function canvasClick(e) {
         if (!towerPlaced.placed) {
             activeMessage = {
                 message: towerPlaced.message,
-                timer: 50 // frames
+                timer: constants.MESSAGEDURATION // seconds
             }
         }
 
-        utils.removeClass(towerCards[utils.getTowerCardIndex(towerCardList, activeTowerSelected)], "active");
+        utils.removeClass(towerCards[towerCardList.indexOf(activeTowerSelected)], "active");
         activeTowerSelected = null;
     } else {
         // User is not running a tower placement
         activeCanvasElement = game.checkClickLocation(position);
-        updateGameInformation();
+        updateInformationPanel();
     }
+}
 
+function sellTower() {
+    var sellPrice = game.sellTower(activeCanvasElement.index);
+    activeMessage = {
+        message: constants.MESSAGETOWERSOLD + sellPrice + " Gold",
+        timer: constants.MESSAGEDURATION // seconds
+    }
+    updateInformationPanel();
+}
+
+// At the moment expects only towers with upgrades should be able to access this
+function showUpgradeOptions(towerIndex) {
+    // Figure out where to show the upgrade contianer
+    document.getElementById("mainModal").style.display = "block";
+    document.getElementsByClassName("modal-background")[0].style.display = "block";
+
+    var towerId = game.towers[towerIndex].id,
+        upgrades = towerData[towerId].upgrade;
+
+    // Todo move HTML out into a template
+    var title = "Upgrade Tower",
+        content = "";
+
+    upgrades.forEach((upgradeObj) => {
+        var towerDataObject = towerData[upgradeObj.name];
+        content += `<a class='waves-effect waves-light btn-large red' data-action='upgrade' data-upgradename='${upgradeObj.name}'> ${upgradeObj.name}  Upgrade</a>`;
+    });
+
+    document.getElementById("mainModalTitle").innerHTML = title;
+    document.getElementById("mainModalContent").innerHTML = content;
+
+}
+
+function upgradeTower(towerIndex, upgradeName) {
+   var upgraded = game.upgradeTower(towerIndex, upgradeName);
+    if (upgraded) {
+        updateInformationPanel();
+    } else {
+        activeMessage = {
+            message: constants.MESSAGENOTENOUGHGOLD,
+            timer: constants.MESSAGEDURATION // seconds
+        }
+    }
 }
