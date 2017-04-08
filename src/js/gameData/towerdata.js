@@ -340,8 +340,8 @@ module.exports = {
     },
     flamethrower: {
         projectile: {
-            damage: 20,
-            travelTime: 0.01, // time in seconds before impact
+            damage: 4,
+            travelTime: 1, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
             effects: {
@@ -353,7 +353,7 @@ module.exports = {
         },
         sprite: "TODO",
         targets: 1,
-        attackSpeed: 0.5,
+        attackSpeed: 0.1,
         range: 300,
         goldCost: 60,
         totalCost: 90,

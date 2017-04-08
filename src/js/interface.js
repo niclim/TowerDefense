@@ -274,6 +274,8 @@ function modalClick(e) {
             var upgradeName = e.target.getAttribute("data-upgradename");
             upgradeTower(activeCanvasElement.index, upgradeName);
             break;
+        case "close":
+            break;
         default:
             return;
     }
@@ -427,6 +429,7 @@ function showUpgradeOptions(towerIndex) {
 
     document.getElementById("mainModalTitle").innerHTML = title;
     document.getElementById("mainModalContent").innerHTML = content;
+    document.getElementById("mainModalFooter").style.display = "block";
 
 }
 

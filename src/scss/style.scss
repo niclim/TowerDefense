@@ -211,6 +211,12 @@ aside {
     .modal-information {}
 
     .modal-actions {}
+
+    .modal-footer {
+        bottom: 10%;
+        left: 45%;
+        position: absolute;
+    }
 }
 
 .modal-background {
