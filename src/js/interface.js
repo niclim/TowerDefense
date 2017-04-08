@@ -8,6 +8,13 @@ var utils = require("./utils.js");
 var constants = require("./gameData/gameConstants.js"),
     towerData = require("./gameData/towerdata.js");
 
+// Import components
+var baseModalTemplate = require("./components/baseModal.js"),
+    actionsTemplate = require("./components/actions.js"),
+    informationPanelTemplate = require("./components/informationPanel.js"),
+    upgradePanelTemplate = require("./components/upgradePanel.js");
+
+
 // Cache reused DOM elements
 var infoName = document.getElementById("info-name"),
     infoIcon = document.getElementById("info-icon"),
@@ -50,8 +57,11 @@ var activeCanvasElement = {type: null},
 
 //  creates global variables
 window.game = new GameEngine; // Privatize this later
+// For development - get looooots of gold
+game.userGold = 10000
 window.dynamicCanvas = document.getElementById('dynamic');
 window.dynamicContext = dynamicCanvas.getContext('2d');
+showStartModal();
 
 // Declare the game loop
 var lastTime;
@@ -69,6 +79,37 @@ function gameLoop() {
     renderMessage(dt);
     requestAnimationFrame(gameLoop);
 }
+/* =================== Modal functions =================*/
+/* =====================================================*/
+
+function showStartModal() {
+    var actions = [
+        {
+            action: "start",
+            name: "Start Game"
+        },
+        {
+            action: "information",
+            name: "Information"
+        }
+    ];
+
+    var actionHtml = actions.reduce((prevAction, action) => {
+        return prevAction + utils.compileTemplate(actionsTemplate, action)
+    }, "");
+
+    var startModal = utils.compileTemplate(baseModalTemplate, {
+        title: "Welcome to Awesome TD!",
+        content: `<p>This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
+        On game reset this modal-content container will show and prompt to restart game.</p>`,
+        actions: actionHtml
+    });
+
+    document.getElementById("mainModal").innerHTML = startModal;
+    document.getElementById("mainModal").style.display = "block";
+}
+
+
 
 /* ================== Render functions =================*/
 /* =====================================================*/
@@ -123,17 +164,21 @@ function renderTowerInformation(index) {
         upgradeAvailable = towerData[id].upgrade.length !== 0;
 
     for (var key in towerData[id].projectile.effects) {
-        console.log(towerData)
-        console.log(id)
-        console.log(key)
         effect += key + " ";
         // Todo map information about effects
     }
 
     infoName.innerHTML = id;
     // Change icon to tower monster - use a sprite
-    infoBox1.innerHTML = `Damage: ${damage} <br>Range: ${range}<br>Effect: ${effect}`;
-    infoBox2.innerHTML = `Attack Speed: ${speed}<br>Type: ${type}`;
+    infoBox1.innerHTML = `
+    Damage: ${damage} <br>
+    Range: ${range}<br>
+    Effect: ${effect}`;
+
+    infoBox2.innerHTML = `
+    Attack Speed: ${speed}<br>
+    Type: ${type}`;
+
     infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red' id='upgradeButton'>Upgrade</a>" : "";
     infoBox4.innerHTML = "<a class='waves-effect waves-light btn red' id='sellButton'>Sell</a>";
 }
