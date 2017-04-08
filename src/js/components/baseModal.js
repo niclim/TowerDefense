@@ -9,6 +9,8 @@ var baseModal = `
         {{actions}}
     </div>
 </div>
+<div id="mainModalFooter" class="modal-footer">
+    {{footerActions}}
+</div>
 `
-
 module.exports = baseModal;

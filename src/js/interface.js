@@ -81,6 +81,11 @@ function gameLoop() {
 }
 /* =================== Modal functions =================*/
 /* =====================================================*/
+function showModal(html) {
+    document.getElementById("mainModal").innerHTML = html;
+    document.getElementById("mainModal").style.display = "block";
+    document.getElementsByClassName("modal-background")[0].style.display = "block";
+}
 
 function showStartModal() {
     var actions = [
@@ -102,11 +107,39 @@ function showStartModal() {
         title: "Welcome to Awesome TD!",
         content: `<p>This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
         On game reset this modal-content container will show and prompt to restart game.</p>`,
-        actions: actionHtml
+        actions: actionHtml,
+        footerActions: ""
     });
 
-    document.getElementById("mainModal").innerHTML = startModal;
-    document.getElementById("mainModal").style.display = "block";
+    showModal(startModal);
+}
+
+// At the moment expects only towers with upgrades should be able to access this
+function showUpgradeOptions(towerIndex) {
+    // Figure out where to show the upgrade contianer
+
+    var towerId = game.towers[towerIndex].id,
+        upgrades = towerData[towerId].upgrade;
+
+    var content = "";
+
+    // Change this to use template for upgrade
+    upgrades.forEach((upgradeObj) => {
+        var towerDataObject = towerData[upgradeObj.name];
+        content += `<a class='waves-effect waves-light btn-large red' data-action='upgrade' data1-upgradename='${upgradeObj.name}'> ${upgradeObj.name}  Upgrade</a>`;
+    });
+
+    var upgradeModal = utils.compileTemplate(baseModalTemplate, {
+        title: "Upgrade Tower",
+        content,
+        actions: "",
+        footerActions: utils.compileTemplate(actionsTemplate, {
+            action: "close",
+            name: "Close"
+        })
+    });
+
+    showModal(upgradeModal);
 }
 
 
@@ -452,30 +485,6 @@ function sellTower() {
         timer: constants.MESSAGEDURATION // seconds
     }
     updateInformationPanel();
-}
-
-// At the moment expects only towers with upgrades should be able to access this
-function showUpgradeOptions(towerIndex) {
-    // Figure out where to show the upgrade contianer
-    document.getElementById("mainModal").style.display = "block";
-    document.getElementsByClassName("modal-background")[0].style.display = "block";
-
-    var towerId = game.towers[towerIndex].id,
-        upgrades = towerData[towerId].upgrade;
-
-    // Todo move HTML out into a template
-    var title = "Upgrade Tower",
-        content = "";
-
-    upgrades.forEach((upgradeObj) => {
-        var towerDataObject = towerData[upgradeObj.name];
-        content += `<a class='waves-effect waves-light btn-large red' data-action='upgrade' data-upgradename='${upgradeObj.name}'> ${upgradeObj.name}  Upgrade</a>`;
-    });
-
-    document.getElementById("mainModalTitle").innerHTML = title;
-    document.getElementById("mainModalContent").innerHTML = content;
-    document.getElementById("mainModalFooter").style.display = "block";
-
 }
 
 function upgradeTower(towerIndex, upgradeName) {
