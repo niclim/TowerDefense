@@ -257,7 +257,7 @@ function renderTowerPlacement() {
 
     // Draw grid validation placement
     if (game.validateTowerPlacement(canvasMousePosition.towerPosition.grid)) {
-        dynamicContext.fillStyle = towerData.color;
+        dynamicContext.fillStyle = 'green';
     } else {
         dynamicContext.fillStyle = "red";
     }
@@ -276,7 +276,7 @@ function renderTowerPlacement() {
                        2 * Math.PI,
                        false
      );
-    dynamicContext.fillStyle = '#333';
+    dynamicContext.fillStyle = towerData.color;
     dynamicContext.fill();
 
     // Draw tower radius
