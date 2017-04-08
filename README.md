@@ -12,6 +12,8 @@ Towers have a size of 2x2
 * Complete upgrade lb
 * Complete unit test coverage
 * do some balancing (towers and levels are definitely not balanced lol.)
+* add in strengths and weaknesses
+* render information properly
 
 ### TODO later
 * Come up with a better name than awesome TD

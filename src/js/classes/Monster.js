@@ -110,7 +110,7 @@ Monster.prototype.move = function(pathLines, dt) {
     var modifier = 1;
 
     // Freeze is priority over slow (should be highest to lowest)
-    if (this.effects.hasOwnProperty("freeze")) {
+    if (this.effects.hasOwnProperty("frozen")) {
         modifier = 0;
     } else if (this.effects.hasOwnProperty("slow")) {
         modifier = 1 - this.effects.slow.amount;
