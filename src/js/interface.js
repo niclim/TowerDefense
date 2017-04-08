@@ -126,7 +126,7 @@ function showUpgradeOptions(towerIndex) {
     // Change this to use template for upgrade
     upgrades.forEach((upgradeObj) => {
         var towerDataObject = towerData[upgradeObj.name];
-        content += `<a class='waves-effect waves-light btn-large red' data-action='upgrade' data1-upgradename='${upgradeObj.name}'> ${upgradeObj.name}  Upgrade</a>`;
+        content += `<a class='waves-effect waves-light btn-large red' data-action='upgrade' data-upgradename='${upgradeObj.name}'> ${upgradeObj.name}  Upgrade</a>`;
     });
 
     var upgradeModal = utils.compileTemplate(baseModalTemplate, {
