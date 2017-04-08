@@ -43,7 +43,8 @@ module.exports = {
             {
                 name: "expert"
             }
-        ]
+        ],
+        color: 'green'
     },
     expert: {
         projectile: {
@@ -59,7 +60,8 @@ module.exports = {
         range: 400,
         goldCost: 60,
         totalCost: 90,
-        upgrade: []
+        upgrade: [],
+        color: 'green'
     },
     multishot: {
         projectile: {
@@ -79,7 +81,8 @@ module.exports = {
             {
                 name: "expertMultishot"
             }
-        ]
+        ],
+        color: 'green'
     },
     expertMultishot: {
         projectile: {
@@ -95,7 +98,8 @@ module.exports = {
         range: 400,
         goldCost: 100,
         totalCost: 130,
-        upgrade: []
+        upgrade: [],
+        color: 'green'
     },
 
     // Heavy tower tree here
@@ -144,7 +148,8 @@ module.exports = {
             {
                 name: "explosion"
             }
-        ]
+        ],
+        color: 'black'
     },
     demolition: {
         projectile: {
@@ -160,7 +165,8 @@ module.exports = {
         range: 500,
         goldCost: 100,
         totalCost: 140,
-        upgrade: []
+        upgrade: [],
+        color: 'black'
     },
     explosion: {
         projectile: {
@@ -180,7 +186,8 @@ module.exports = {
         range: 500,
         goldCost: 100,
         totalCost: 140,
-        upgrade: []
+        upgrade: [],
+        color: 'black'
     },
     cannon: {
         projectile: {
@@ -208,7 +215,8 @@ module.exports = {
             {
                 name: "artillery"
             }
-        ]
+        ],
+        color: 'black'
     },
     shrapnel: {
         projectile: {
@@ -229,7 +237,8 @@ module.exports = {
         range: 350,
         goldCost: 80,
         totalCost: 120,
-        upgrade: []
+        upgrade: [],
+        color: 'black'
     },
     artillery: {
         projectile: {
@@ -250,7 +259,8 @@ module.exports = {
         range: 600,
         goldCost: 110,
         totalCost: 150,
-        upgrade: []
+        upgrade: [],
+        color: 'black'
     },
 
     // Fire tower tree here
@@ -304,7 +314,8 @@ module.exports = {
             {
                 name: "inferno"
             }
-        ]
+        ],
+        color: 'red'
     },
     volcano: {
         projectile: {
@@ -320,7 +331,8 @@ module.exports = {
         range: 300,
         goldCost: 110,
         totalCost: 200,
-        upgrade: []
+        upgrade: [],
+        color: 'red'
     },
     inferno: {
         projectile: {
@@ -336,7 +348,8 @@ module.exports = {
         range: 500,
         goldCost: 110,
         totalCost: 200,
-        upgrade: []
+        upgrade: [],
+        color: 'red'
     },
     flamethrower: {
         projectile: {
@@ -361,7 +374,8 @@ module.exports = {
             {
                 name: "napalm"
             }
-        ]
+        ],
+        color: 'red'
     },
     napalm: {
         projectile: {
@@ -382,7 +396,8 @@ module.exports = {
         range: 400,
         goldCost: 90,
         totalCost: 150,
-        upgrade: []
+        upgrade: [],
+        color: 'red'
     },
 
     // Ice starts here
@@ -438,7 +453,8 @@ module.exports = {
             {
                 name: "arctic"
             }
-        ]
+        ],
+        color: 'blue'
     },
     arctic: {
         projectile: {
@@ -459,7 +475,8 @@ module.exports = {
         range: 400,
         goldCost: 70,
         totalCost: 170,
-        upgrade: []
+        upgrade: [],
+        color: 'blue'
     },
     frost: {
         projectile: {
@@ -487,7 +504,8 @@ module.exports = {
             {
                 name: "permafrost"
             }
-        ]
+        ],
+        color: 'blue'
     },
     tundra: {
         projectile: {
@@ -508,7 +526,8 @@ module.exports = {
         range: 400,
         goldCost: 90,
         totalCost: 180,
-        upgrade: []
+        upgrade: [],
+        color: 'blue'
     },
     permafrost: {
         projectile: {
@@ -529,7 +548,8 @@ module.exports = {
         range: 400,
         goldCost: 120,
         totalCost: 210,
-        upgrade: []
+        upgrade: [],
+        color: 'blue'
     },
     // Light tower tree here
     light: {
@@ -574,7 +594,8 @@ module.exports = {
             {
                 name: "prism"
             }
-        ]
+        ],
+        color: 'yellow'
     },
     prism: {
         projectile: {
@@ -594,7 +615,8 @@ module.exports = {
             {
                 name: "prism"
             }
-        ]
+        ],
+        color: 'yellow'
     },
     electric: {
         projectile: {
@@ -622,7 +644,8 @@ module.exports = {
             {
                 name: "generator"
             }
-        ]
+        ],
+        color: 'yellow'
     },
     lightning: {
         projectile: {
@@ -643,7 +666,8 @@ module.exports = {
         range: 400,
         goldCost: 90,
         totalCost: 180,
-        upgrade: []
+        upgrade: [],
+        color: 'yellow'
     },
     generator: {
         projectile: {
@@ -659,7 +683,8 @@ module.exports = {
         range: 400,
         goldCost: 90,
         totalCost: 180,
-        upgrade: []
+        upgrade: [],
+        color: 'yellow'
     }
 
 };
