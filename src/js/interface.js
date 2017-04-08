@@ -172,13 +172,14 @@ function renderTowerPlacement() {
         return
     };
 
+    var towerData = utils.getTowerData(activeTowerSelected);
     var coordinates = canvasMousePosition.towerPosition.coordinates;
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
 
     // Draw grid validation placement
     if (game.validateTowerPlacement(canvasMousePosition.towerPosition.grid)) {
-        dynamicContext.fillStyle = "green";
+        dynamicContext.fillStyle = towerData.color;
     } else {
         dynamicContext.fillStyle = "red";
     }
