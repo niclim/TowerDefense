@@ -167,13 +167,13 @@ function renderMessage(dt) {
 }
 
 function renderTowerPlacement() {
-    if (activeTowerSelected === null ||
-        !canvasMousePosition.onCanvas) {
+    if (activeTowerSelected === null || !canvasMousePosition.onCanvas) {
         return
     };
 
     var towerData = utils.getTowerData(activeTowerSelected);
     var coordinates = canvasMousePosition.towerPosition.coordinates;
+
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
 
@@ -189,15 +189,21 @@ function renderTowerPlacement() {
                             constants.TOWERLENGTH
      );
 
-     // Draw tower
+     // Draw tower - replace this with a sprite
     dynamicContext.globalAlpha = 0.7;
     dynamicContext.arc(coordinates.x + constants.TOWERLENGTH / 2,
                        coordinates.y + constants.TOWERLENGTH / 2,
-                       constants.TOWERLENGTH * 0.6,
+                       constants.TOWERLENGTH * 0.5,
                        0,
                        2 * Math.PI,
                        false
      );
+    dynamicContext.fillStyle = '#333';
+    dynamicContext.fill();
+
+    // Draw tower radius
+    dynamicContext.globalAlpha = 0.3;
+    dynamicContext.arc(coordinates.x, coordinates.y, towerData.range, 0, 2 * Math.PI);
     dynamicContext.fillStyle = 'gray';
     dynamicContext.fill();
 
