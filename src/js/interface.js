@@ -244,15 +244,19 @@ function renderMonsterInformation(index) {
         maxHp = game.activeMonsters[index].maxHp,
         type = game.activeMonsters[index].type,
         id = game.activeMonsters[index].id,
+        moveSpeed = game.activeMonsters[index].baseMs,
         content;
 
     content = `
     <div class="row">
         <div class="col s6 info-box">
-            HP: <span id='monsterHp'>${currentHp}</span> / ${maxHp}
+            <div class="capitalize">HP: <span id='monsterHp'>${currentHp}</span> / ${maxHp}</div>
+            <div class="capitalize">Base Movespeed: ${moveSpeed}</div>
         </div>
         <div class="col s6 info-box">
-            Type: ${type}
+            <div class="capitalize">Type: ${type}</div>
+            <div class="capitalize">Strengths: todo</div>
+            <div class="capitalize">Weaknesses: todo</div>
         </div>
     </div>
     `
@@ -273,11 +277,11 @@ function renderTowerInformation(index) {
     if (upgradeAvailable) {
         actions = [
             { action: "upgrade", name: "Upgrade" },
-            { action: "start", name: "Start" }
+            { action: "sell", name: "Sell" }
         ];
     } else {
         actions = [
-            { action: "start", name: "Start" }
+            { action: "sell", name: "Sell" }
         ];
     }
 

@@ -4,6 +4,7 @@ This is a tower defense game - still in progress
 ## Installation
 Clone the repo and run npm install
 ```bash
+git clone git@github.com:niclim/TowerDefense.git
 npm install
 ```
 Install ```gulp``` globally

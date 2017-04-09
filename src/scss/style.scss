@@ -157,11 +157,14 @@ aside {
         }
     }
 }
-
+// Helper classes
 .thumbnail-image {
     width: 120px;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
 // Tower card styling
 .tower-container {
     // Overwrite materializecss padding for col
@@ -222,10 +225,6 @@ aside {
     .modal-footer {
         bottom: 10%;
         left: 45%;
-    }
-
-    .capitalize {
-        text-transform: capitalize;
     }
 }
 
