@@ -81,10 +81,34 @@ function gameLoop() {
 }
 /* =================== Modal functions =================*/
 /* =====================================================*/
-function showModal(html) {
-    document.getElementById("mainModal").innerHTML = html;
-    document.getElementById("mainModal").style.display = "block";
-    document.getElementsByClassName("modal-background")[0].style.display = "block";
+function showModal(html, background = true) {
+    // create modal element and attach to dom
+    var modal = document.createElement('div');
+    modal.id = "mainModal";
+    modal.className = "modal-content card-pane";
+    modal.style.display = "block";
+    modal.innerHTML = html;
+    modal.addEventListener("click", modalClick);
+
+    //create modal background and attach to dom
+    var modalBackground = document.createElement('div');
+    modalBackground.className = "modal-background";
+
+    if (background) {
+        document.body.appendChild(modalBackground);
+    } else {
+        modal.className += " tower-info";
+    }
+
+    document.body.appendChild(modal);
+}
+
+function removeModal() {
+    var modalElem = document.getElementById("mainModal");
+    modalElem.removeEventListener("click", modalClick)
+    var modalBackgrounElem = document.getElementsByClassName("modal-background")[0];
+    if (modalElem) document.body.removeChild(modalElem);
+    if (modalBackgrounElem) document.body.removeChild(modalBackgrounElem);
 }
 
 function showStartModal() {
@@ -141,8 +165,6 @@ function showUpgradeOptions(towerIndex) {
 
     showModal(upgradeModal);
 }
-
-
 
 /* ================== Render functions =================*/
 /* =====================================================*/
@@ -355,10 +377,9 @@ function modalClick(e) {
         case "close":
             break;
         default:
-            return;
+            return
     }
-    document.getElementById("mainModal").style.display = "none";
-    document.getElementsByClassName("modal-background")[0].style.display = "none";
+    removeModal();
 }
 
 function startGame() {
