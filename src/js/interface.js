@@ -278,8 +278,8 @@ function renderTowerInformation(index) {
     Attack Speed: ${speed}<br>
     Type: ${type}`;
 
-    infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red' id='upgradeButton'>Upgrade</a>" : "";
-    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red' id='sellButton'>Sell</a>";
+    infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red' data-action='upgrade'>Upgrade</a>" : "";
+    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red' data-action='sell'>Sell</a>";
 }
 
 function renderDefaultInformation() {
@@ -394,10 +394,16 @@ document.addEventListener("unitRemoved", (e) => {
 // Adds event listeners only to the info box
 document.getElementsByClassName("side-section left")[0].addEventListener("click", (e) => {
     if (activeCanvasElement.type === "tower") {
-        if (e.target.id === "upgradeButton") {
-            showUpgradeModal(activeCanvasElement.index);
-        } else if (e.target.id === "sellButton") {
-            sellTower();
+        var clickTarget = e.target.getAttribute("data-action");
+        switch (clickTarget) {
+            case "upgrade":
+                showUpgradeModal(activeCanvasElement.index);
+                break;
+            case "sell":
+                sellTower(activeCanvasElement.index);
+                break;
+            default:
+                console.log("Uncaught data attribute in side section action", clickTarget);
         }
     }
 })
@@ -421,6 +427,7 @@ function modalClick(e) {
         case "close":
             break;
         default:
+            console.log("Uncaught data attribute in modal action", clickTarget);
             return
     }
     removeModal();
@@ -564,8 +571,8 @@ function canvasClick(e) {
     }
 }
 
-function sellTower() {
-    var sellPrice = game.sellTower(activeCanvasElement.index);
+function sellTower(towerIndex) {
+    var sellPrice = game.sellTower(towerIndex);
     activeMessage = {
         message: constants.MESSAGETOWERSOLD + sellPrice + " Gold",
         timer: constants.MESSAGEDURATION // seconds
