@@ -299,7 +299,12 @@ module.exports = {
             travelTime: 0.01, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: {}
+            effects: {
+                dot: {
+                    amount: 10, // dps
+                    timer: 3
+                }
+            }
         },
         sprite: "TODO",
         targets: 30,
@@ -323,7 +328,12 @@ module.exports = {
             travelTime: 0.01, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: {}
+            effects: {
+                dot: {
+                    amount: 10, // dps
+                    timer: 3
+                }
+            }
         },
         sprite: "TODO",
         targets: 30,
@@ -340,7 +350,12 @@ module.exports = {
             travelTime: 0.01, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: {}
+            effects: {
+                dot: {
+                    amount: 10, // dps
+                    timer: 3
+                }
+            }
         },
         sprite: "TODO",
         targets: 30,
@@ -357,12 +372,7 @@ module.exports = {
             travelTime: 1, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
-            effects: {
-                dot: {
-                    amount: 10, // dps
-                    timer: 3
-                }
-            }
+            effects: {}
         },
         sprite: "TODO",
         targets: 1,
@@ -373,26 +383,46 @@ module.exports = {
         upgrade: [
             {
                 name: "napalm"
+            },
+            {
+                name: "nova"
             }
         ],
         color: 'red'
     },
     napalm: {
         projectile: {
-            damage: 50,
-            travelTime: 0.01, // time in seconds before impact
+            damage: 10,
+            travelTime: 1, // time in seconds before impact
+            sprite: "TODO", // change this to have animations
+            type: "fire",
+            effects: {}
+        },
+        sprite: "TODO",
+        targets: 1,
+        attackSpeed: 0.1,
+        range: 400,
+        goldCost: 90,
+        totalCost: 150,
+        upgrade: [],
+        color: 'red'
+    },
+    nova: {
+        projectile: {
+            damage: 10,
+            travelTime: 0.3, // time in seconds before impact
             sprite: "TODO", // change this to have animations
             type: "fire",
             effects: {
                 dot: {
-                    amount: 30, // dps
-                    timer: 4
+                    amount: 40, // dps
+                    timer: 2
                 }
             }
         },
         sprite: "TODO",
-        targets: 1,
-        attackSpeed: 0.5,
+        targets: 3,
+        attackSpeed: 1,
         range: 400,
         goldCost: 90,
         totalCost: 150,
