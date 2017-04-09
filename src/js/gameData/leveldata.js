@@ -29,31 +29,31 @@ var exportData = [],
 
 for (var i = 0; i < 50; i++) {
     switch (i) {
-        case 10:
+        case 9:
             currentLevel = {
                 type: "boss1",
                 amount: 4
             };
             break;
-        case 20:
+        case 19:
             currentLevel = {
                 type: "boss2",
                 amount: 2
             };
             break;
-        case 30:
+        case 29:
             currentLevel = {
                 type: "boss3",
                 amount: 2
             };
             break;
-        case 40:
+        case 39:
             currentLevel = {
                 type: "boss4",
                 amount: 3
             };
             break;
-        case 50:
+        case 49:
             currentLevel = {
                 type: "boss5",
                 amount: 3

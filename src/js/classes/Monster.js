@@ -2,13 +2,13 @@ var monsterData = require("../gameData/monsterdata.js"),
     utils = require("../utils.js"),
     constants = require("../gameData/gameConstants.js");
 
-var Monster = function(id, multiplier) {
+var Monster = function(id, level) {
     this.id = id;
-    this.currentHp = Math.floor(monsterData[id].maxHp * multiplier);
-    this.maxHp = Math.floor(monsterData[id].maxHp * multiplier);
+    this.currentHp = Math.floor(monsterData[id].maxHp * (level * 0.6 + 1));
+    this.maxHp = Math.floor(monsterData[id].maxHp * (level * 0.6 + 1));
     this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
     this.type = monsterData[id].type;
-    this.bounty = Math.floor(monsterData[id].bounty * multiplier);
+    this.bounty = Math.floor(monsterData[id].bounty *  (level * 0.2 + 1));
     this.projectiles = [];
     this.distanceTravelled = 0;
     this.position = {}; // Initial position is defined by the path

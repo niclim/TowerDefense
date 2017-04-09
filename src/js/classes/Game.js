@@ -23,9 +23,8 @@ var GameEngine = function() {
 }
 
 GameEngine.prototype.addMonster = function(level) {
-    level--; // Change to access correct array
-    var multiplier = (level / 2) + 1,
-        monster = new Monster(levelData[level].type, multiplier);
+    // Level lookup needs to be modified to access correct levelData array index
+    var monster = new Monster(levelData[level - 1].type, level);
     this.activeMonsters.push(monster);
 }
 
