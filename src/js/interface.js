@@ -12,7 +12,8 @@ var constants = require("./gameData/gameConstants.js"),
 var baseModalTemplate = require("./components/baseModal.js"),
     actionsTemplate = require("./components/actions.js"),
     informationPanelTemplate = require("./components/informationPanel.js"),
-    upgradePanelTemplate = require("./components/upgradePanel.js");
+    upgradePanelTemplate = require("./components/upgradePanel.js"),
+    towerInfoTemplate = require("./components/towerInfo.js");
 
 
 // Cache reused DOM elements
