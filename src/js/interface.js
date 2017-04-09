@@ -314,8 +314,6 @@ function renderTowerPlacement() {
 
 /* ================ UI Event Listeners =================*/
 /* =====================================================*/
-document.getElementById("mainModal").addEventListener("click", modalClick);
-
 /*
 These event listeners control the application by interacting with the game
 object and by changing the state variables (which the render functions use
@@ -324,6 +322,8 @@ to read)
 towerCards.forEach((towerCard, i) => {
     towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
+    towerCard.addEventListener("mouseenter", enterTowerCard);
+    towerCard.addEventListener("mouseleave", leaveTowerCard);
 });
 
 document.getElementById("dynamic").onmousemove = onCanvasMouseMovement;
@@ -380,6 +380,25 @@ function modalClick(e) {
         default:
             return
     }
+    removeModal();
+}
+
+function enterTowerCard(e) {
+    var towerType = e.currentTarget.getAttribute("data-tower");
+    var towerInfo = towerData[towerType];
+    var towerInfoModal = utils.compileTemplate(towerInfoTemplate, {
+        title: towerType + " Tower",
+        towerDmg: towerInfo.projectile.damage,
+        towerTravel: towerInfo.projectile.travelTime,
+        towerCost: towerInfo.goldCost,
+        towerSpeed: towerInfo.attackSpeed,
+        towerRange: towerInfo.range,
+        towerTargets: towerInfo.targets,
+    });
+    showModal(towerInfoModal, false);
+}
+
+function leaveTowerCard(e) {
     removeModal();
 }
 
