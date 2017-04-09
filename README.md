@@ -3,21 +3,21 @@ This is a tower defense game - still in progress
 
 ## Installation
 Clone the repo and run npm install
-```
+```bash
 npm install
 ```
-Install gulp globally
+Install ```gulp``` globally
 
-```
+```bash
 npm install -g gulp-cli npm install gulp
 ```
-Make sure you have gulp installed by testing
-```
+Make sure you have ```gulp``` installed by testing
+```bash
 gulp -v
 ```
 
 Compile assets and run using gulp
-```
+```bash
 gulp
 ```
 

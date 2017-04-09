@@ -139,6 +139,28 @@ function showStartModal() {
     showModal(startModal);
 }
 
+function showInformationModal() {
+    var actions = [
+        {
+            action: "start",
+            name: "Start Game"
+        }
+    ];
+
+    var actionHtml = actions.reduce((prevAction, action) => {
+        return prevAction + utils.compileTemplate(actionsTemplate, action)
+    }, "");
+
+    var actionModal = utils.compileTemplate(baseModalTemplate, {
+        title: "Information",
+        content: `<p>Monsters are trying to reach the end of the path!!! It's your job to stop them. Luckily for you, you have ${constants.STARTINGGOLD} gold lying around to buy towers. Monsters spawn from the left size of the screen and run along the grey path to reach the right side of the path. Every 10 levels, there are stronger monsters that spawn which are harder to take down. Good luck!</p>`,
+        actions: actionHtml,
+        footerActions: ""
+    });
+
+    showModal(actionModal);
+}
+
 // At the moment expects only towers with upgrades should be able to access this
 function showUpgradeModal(towerIndex) {
     // Figure out where to show the upgrade contianer
@@ -390,7 +412,7 @@ function modalClick(e) {
             startGame();
             break;
         case "information":
-            console.log("show information container here");
+            showInformationModal();
             break;
         case "upgrade":
             var upgradeName = e.target.getAttribute("data-upgradename");
