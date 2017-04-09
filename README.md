@@ -8,7 +8,7 @@ Position are defined by the top left corner of the element (monsters and towers 
 Towers have a size of 2x2
 
 ### TODO
-* When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops)
+* When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops) - look into web workers or pausing the game when request animation - OR set a maximum dt....?
 * Complete upgrade lb
 * Complete unit test coverage
 * do some balancing (towers and levels are definitely not balanced lol.)
@@ -16,9 +16,10 @@ Towers have a size of 2x2
 * render information properly
 * move out html into components
 * Fix modal to vertically center (ugh)
+* make the styling nice
 
 ### TODO later
 * Come up with a better name than awesome TD
 * Think of a theme to go with the better name than awesome TD
 * Make some cool sprites
-* Get a better background (instead of using canvas to generate the background)
+* Get a better background (instead of using canvas to generate the background) - or implement path finding

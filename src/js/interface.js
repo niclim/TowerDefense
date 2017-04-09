@@ -140,40 +140,42 @@ function showStartModal() {
 }
 
 // At the moment expects only towers with upgrades should be able to access this
-function showUpgradeOptions(towerIndex) {
+function showUpgradeModal(towerIndex) {
     // Figure out where to show the upgrade contianer
 
     var towerId = game.towers[towerIndex].id,
         upgrades = towerData[towerId].upgrade,
         columnSpacing = upgrades.length === 1 ? "s6 offset-s3" : "s6";
 
-
-
-    var content = upgrades.reduce((prevUpgrade, upgradeObj) => {
-        var towerDataObject = utils.getTowerData(upgradeObj.name),
+    var modalContent = upgrades.reduce((prevUpgrade, upgradeObj) => {
+        var towerInfo = utils.getTowerData(upgradeObj.name),
             actions = utils.compileTemplate(actionsTemplate, {
                 action: "upgrade",
                 name: upgradeObj.name,
                 extraData: `data-upgradename='${upgradeObj.name}'`
             });
 
+        var upgradeContent = utils.compileTemplate(towerInfoTemplate, {
+            towerDmg: towerInfo.projectile.damage,
+            towerTravel: towerInfo.projectile.travelTime,
+            towerCost: towerInfo.goldCost,
+            towerSpeed: towerInfo.attackSpeed,
+            towerRange: towerInfo.range,
+            towerTargets: towerInfo.targets,
+        });
+
         return prevUpgrade + utils.compileTemplate(upgradePanelTemplate, {
             spacing: columnSpacing,
             imageSrc: "./assets/tower.jpg",
-            title: upgradeObj.name,
-            content: "",
+            title: `${upgradeObj.name} Tower`,
+            content: upgradeContent,
             actions
         })
     }, "");
 
-    // Change this to use template for upgrade
-    // upgrades.forEach((upgradeObj) => {
-    //     content += `<a class='waves-effect waves-light btn-large red' data-action='upgrade' data-upgradename='${upgradeObj.name}'> ${upgradeObj.name}  Upgrade</a>`;
-    // });
-
     var upgradeModal = utils.compileTemplate(baseModalTemplate, {
         title: "Upgrade Tower",
-        content,
+        content: modalContent,
         actions: "",
         footerActions: utils.compileTemplate(actionsTemplate, {
             action: "close",
@@ -369,7 +371,7 @@ document.addEventListener("unitRemoved", (e) => {
 document.getElementsByClassName("side-section left")[0].addEventListener("click", (e) => {
     if (activeCanvasElement.type === "tower") {
         if (e.target.id === "upgradeButton") {
-            showUpgradeOptions(activeCanvasElement.index);
+            showUpgradeModal(activeCanvasElement.index);
         } else if (e.target.id === "sellButton") {
             sellTower();
         }
