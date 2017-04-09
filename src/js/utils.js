@@ -208,10 +208,62 @@ function compileTemplate(template, object) {
 }
 
 function getTowerEffects(towerObject) {
-    var effects = "";
+    var effectObject = towerObject.projectile.effects,
+        effects = "";
 
-    for (var key in towerObject.projectile.effects) {
+    for (var key in effectObject) {
         effects += key + " ";
+
+        switch (key) {
+            case "dot":
+                effects += `
+                <ul>
+                    <li>Damage Per Second: ${effectObject[key].amount}</li>
+                    <li>Duration: ${effectObject[key].timer}</li>
+                </ul>`;
+                break;
+            case "amplify":
+                effects += `
+                <ul>
+                    <li>Amplify: ${effectObject[key].amount * 100}%</li>
+                    <li>Duration: ${effectObject[key].timer}</li>
+                </ul>
+                `
+                break;
+            case "splash":
+                effects += `
+                <ul>
+                    <li>Radius: ${effectObject[key].radius}</li>
+                </ul>
+                `
+                break;
+            case "slow":
+                effects += `
+                <ul>
+                    <li>Slow: ${effectObject[key].amount * 100}%</li>
+                    <li>Duration: ${effectObject[key].timer}</li>
+                </ul>
+                `
+                break;
+            case "freeze":
+                effects += `
+                <ul>
+                    <li>Freeze Chance: ${effectObject[key].chance * 100}%</li>
+                    <li>Duration: ${effectObject[key].timer}</li>
+                </ul>
+                `
+                break;
+            case "bounce":
+                effects += `
+                <ul>
+                    <li>Bounces: ${effectObject[key].amount}</li>
+                    <li>Range: ${effectObject[key].range}</li>
+                </ul>
+                `
+                break;
+            default:
+                console.log("Uncaught effect in getTowerEffects", key);
+        }
     }
 
     return effects || "None"
