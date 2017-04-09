@@ -1,6 +1,26 @@
 # Awesome Tower Defense
 This is a tower defense game - still in progress
 
+## Installation
+Clone the repo and run npm install
+```
+npm install
+```
+Install gulp globally
+
+```
+npm install -g gulp-cli npm install gulp
+```
+Make sure you have gulp installed by testing
+```
+gulp -v
+```
+
+Compile assets and run using gulp
+```
+gulp
+```
+
 ## Notes - general dev notes
 
 Position are defined by the top left corner of the element (monsters and towers are square blocks). The monsters and towers have a sideLength value which can be used to compute the coordinate square used to determine position
