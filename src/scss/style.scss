@@ -222,6 +222,10 @@ aside {
         bottom: 10%;
         left: 45%;
     }
+
+    .capitalize {
+        text-transform: capitalize;
+    }
 }
 
 .modal-background {
@@ -255,4 +259,8 @@ footer {
             padding: 0 5px;
         }
     }
+}
+
+.tower-info {
+    width: 250px;
 }

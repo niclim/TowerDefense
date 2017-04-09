@@ -12,7 +12,8 @@ var constants = require("./gameData/gameConstants.js"),
 var baseModalTemplate = require("./components/baseModal.js"),
     actionsTemplate = require("./components/actions.js"),
     informationPanelTemplate = require("./components/informationPanel.js"),
-    upgradePanelTemplate = require("./components/upgradePanel.js");
+    upgradePanelTemplate = require("./components/upgradePanel.js"),
+    towerInfoTemplate = require("./components/towerInfo.js");
 
 
 // Cache reused DOM elements
@@ -81,10 +82,34 @@ function gameLoop() {
 }
 /* =================== Modal functions =================*/
 /* =====================================================*/
-function showModal(html) {
-    document.getElementById("mainModal").innerHTML = html;
-    document.getElementById("mainModal").style.display = "block";
-    document.getElementsByClassName("modal-background")[0].style.display = "block";
+function showModal(html, background = true) {
+    // create modal element and attach to dom
+    var modal = document.createElement('div');
+    modal.id = "mainModal";
+    modal.className = "modal-content card-pane";
+    modal.style.display = "block";
+    modal.innerHTML = html;
+    modal.addEventListener("click", modalClick);
+
+    //create modal background and attach to dom
+    var modalBackground = document.createElement('div');
+    modalBackground.className = "modal-background";
+
+    if (background) {
+        document.body.appendChild(modalBackground);
+    } else {
+        modal.className += " tower-info";
+    }
+
+    document.body.appendChild(modal);
+}
+
+function removeModal() {
+    var modalElem = document.getElementById("mainModal");
+    modalElem.removeEventListener("click", modalClick)
+    var modalBackgrounElem = document.getElementsByClassName("modal-background")[0];
+    if (modalElem) document.body.removeChild(modalElem);
+    if (modalBackgrounElem) document.body.removeChild(modalBackgrounElem);
 }
 
 function showStartModal() {
@@ -158,8 +183,6 @@ function showUpgradeOptions(towerIndex) {
 
     showModal(upgradeModal);
 }
-
-
 
 /* ================== Render functions =================*/
 /* =====================================================*/
@@ -308,8 +331,6 @@ function renderTowerPlacement() {
 
 /* ================ UI Event Listeners =================*/
 /* =====================================================*/
-document.getElementById("mainModal").addEventListener("click", modalClick);
-
 /*
 These event listeners control the application by interacting with the game
 object and by changing the state variables (which the render functions use
@@ -318,6 +339,8 @@ to read)
 towerCards.forEach((towerCard, i) => {
     towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
+    towerCard.addEventListener("mouseenter", enterTowerCard);
+    towerCard.addEventListener("mouseleave", leaveTowerCard);
 });
 
 document.getElementById("dynamic").onmousemove = onCanvasMouseMovement;
@@ -372,10 +395,28 @@ function modalClick(e) {
         case "close":
             break;
         default:
-            return;
+            return
     }
-    document.getElementById("mainModal").style.display = "none";
-    document.getElementsByClassName("modal-background")[0].style.display = "none";
+    removeModal();
+}
+
+function enterTowerCard(e) {
+    var towerType = e.currentTarget.getAttribute("data-tower");
+    var towerInfo = towerData[towerType];
+    var towerInfoModal = utils.compileTemplate(towerInfoTemplate, {
+        title: towerType + " Tower",
+        towerDmg: towerInfo.projectile.damage,
+        towerTravel: towerInfo.projectile.travelTime,
+        towerCost: towerInfo.goldCost,
+        towerSpeed: towerInfo.attackSpeed,
+        towerRange: towerInfo.range,
+        towerTargets: towerInfo.targets,
+    });
+    showModal(towerInfoModal, false);
+}
+
+function leaveTowerCard(e) {
+    removeModal();
 }
 
 function startGame() {
