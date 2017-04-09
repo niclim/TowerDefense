@@ -206,6 +206,17 @@ function compileTemplate(template, object) {
     html = html.replace(/{{.*}}/g, "");
     return html
 }
+
+function getTowerEffects(towerObject) {
+    var effects = "";
+
+    for (var key in towerObject.projectile.effects) {
+        effects += key + " ";
+    }
+
+    return effects || "None"
+}
+
 module.exports = {
     addClass,
     checkIfInSquare,
@@ -216,5 +227,6 @@ module.exports = {
     getPositionDifference,
     removeClass,
     compileTemplate,
-    getTowerData
+    getTowerData,
+    getTowerEffects
 }

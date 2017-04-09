@@ -162,6 +162,8 @@ function showUpgradeModal(towerIndex) {
             towerSpeed: towerInfo.attackSpeed,
             towerRange: towerInfo.range,
             towerTargets: towerInfo.targets,
+            towerEffect: utils.getTowerEffects(towerInfo),
+            towerType: towerInfo.projectile.type
         });
 
         return prevUpgrade + utils.compileTemplate(upgradePanelTemplate, {
@@ -413,6 +415,8 @@ function enterTowerCard(e) {
         towerSpeed: towerInfo.attackSpeed,
         towerRange: towerInfo.range,
         towerTargets: towerInfo.targets,
+        towerEffect: utils.getTowerEffects(towerInfo),
+        towerType: towerInfo.projectile.type
     });
     showModal(towerInfoModal, false);
 }

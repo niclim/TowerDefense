@@ -1,15 +1,17 @@
 var towerInfo = `
 <h2 class="capitalize">{{title}}</h2>
 <div class="row">
-    <div id="info-box-1" class="col s6">
-    	<div>Tower Damage: {{towerDmg}}</div>
-    	<div>Tower Travel Time:{{towerTravel}}</div>
-    	<div>Tower Cost: {{towerCost}}</div>
+    <div class="col s6 info-box">
+    	<div class="capitalize">Tower Damage: {{towerDmg}}</div>
+    	<div class="capitalize">Tower Travel Time: {{towerTravel}}</div>
+    	<div class="capitalize">Tower Cost: {{towerCost}}</div>
+        <div class="capitalize">Tower Effect: {{towerEffect}}</div>
     </div>
-    <div id="info-box-2" class="col s6">
-    	<div>Tower Attack Speed: {{towerSpeed}}</div>
-    	<div>Tower Range: {{towerRange}}</div>
-    	<div>Tower Targets: {{towerTargets}}</div>
+    <div class="col s6 info-box">
+    	<div class="capitalize">Tower Attack Speed: {{towerSpeed}}</div>
+    	<div class="capitalize">Tower Range: {{towerRange}}</div>
+    	<div class="capitalize">Tower Targets: {{towerTargets}}</div>
+        <div class="capitalize">Tower Type: {{towerType}}</div>
     </div>
 </div>
 `
