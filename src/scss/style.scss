@@ -157,6 +157,11 @@ aside {
         }
     }
 }
+
+.thumbnail-image {
+    width: 120px;
+}
+
 // Tower card styling
 .tower-container {
     // Overwrite materializecss padding for col
@@ -201,6 +206,7 @@ aside {
     position: fixed;
     left: calc(50% - 500px);
     top: calc(50% - 300px);
+    // top: 0;
     background-color: $modal-color;
 
     h3 {

@@ -1,4 +1,4 @@
 var action = `
-<a data-action="{{action}}" class="waves-effect waves-light btn-large red">{{name}}</a>
+<a data-action="{{action}}" {{extraData}} class="waves-effect waves-light btn-large red">{{name}}</a>
 `
 module.exports = action;

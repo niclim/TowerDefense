@@ -202,6 +202,8 @@ function compileTemplate(template, object) {
     for (var key in object) {
         html = html.replace(`{{${key}}}`, object[key]);
     }
+    // Removes unspecified template strings
+    html = html.replace(/{{.*}}/g, "");
     return html
 }
 module.exports = {
@@ -216,5 +218,3 @@ module.exports = {
     compileTemplate,
     getTowerData
 }
-
-
