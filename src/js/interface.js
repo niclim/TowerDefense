@@ -63,6 +63,7 @@ game.userGold = 10000
 window.dynamicCanvas = document.getElementById('dynamic');
 window.dynamicContext = dynamicCanvas.getContext('2d');
 showStartModal();
+updateInformationPanel();
 
 // Declare the game loop
 var lastTime;
@@ -227,68 +228,89 @@ function updateGameDependentInformation() {
 
 // Moved this outside of the gameLoop, will only update the relevant data when necessary
 function updateInformationPanel() {
+    var sectionHtml;
     if (activeCanvasElement.type === "monster") {
-        renderMonsterInformation(activeCanvasElement.index);
+        sectionHtml = renderMonsterInformation(activeCanvasElement.index);
     } else if (activeCanvasElement.type === "tower") {
-        renderTowerInformation(activeCanvasElement.index);
+        sectionHtml = renderTowerInformation(activeCanvasElement.index);
     } else {
-        renderDefaultInformation();
+        sectionHtml = renderDefaultInformation();
     }
+    document.getElementById("informationPanel").innerHTML = sectionHtml;
 }
 
-// ID refers to the type of monster and index is the index of the active monster in the active monster's array
 function renderMonsterInformation(index) {
     var currentHp = Math.floor(game.activeMonsters[index].currentHp),
         maxHp = game.activeMonsters[index].maxHp,
         type = game.activeMonsters[index].type,
-        id = game.activeMonsters[index].id;
+        id = game.activeMonsters[index].id,
+        content;
 
-    infoName.innerHTML = id;
-    // Change icon to active monster - use a sprite
-    infoBox1.innerHTML = `HP: <span id='monsterHp'>${currentHp}</span> / ${maxHp}`;
-    infoBox2.innerHTML = `Type: ${type}`;
-    infoBox3.innerHTML = `Strengths: ` ;
-    infoBox4.innerHTML = `Weaknesses: ` ;
+    content = `
+    <div class="row">
+        <div class="col s6 info-box">
+            HP: <span id='monsterHp'>${currentHp}</span> / ${maxHp}
+        </div>
+        <div class="col s6 info-box">
+            Type: ${type}
+        </div>
+    </div>
+    `
+    return utils.compileTemplate(informationPanelTemplate, {
+        title: id,
+        imagePath: "./assets/biggermonster.jpg",
+        content
+    })
 }
 
-// ID refers to the type of tower and index is the index of the active tower in the active tower's array
-// TODO add number of targetrs
 function renderTowerInformation(index) {
     var id = game.towers[index].id,
-        damage = towerData[id].projectile.damage,
-        type = towerData[id].projectile.type,
-        effect = "",
-        range = game.towers[index].range,
-        speed = game.towers[index].attackSpeed,
-        upgradeAvailable = towerData[id].upgrade.length !== 0;
+        towerInfo = utils.getTowerData(id),
+        upgradeAvailable = towerInfo.upgrade.length !== 0,
+        content,
+        actions;
 
-    for (var key in towerData[id].projectile.effects) {
-        effect += key + " ";
-        // Todo map information about effects
+    if (upgradeAvailable) {
+        actions = [
+            { action: "upgrade", name: "Upgrade" },
+            { action: "start", name: "Start" }
+        ];
+    } else {
+        actions = [
+            { action: "start", name: "Start" }
+        ];
     }
 
-    infoName.innerHTML = id;
-    // Change icon to tower monster - use a sprite
-    infoBox1.innerHTML = `
-    Damage: ${damage} <br>
-    Range: ${range}<br>
-    Effect: ${effect}`;
+    content = utils.compileTemplate(towerInfoTemplate, {
+        towerDmg: towerInfo.projectile.damage,
+        towerTravel: towerInfo.projectile.travelTime,
+        towerCost: towerInfo.goldCost,
+        towerSpeed: towerInfo.attackSpeed,
+        towerRange: towerInfo.range,
+        towerTargets: towerInfo.targets,
+        towerEffect: utils.getTowerEffects(towerInfo),
+        towerType: towerInfo.projectile.type
+    });
 
-    infoBox2.innerHTML = `
-    Attack Speed: ${speed}<br>
-    Type: ${type}`;
+    content += actions.reduce((prevAction, action) => {
+        return prevAction + utils.compileTemplate(actionsTemplate, action)
+    }, "");
 
-    infoBox3.innerHTML = upgradeAvailable ? "<a class='waves-effect waves-light btn red' data-action='upgrade'>Upgrade</a>" : "";
-    infoBox4.innerHTML = "<a class='waves-effect waves-light btn red' data-action='sell'>Sell</a>";
+    return utils.compileTemplate(informationPanelTemplate, {
+        title: id,
+        imagePath: "./assets/biggermonster.jpg",
+        content
+    })
 }
 
 function renderDefaultInformation() {
-    infoName.innerHTML = "Awesome TD";
-    // Change icon to default image - use a sprite
-    infoBox1.innerHTML = "This is some text";
-    infoBox2.innerHTML = "This is different text";
-    infoBox3.innerHTML = "This is ??? text" ;
-    infoBox4.innerHTML = "This 1231241235" ;
+    return utils.compileTemplate(informationPanelTemplate, {
+        title: "Awesome TD",
+        imagePath: "./assets/biggermonster.jpg",
+        content: `
+        <p>Have fun playing this game!</p>
+        `
+    })
 }
 
 function renderMessage(dt) {
