@@ -71,6 +71,8 @@ function gameLoop() {
     var now = Date.now(),
         dt = (now - lastTime) / 1000.0; // Convert to seconds
 
+    // Limit the dt so that when the browser changes tabs the game is paused - change this so that execution continues and only rendering stops?
+    dt = Math.min(dt, 0.5); // Max dt is half a second
     game.runCycle(dt);
 
     lastTime = now;
