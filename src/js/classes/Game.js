@@ -9,6 +9,10 @@ var Monster = require("./Monster.js"),
     constants = require("../gameData/gameConstants.js");
 
 var GameEngine = function() {
+    this.setDefaults();
+}
+
+GameEngine.prototype.setDefaults = function() {
     this.userGold = constants.STARTINGGOLD;
     this.level = 0;
     this.userLives = constants.STARTINGLIVES;
@@ -17,7 +21,7 @@ var GameEngine = function() {
     this.timer = constants.TIMEBETWEENMONSTERCREATE;
     this.nextLevelCalled = false;
     this.monstersToCreate = 0;
-    this.gameState = "start"; // Possible values are start, lost, won, playing
+    this.state = "start"; // Possible values are start, playing, won, lost
     this.gamePath = _convertPathToLines(pathCoordinates.path);
     this.gameGrid = _initiateGrid(this.gamePath);
 }
@@ -80,9 +84,9 @@ GameEngine.prototype.checkClickLocation = function(position) {
 
 GameEngine.prototype.checkGameState = function() {
     if (this.level === constants.FINALLEVEL + 1) { // MAX level
-        this.gameState = "won";
+        this.state = "won";
     } else if (this.userLives <= 0) {
-        this.gameState = "lost";
+        this.state = "lost";
     }
 }
 
@@ -91,17 +95,10 @@ GameEngine.prototype.checkGold = function(goldCost) {
     return goldCost <= this.userGold
 }
 
-GameEngine.prototype.gameOver = function() {
-
-}
-
 GameEngine.prototype.gameStart = function() {
-    this.gameState = "playing";
+    this.state = "playing";
+    this.level = 0;
     this.nextLevel();
-}
-
-GameEngine.prototype.gameWon = function() {
-
 }
 
 GameEngine.prototype.handleEffects = function(activeMonster, i) {
@@ -193,100 +190,86 @@ GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordin
 }
 
 GameEngine.prototype.render = function(activeCanvasElement) {
+    // send state to the display object to render
+    dynamicContext.beginPath();
+    dynamicContext.clearRect(0, 0, dynamicCanvas.width, dynamicCanvas.height);
 
-    if (this.gameState === "playing") {
-        // send state to the display object to render
-        dynamicContext.beginPath();
-        dynamicContext.clearRect(0, 0, dynamicCanvas.width, dynamicCanvas.height);
+    // Render towers first so that if monsters are larger they show above towers
+    this.towers.forEach((tower, i) => {
+        var active = activeCanvasElement.type === "tower" && activeCanvasElement.index === i;
+        tower.draw(active);
+    });
 
-        // Render towers first so that if monsters are larger they show above towers
-        this.towers.forEach((tower, i) => {
-            var active = activeCanvasElement.type === "tower" && activeCanvasElement.index === i;
-            tower.draw(active);
+    //  loop through list of active monsters and render them
+    //  TODO probably need to find a better way to rend them apart from random rectangle
+    this.activeMonsters.forEach((activeMonster) => {
+        activeMonster.draw();
+
+        // Renders projectile animations that are active for each monster
+        activeMonster.projectiles.forEach((projectile) => {
+            projectile.draw(activeMonster.position);
         });
+    });
 
-        //  loop through list of active monsters and render them
-        //  TODO probably need to find a better way to rend them apart from random rectangle
-        this.activeMonsters.forEach((activeMonster) => {
-            activeMonster.draw();
-
-            // Renders projectile animations that are active for each monster
-            activeMonster.projectiles.forEach((projectile) => {
-                projectile.draw(activeMonster.position);
-            });
-        });
-
-        dynamicContext.closePath();
-
-    } else if (this.gameState === "lost") {
-        // Add render method to add thing
-        console.log("you lost lol");
-    } else if (this.gameState === "won") {
-        // Add render method to add thing
-        console.log("congrats you won");
-    }
-
+    dynamicContext.closePath();
 };
 
 // Changed values to be based off dt (change in time since last render)
 GameEngine.prototype.runCycle = function(dt) {
     this.checkGameState();
+    // loop through active monsters and towers and run the cycle
+    // Each runCycle method returns information for the gameEngine to
+    // process (e.g. the monster died, tower changed)
 
-    if (this.gameState === "playing") {
-        // loop through active monsters and towers and run the cycle
-        // Each runCycle method returns information for the gameEngine to
-        // process (e.g. the monster died, tower changed)
-
-        // Adds monsters if there are monsters to create - creates 10 per level
-        if (this.monstersToCreate > 0) {
-            //  timer to add monsters
-            this.timer -= dt;
-            if (this.timer <= 0) {
-                this.addMonster(this.level); // send through the level number
-                this.timer = constants.TIMEBETWEENMONSTERCREATE; // Every 1 second create a new monster
-                this.monstersToCreate--;
-                this.nextLevelCalled = false;
-            }
+    // Adds monsters if there are monsters to create - creates 10 per level
+    if (this.monstersToCreate > 0) {
+        //  timer to add monsters
+        this.timer -= dt;
+        if (this.timer <= 0) {
+            this.addMonster(this.level); // send through the level number
+            this.timer = constants.TIMEBETWEENMONSTERCREATE; // Every 1 second create a new monster
+            this.monstersToCreate--;
+            this.nextLevelCalled = false;
         }
+    }
 
-        // Calls the next level if all the monsters are dead - TODO add a delay to space out between levels
-        // Checks whether there are any monsters left and whether all the monsters have been created
-        if (this.activeMonsters.length === 0 && this.monstersToCreate === 0) {
-            if (!this.nextLevelCalled) {
-                setTimeout(() => {
-                    this.nextLevel();
-                }, constants.TIMEBETWEENLEVELS * 1000);
+    // Calls the next level if all the monsters are dead - TODO add a delay to space out between levels
+    // Checks whether there are any monsters left and whether all the monsters have been created
+    if (this.activeMonsters.length === 0 && this.monstersToCreate === 0) {
+        if (!this.nextLevelCalled) {
+            setTimeout(() => {
+                this.nextLevel();
+            }, constants.TIMEBETWEENLEVELS * 1000);
 
-                this.nextLevelCalled = true;
-            }
-        } else {
-            this.activeMonsters.forEach((activeMonster, i, monsterArray) => {
-                // moves the monsters and checks whether they get to the end of the cycle
-                // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
-                activeMonster.runCycle(this.gamePath, dt);
+            this.nextLevelCalled = true;
+        }
+    } else {
+        this.activeMonsters.forEach((activeMonster, i, monsterArray) => {
+            // moves the monsters and checks whether they get to the end of the cycle
+            // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
+            activeMonster.runCycle(this.gamePath, dt);
 
-                // Handles external effects to the monsters (splash and bounce effects)
-                this.handleEffects(activeMonster, i);
+            // Handles external effects to the monsters (splash and bounce effects)
+            this.handleEffects(activeMonster, i);
 
-                var monsterStatus = activeMonster.checkDeath();
+            var monsterStatus = activeMonster.checkDeath();
 
-                if (!monsterStatus.alive) {
-                    if (monsterStatus.giveGold) {
-                        this.userGold += activeMonster.bounty
-                    } else {
-                        this.userLives--;
-                    }
-                    var monsterDeath = new CustomEvent("unitRemoved", {"detail": {index: i, element: "monster"}});
-                    document.dispatchEvent(monsterDeath);
-                    monsterArray.splice(i, 1);
+            if (!monsterStatus.alive) {
+                if (monsterStatus.giveGold) {
+                    this.userGold += activeMonster.bounty
+                } else {
+                    this.userLives--;
                 }
-            });
+                var monsterDeath = new CustomEvent("unitRemoved", {"detail": {index: i, element: "monster"}});
+                document.dispatchEvent(monsterDeath);
+                monsterArray.splice(i, 1);
+            }
+        });
 
-            // Run tower cycles here - pass in active monsters - towers only create projectiles
-            this.towers.forEach((tower) => {
-                tower.runCycle(this.activeMonsters, dt); // Pass in active monsters and attach projectiles to them
-            });
-        }
+        // Run tower cycles here - pass in active monsters - towers only create projectiles
+        this.towers.forEach((tower) => {
+            tower.runCycle(this.activeMonsters, dt); // Pass in active monsters and attach projectiles to them
+        });
     }
 }
 

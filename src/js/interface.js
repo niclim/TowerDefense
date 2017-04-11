@@ -81,7 +81,11 @@ function gameLoop() {
     updateGameDependentInformation();
     renderTowerPlacement();
     renderMessage(dt);
-    requestAnimationFrame(gameLoop);
+    if (game.state === "playing") {
+        requestAnimationFrame(gameLoop);
+    } else {
+        showGameFinishedModal(game.state === "won")
+    }
 }
 /* =================== Modal functions =================*/
 /* =====================================================*/
@@ -135,11 +139,27 @@ function showStartModal() {
         title: "Welcome to Awesome TD!",
         content: `<p>This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
         On game reset this modal-content container will show and prompt to restart game.</p>`,
-        actions: actionHtml,
-        footerActions: ""
+        actions: actionHtml
     });
 
     showModal(startModal);
+}
+
+function showGameFinishedModal(gameWon) {
+    var title = gameWon ? "Congratulations, you won!" : "Better luck next time",
+
+        actionHtml = utils.compileTemplate(actionsTemplate, {
+        action: "restart",
+        name: "Restart Game"
+    });
+
+    var gameFinishedModal = utils.compileTemplate(baseModalTemplate, {
+        title,
+        content: `<p>Game is over. Do you want to play again?</p>`,
+        actions: actionHtml
+    });
+
+    showModal(gameFinishedModal);
 }
 
 function showInformationModal() {
@@ -445,6 +465,9 @@ function modalClick(e) {
         case "start":
             startGame();
             break;
+        case "restart":
+            restartGame();
+            break;
         case "information":
             showInformationModal();
             break;
@@ -480,6 +503,11 @@ function enterTowerCard(e) {
 
 function leaveTowerCard(e) {
     removeModal();
+}
+
+function restartGame() {
+    game.setDefaults();
+    startGame();
 }
 
 function startGame() {
