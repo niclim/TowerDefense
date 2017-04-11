@@ -21,20 +21,14 @@ var Projectile = function(id, towerPosition) {
         x: towerPosition.x + (constants.TOWERLENGTH/2) - (constants.PROJECTILELENGTH/2),
         y: towerPosition.y + (constants.TOWERLENGTH/2) - (constants.PROJECTILELENGTH/2)
     };
+    this.projectilePosition = this.initialPosition;
 }
 
-Projectile.prototype.draw = function(monsterPosition) {
-    var fractionTravelled = this.currentTravelTime / this.totalTravelTime,
-        adjustedMonsterPosition = {
-            x: monsterPosition.x + (constants.MONSTERLENGTH/2) - (constants.PROJECTILELENGTH/2),
-            y: monsterPosition.y + (constants.MONSTERLENGTH/2) - (constants.PROJECTILELENGTH/2)
-        },
-        position = utils.getPathPosition(this.initialPosition, adjustedMonsterPosition, fractionTravelled);
-
+Projectile.prototype.draw = function() {
     // Calculate a fraction based on currentTravelTime / travelTime to get the position
     dynamicContext.beginPath();
     dynamicContext.fillStyle = "orange";
-    dynamicContext.rect(position.x, position.y, constants.PROJECTILELENGTH, constants.PROJECTILELENGTH);
+    dynamicContext.rect(this.projectilePosition.x, this.projectilePosition.y, constants.PROJECTILELENGTH, constants.PROJECTILELENGTH);
     dynamicContext.fill();
     // Change this to use a sprite
     // draw based on position here
@@ -42,11 +36,18 @@ Projectile.prototype.draw = function(monsterPosition) {
     dynamicContext.closePath();
 }
 
-Projectile.prototype.move = function(dt) {
+Projectile.prototype.move = function(dt, targetPosition) {
     this.currentTravelTime += dt;
     if (this.currentTravelTime >= this.totalTravelTime) {
         this.end = true;
     }
+
+    var fractionTravelled = this.currentTravelTime / this.totalTravelTime,
+        adjustedMonsterPosition = {
+            x: targetPosition.x + (constants.MONSTERLENGTH/2) - (constants.PROJECTILELENGTH/2),
+            y: targetPosition.y + (constants.MONSTERLENGTH/2) - (constants.PROJECTILELENGTH/2)
+        };
+    this.projectilePosition = utils.getPathPosition(this.initialPosition, adjustedMonsterPosition, fractionTravelled);
 }
 
 module.exports = Projectile;

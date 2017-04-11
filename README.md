@@ -29,13 +29,10 @@ Position are defined by the top left corner of the element (monsters and towers 
 Towers have a size of 2x2
 
 ### TODO
-* When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops) - right now dt is being limited to 0.5 seconds - look into web workers to continue game logic (only rendering is paused) 
-* Complete upgrade lb
+* When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops) - right now dt is being limited to 0.5 seconds - look into web workers to continue game logic (only rendering is paused)
 * Complete unit test coverage
 * do some balancing (towers and levels are definitely not balanced lol.)
-* create a tower strengths + weaknesses sheet (for typing and damage)
 * add in strengths and weaknesses
-* render information properly
 * move out html into components
 * Fix modal to vertically center (ugh)
 * make the styling nice

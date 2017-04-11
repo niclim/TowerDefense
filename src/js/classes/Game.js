@@ -21,6 +21,7 @@ GameEngine.prototype.setDefaults = function() {
     this.timer = constants.TIMEBETWEENMONSTERCREATE;
     this.nextLevelCalled = false;
     this.monstersToCreate = 0;
+    this.unfinishedProjectiles = [];
     this.state = "start"; // Possible values are start, playing, won, lost
     this.gamePath = _convertPathToLines(pathCoordinates.path);
     this.gameGrid = _initiateGrid(this.gamePath);
@@ -201,15 +202,18 @@ GameEngine.prototype.render = function(activeCanvasElement) {
     });
 
     //  loop through list of active monsters and render them
-    //  TODO probably need to find a better way to rend them apart from random rectangle
     this.activeMonsters.forEach((activeMonster) => {
         activeMonster.draw();
 
         // Renders projectile animations that are active for each monster
         activeMonster.projectiles.forEach((projectile) => {
-            projectile.draw(activeMonster.position);
+            projectile.draw();
         });
     });
+
+    this.unfinishedProjectiles.forEach((projectile) => {
+        projectile.draw();
+    })
 
     dynamicContext.closePath();
 };
@@ -233,7 +237,6 @@ GameEngine.prototype.runCycle = function(dt) {
         }
     }
 
-    // Calls the next level if all the monsters are dead - TODO add a delay to space out between levels
     // Checks whether there are any monsters left and whether all the monsters have been created
     if (this.activeMonsters.length === 0 && this.monstersToCreate === 0) {
         if (!this.nextLevelCalled) {
@@ -262,10 +265,21 @@ GameEngine.prototype.runCycle = function(dt) {
                 }
                 var monsterDeath = new CustomEvent("unitRemoved", {"detail": {index: i, element: "monster"}});
                 document.dispatchEvent(monsterDeath);
+                // Copy over projectiles before monster is removed- need to do direct reference copy because it's an object with prototype properties
+                this.unfinishedProjectiles = activeMonster.projectiles;
+                this.unfinishedProjectiles.forEach((projectile) => {
+                    projectile.target = activeMonster.position
+                })
                 monsterArray.splice(i, 1);
             }
         });
 
+        this.unfinishedProjectiles.forEach((projectile, i, projectileArray) => {
+            projectile.move(dt, projectile.target);
+            if (projectile.end) {
+                projectileArray.splice(i, 1);
+            }
+        })
         // Run tower cycles here - pass in active monsters - towers only create projectiles
         this.towers.forEach((tower) => {
             tower.runCycle(this.activeMonsters, dt); // Pass in active monsters and attach projectiles to them

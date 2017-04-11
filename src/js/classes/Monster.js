@@ -20,7 +20,7 @@ Monster.prototype.runCycle = function(gamePath, dt) {
     this.move(gamePath, dt);
 
     this.projectiles.forEach((projectile, i, projectileArray) => {
-        projectile.move(dt);
+        projectile.move(dt, this.position);
         if (projectile.end) {
             // Object.assign doesn't do deep merge - only need to go one level down to prevent reference copying
             for (var key in projectile.effects) {
