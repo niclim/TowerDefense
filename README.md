@@ -34,8 +34,9 @@ Towers have a size of 2x2
 * do some balancing (towers and levels are definitely not balanced lol.)
 * add in strengths and weaknesses
 * move out html into components
-* Fix modal to vertically center (ugh)
 * make the styling nice
+* to readd hover over tower information using css properties
+* fix projectiles freezing when game finsihed (because of settimeout between levels)
 
 ### TODO later
 * Come up with a better name than awesome TD

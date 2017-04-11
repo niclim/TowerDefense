@@ -91,7 +91,10 @@ function gameLoop() {
 /* =====================================================*/
 function showModal(html, background = true) {
     // create modal element and attach to dom
-    var modal = document.createElement('div');
+    var modalContainer = document.createElement('div'),
+        modal = document.createElement('div');
+
+    modalContainer.className = "modal-container";
     modal.id = "mainModal";
     modal.className = "modal-content card-pane";
     modal.style.display = "block";
@@ -107,16 +110,17 @@ function showModal(html, background = true) {
     } else {
         modal.className += " tower-info";
     }
-
-    document.body.appendChild(modal);
+    modalContainer.appendChild(modal);
+    document.body.appendChild(modalContainer);
 }
 
 function removeModal() {
     var modalElem = document.getElementById("mainModal");
-    modalElem.removeEventListener("click", modalClick)
-    var modalBackgrounElem = document.getElementsByClassName("modal-background")[0];
-    if (modalElem) document.body.removeChild(modalElem);
-    if (modalBackgrounElem) document.body.removeChild(modalBackgrounElem);
+    modalElem.removeEventListener("click", modalClick);
+    var modalBackgroundElem = document.getElementsByClassName("modal-background")[0];
+    var modalContainer = document.getElementsByClassName("modal-container")[0];
+    if (modalContainer) document.body.removeChild(modalContainer);
+    if (modalBackgroundElem) document.body.removeChild(modalBackgroundElem);
 }
 
 function showStartModal() {
@@ -413,8 +417,8 @@ to read)
 towerCards.forEach((towerCard, i) => {
     towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
-    towerCard.addEventListener("mouseenter", enterTowerCard);
-    towerCard.addEventListener("mouseleave", leaveTowerCard);
+/*    towerCard.addEventListener("mouseenter", enterTowerCard);
+    towerCard.addEventListener("mouseleave", leaveTowerCard);*/
 });
 
 document.getElementById("dynamic").onmousemove = onCanvasMouseMovement;
@@ -483,7 +487,7 @@ function modalClick(e) {
     }
     removeModal();
 }
-
+/*
 function enterTowerCard(e) {
     var towerType = e.currentTarget.getAttribute("data-tower");
     var towerInfo = towerData[towerType];
@@ -503,7 +507,7 @@ function enterTowerCard(e) {
 
 function leaveTowerCard(e) {
     removeModal();
-}
+}*/
 
 function restartGame() {
     game.setDefaults();
