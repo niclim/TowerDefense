@@ -35,7 +35,6 @@ Towers have a size of 2x2
 * add in strengths and weaknesses
 * move out html into components
 * make the styling nice
-* to readd hover over tower information using css properties
 * fix projectiles freezing when game finsihed (because of settimeout between levels)
 
 ### TODO later

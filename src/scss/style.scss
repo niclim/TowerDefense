@@ -184,6 +184,20 @@ aside {
     margin: 10px;
     padding: 10px;
     background-color: $tower-card-background;
+    position: static;
+
+    .tower-info-panel {
+        display:none;
+        position: absolute;
+        z-index: 100;
+        width: 300px;
+        left: 25px;
+        overflow: visible;;
+    }
+
+    &.active .tower-info-panel {
+        display: block;
+    }
 
     h4 {
         font-size: 18px;

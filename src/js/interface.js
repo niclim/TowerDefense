@@ -414,11 +414,10 @@ These event listeners control the application by interacting with the game
 object and by changing the state variables (which the render functions use
 to read)
 */
-towerCards.forEach((towerCard, i) => {
+towerCards.forEach((towerCard) => {
     towerCardList.push(towerCard.getAttribute("data-tower"));
     towerCard.addEventListener("click", towerCardClick);
-/*    towerCard.addEventListener("mouseenter", enterTowerCard);
-    towerCard.addEventListener("mouseleave", leaveTowerCard);*/
+    addHoverInformation(towerCard);
 });
 
 document.getElementById("dynamic").onmousemove = onCanvasMouseMovement;
@@ -487,11 +486,14 @@ function modalClick(e) {
     }
     removeModal();
 }
-/*
-function enterTowerCard(e) {
-    var towerType = e.currentTarget.getAttribute("data-tower");
-    var towerInfo = towerData[towerType];
-    var towerInfoModal = utils.compileTemplate(towerInfoTemplate, {
+
+function addHoverInformation(towerCard) {
+    var hoverContainer = document.createElement('div'),
+        towerType = towerCard.getAttribute("data-tower"),
+        towerInfo = towerData[towerType];
+
+    hoverContainer.className = "tower-info-panel card";
+    hoverContainer.innerHTML = utils.compileTemplate(towerInfoTemplate, {
         title: towerType + " Tower",
         towerDmg: towerInfo.projectile.damage,
         towerTravel: towerInfo.projectile.travelTime,
@@ -501,13 +503,10 @@ function enterTowerCard(e) {
         towerTargets: towerInfo.targets,
         towerEffect: utils.getTowerEffects(towerInfo),
         towerType: towerInfo.projectile.type
-    });
-    showModal(towerInfoModal, false);
-}
+    });;
 
-function leaveTowerCard(e) {
-    removeModal();
-}*/
+    towerCard.appendChild(hoverContainer);
+}
 
 function restartGame() {
     game.setDefaults();
