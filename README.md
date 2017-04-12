@@ -1,5 +1,6 @@
 # Awesome Tower Defense
 This is a tower defense game - still in progress
+![Sample Screenshot of Awesome TD](http://imgur.com/a/kXR06)
 
 ## Installation
 Clone the repo and run npm install
