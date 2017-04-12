@@ -453,6 +453,8 @@ document.getElementsByClassName("side-section left")[0].addEventListener("click"
             case "sell":
                 sellTower(activeCanvasElement.index);
                 break;
+            case null:
+                return;
             default:
                 console.log("Uncaught data attribute in side section action", clickTarget);
         }
@@ -480,6 +482,8 @@ function modalClick(e) {
             break;
         case "close":
             break;
+        case null:
+            return;
         default:
             console.log("Uncaught data attribute in modal action", clickTarget);
             return

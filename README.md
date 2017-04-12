@@ -35,6 +35,7 @@ Towers have a size of 2x2
 * add in strengths and weaknesses
 * move out html into components
 * make the styling nice
+* fix styling for smaller screen sizes (especially the side sections)
 
 ### TODO later
 * Come up with a better name than awesome TD

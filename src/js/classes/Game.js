@@ -486,7 +486,7 @@ function _initiateGrid(pathLines) {
             };
         }
     }
-    // Loop through the blocks (which are on the path) and
+    // Loop through the blocks and specify the path location
     blocks.forEach((block) => {
         grid[block.x][block.y] = {
             empty: false
