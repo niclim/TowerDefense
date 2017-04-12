@@ -138,6 +138,7 @@ aside {
 
     .side-section {
         height: 49%;
+        width: 100%;
         overflow-y: auto;
         padding: 15px;
         margin: 0.5vh 0;
@@ -184,7 +185,7 @@ aside {
     margin: 10px;
     padding: 10px;
     background-color: $tower-card-background;
-    position: static;
+    position: static; // so that the tower-info-panel absolute positioning refers to the parent
 
     .tower-info-panel {
         display:none;
@@ -192,7 +193,7 @@ aside {
         z-index: 100;
         width: 300px;
         left: 25px;
-        overflow: visible;;
+        overflow: visible;
     }
 
     &.active .tower-info-panel {

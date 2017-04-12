@@ -238,53 +238,51 @@ GameEngine.prototype.runCycle = function(dt) {
     }
 
     // Checks whether there are any monsters left and whether all the monsters have been created
-    if (this.activeMonsters.length === 0 && this.monstersToCreate === 0) {
-        if (!this.nextLevelCalled) {
-            setTimeout(() => {
-                this.nextLevel();
-            }, constants.TIMEBETWEENLEVELS * 1000);
+    if (this.activeMonsters.length === 0 && this.monstersToCreate === 0 && !this.nextLevelCalled) {
+        setTimeout(() => this.nextLevel(), constants.TIMEBETWEENLEVELS * 1000);
 
-            this.nextLevelCalled = true;
-        }
-    } else {
-        this.activeMonsters.forEach((activeMonster, i, monsterArray) => {
-            // moves the monsters and checks whether they get to the end of the cycle
-            // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
-            activeMonster.runCycle(this.gamePath, dt);
-
-            // Handles external effects to the monsters (splash and bounce effects)
-            this.handleEffects(activeMonster, i);
-
-            var monsterStatus = activeMonster.checkDeath();
-
-            if (!monsterStatus.alive) {
-                if (monsterStatus.giveGold) {
-                    this.userGold += activeMonster.bounty
-                } else {
-                    this.userLives--;
-                }
-                var monsterDeath = new CustomEvent("unitRemoved", {"detail": {index: i, element: "monster"}});
-                document.dispatchEvent(monsterDeath);
-                // Copy over projectiles before monster is removed- need to do direct reference copy because it's an object with prototype properties
-                this.unfinishedProjectiles = activeMonster.projectiles;
-                this.unfinishedProjectiles.forEach((projectile) => {
-                    projectile.target = activeMonster.position
-                })
-                monsterArray.splice(i, 1);
-            }
-        });
-
-        this.unfinishedProjectiles.forEach((projectile, i, projectileArray) => {
-            projectile.move(dt, projectile.target);
-            if (projectile.end) {
-                projectileArray.splice(i, 1);
-            }
-        })
-        // Run tower cycles here - pass in active monsters - towers only create projectiles
-        this.towers.forEach((tower) => {
-            tower.runCycle(this.activeMonsters, dt); // Pass in active monsters and attach projectiles to them
-        });
+        this.nextLevelCalled = true;
     }
+
+    this.activeMonsters.forEach((activeMonster, i, monsterArray) => {
+        // moves the monsters and checks whether they get to the end of the cycle
+        // also factor to have a projectiles array - which means that each cycle for monsters they will take damage
+        activeMonster.runCycle(this.gamePath, dt);
+
+        // Handles external effects to the monsters (splash and bounce effects)
+        this.handleEffects(activeMonster, i);
+
+        var monsterStatus = activeMonster.checkDeath();
+
+        if (!monsterStatus.alive) {
+            if (monsterStatus.giveGold) {
+                this.userGold += activeMonster.bounty
+            } else {
+                this.userLives--;
+            }
+            var monsterDeath = new CustomEvent("unitRemoved", {"detail": {index: i, element: "monster"}});
+            document.dispatchEvent(monsterDeath);
+            // Copy over projectiles before monster is removed- need to do direct reference copy because it's an object with prototype properties
+            this.unfinishedProjectiles = activeMonster.projectiles;
+            this.unfinishedProjectiles.forEach((projectile) => {
+                projectile.target = activeMonster.position
+            })
+            monsterArray.splice(i, 1);
+        }
+    });
+
+    // Run tower cycles here - pass in active monsters - towers only create projectiles
+    this.towers.forEach((tower) => {
+        tower.runCycle(this.activeMonsters, dt); // Pass in active monsters and attach projectiles to them
+    });
+
+
+    this.unfinishedProjectiles.forEach((projectile, i, projectileArray) => {
+        projectile.move(dt, projectile.target);
+        if (projectile.end) {
+            projectileArray.splice(i, 1);
+        }
+    })
 }
 
 GameEngine.prototype.sellTower = function(towerIndex) {

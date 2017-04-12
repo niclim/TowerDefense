@@ -35,7 +35,6 @@ Towers have a size of 2x2
 * add in strengths and weaknesses
 * move out html into components
 * make the styling nice
-* fix projectiles freezing when game finsihed (because of settimeout between levels)
 
 ### TODO later
 * Come up with a better name than awesome TD
