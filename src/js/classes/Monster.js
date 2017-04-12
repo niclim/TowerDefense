@@ -27,13 +27,13 @@ Monster.prototype.runCycle = function(gamePath, dt) {
                 // TODO figure out how to prioritize multiple effects with different values, e.g. two slows with 0.5 and 0.2 (prioritize the higher one)
 
                 this.effects[key] = Object.assign({}, projectile.effects[key]);
-            }
 
-            // Copy over ID so game can create antoher projectile for bounce
-            if (this.effects.hasOwnProperty("bounce")) {
-                this.effects.bounce.id = projectile.id;
-            } else if (this.effects.hasOwnProperty("splash")) {
-                this.effects.splash.damage = projectile.damage;
+                // Copy over ID so game can create antoher projectile for bounce
+                if (key === "bounce") {
+                    this.effects.bounce.id = projectile.id;
+                } else if (key === "splash") {
+                    this.effects.splash.damage = projectile.damage;
+                }
             }
 
             this.updateHp(-projectile.damage);

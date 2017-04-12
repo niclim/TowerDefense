@@ -137,7 +137,15 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
 
                         // Reduce the number of bounces based on previous projectile
                         // TODO figure out a way to prevent bouncing to same monster - if it matters?
-                        addedProjectile.effects.bounce.amount = activeMonster.effects.bounce.amount - 1;
+                        try {
+                            addedProjectile.effects.bounce.amount = activeMonster.effects.bounce.amount - 1;
+
+                        } catch (e) {
+                            console.log(e);
+                            console.log(addedProjectile)
+                            console.log(activeMonster)
+                            debugger
+                        }
 
                         searchMonster.projectiles.push(addedProjectile);
                         return true;
