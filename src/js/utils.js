@@ -214,7 +214,7 @@ function getTowerEffects(towerObject) {
         effects = "";
 
     for (var key in effectObject) {
-        effects += key + " ";
+        effects += `<span class='uppercase'>${key}</span>`;
 
         switch (key) {
             case "dot":

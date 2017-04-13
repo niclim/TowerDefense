@@ -512,7 +512,7 @@ function addHoverInformation(towerCard) {
         towerTargets: towerInfo.targets,
         towerEffect: utils.getTowerEffects(towerInfo),
         towerType: towerInfo.projectile.type
-    });;
+    });
 
     towerCard.appendChild(hoverContainer);
 }

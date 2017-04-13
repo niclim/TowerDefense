@@ -5,7 +5,7 @@
 // Should onyl import cards, buttons and colors from materialize
 @import "./vendor/materialize-src/sass/materialize.scss";
 // Importing fonts
-@import "https://fonts.googleapis.com/css?family=Droid+Sans";
+@import "https://fonts.googleapis.com/css?family=Droid+Sans:400,700";
 /*****************************************************
 
 TYPOGRAPHY
@@ -48,6 +48,10 @@ h3 {
 p {
     line-height: 1.5em;
     padding: 1em;
+}
+
+strong {
+    font-weight: 700;
 }
 /*****************************************************
 
@@ -163,6 +167,10 @@ aside {
     width: 120px;
 }
 
+.uppercase {
+    text-transform: uppercase;
+}
+
 .capitalize {
     text-transform: capitalize;
 }
@@ -214,6 +222,31 @@ aside {
     &.active {
         background-color: $tower-card-active;
         outline: 4px solid $tower-card-active-outline;
+    }
+}
+
+// Upgrade card
+.upgrade-card {
+    height: 580px;
+    h5 {
+        margin: 0;
+    }
+    .row {
+        margin-bottom: 0px;
+    }
+}
+
+// info boxes
+.info-box {
+    div {
+        padding: 5px 2px;
+
+        // tower list
+        ul {
+            li {
+                padding: 5px;
+            }
+        }
     }
 }
 

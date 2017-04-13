@@ -1,5 +1,5 @@
 var upgradePanel = `
-<div class="col {{spacing}}">
+<div class="upgrade-card col {{spacing}}">
     <div class="card">
         <div class="card-content">
             <h5 class="card-title capitalize">{{title}}</h5>

@@ -37,6 +37,7 @@ Towers have a size of 2x2
 * move out html into components
 * make the styling nice
 * fix styling for smaller screen sizes (especially the side sections)
+* fix css popover for tower information in selection - where to put this
 
 ### TODO later
 * Come up with a better name than awesome TD
