@@ -128,7 +128,7 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
                     var distance = utils.getPositionDifference(searchMonster.position, activeMonster.position)
                     if (distance < bounceRange) {
                         var id = activeMonster.effects.bounce.id,
-                        position = activeMonster.position;
+                        position = Object.assign({}, activeMonster.position); // Shallow copy
 
                         position.x += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
                         position.y += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
@@ -137,15 +137,7 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
 
                         // Reduce the number of bounces based on previous projectile
                         // TODO figure out a way to prevent bouncing to same monster - if it matters?
-                        try {
-                            addedProjectile.effects.bounce.amount = activeMonster.effects.bounce.amount - 1;
-
-                        } catch (e) {
-                            console.log(e);
-                            console.log(addedProjectile)
-                            console.log(activeMonster)
-                            debugger
-                        }
+                        addedProjectile.effects.bounce.amount = activeMonster.effects.bounce.amount - 1;
 
                         searchMonster.projectiles.push(addedProjectile);
                         return true;

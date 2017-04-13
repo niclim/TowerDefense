@@ -52,7 +52,7 @@ Monster.prototype.draw = function() {
     dynamicContext.fillStyle = "red";
     dynamicContext.fillRect(this.position.x,
                             this.position.y + constants.MONSTERLENGTH/3,
-                            constants.MONSTERLENGTH * this.currentHp/this.maxHp,
+                            Math.max(constants.MONSTERLENGTH * this.currentHp/this.maxHp, 0), // Minimum value is 0 - can be caused by splash
                             constants.MONSTERLENGTH/3);
     dynamicContext.closePath();
 
