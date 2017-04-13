@@ -4,7 +4,7 @@ var monsterData = require("../gameData/monsterdata.js"),
 
 var Monster = function(id, level) {
     this.id = id;
-    this.maxHp = Math.floor(Math.pow(level, 1.6) * monsterData[id].maxHp * (level * 0.6 + 1));
+    this.maxHp = Math.floor(Math.pow(level, 1.2) * monsterData[id].maxHp * (level * 0.6 + 1));
     this.currentHp = this.maxHp;
     this.baseMs = monsterData[id].baseMs; // Movement speed - "units" per second
     this.type = monsterData[id].type;

@@ -200,8 +200,13 @@ aside {
         position: absolute;
         z-index: 100;
         width: 300px;
-        left: 25px;
+        left: -300px;
+        top: calc(50% - 150px);
         overflow: visible;
+
+        @media screen and (max-width: 1650px) {
+            top: 10%;
+        }
     }
 
     &.active .tower-info-panel {
