@@ -73,14 +73,14 @@ function gameLoop() {
 
     // Limit the dt so that when the browser changes tabs the game is paused - change this so that execution continues and only rendering stops?
     dt = Math.min(dt, 0.5); // Max dt is half a second
+
     game.runCycle(dt);
 
-    lastTime = now;
     // Renders methods based on state variables
     game.render(activeCanvasElement);
-    updateGameDependentInformation();
-    renderTowerPlacement();
-    renderMessage(dt);
+    renderInterface(dt);
+
+    lastTime = now;
     if (game.state === "playing") {
         requestAnimationFrame(gameLoop);
     } else {
@@ -119,8 +119,8 @@ function removeModal() {
     modalElem.removeEventListener("click", modalClick);
     var modalBackgroundElem = document.getElementsByClassName("modal-background")[0];
     var modalContainer = document.getElementsByClassName("modal-container")[0];
-    if (modalContainer) document.body.removeChild(modalContainer);
-    if (modalBackgroundElem) document.body.removeChild(modalBackgroundElem);
+    if (modalContainer) { document.body.removeChild(modalContainer) };
+    if (modalBackgroundElem) { document.body.removeChild(modalBackgroundElem) };
 }
 
 function showStartModal() {
@@ -239,6 +239,11 @@ function showUpgradeModal(towerIndex) {
 
 /* ================== Render functions =================*/
 /* =====================================================*/
+function renderInterface(dt) {
+    updateGameDependentInformation();
+    renderTowerPlacement();
+    renderMessage(dt);
+}
 
 function updateGameDependentInformation() {
     livesInfo.innerHTML = game.userLives;
@@ -483,7 +488,7 @@ function modalClick(e) {
         case "close":
             break;
         case null:
-            return;
+            return
         default:
             console.log("Uncaught data attribute in modal action", clickTarget);
             return

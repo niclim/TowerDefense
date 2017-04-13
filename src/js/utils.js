@@ -23,10 +23,12 @@ Returns a boolean - true if the click overlaps with an element and false
                     if it does not
 */
 function checkIfInSquare(point, topLeftPoint, sideLength) {
-    return (point.x >= topLeftPoint.x
-    && point.x <= topLeftPoint.x + sideLength
-    && point.y >= topLeftPoint.y
-    && point.y <= topLeftPoint.y + sideLength)
+    return (
+        point.x >= topLeftPoint.x &&
+        point.x <= topLeftPoint.x + sideLength &&
+        point.y >= topLeftPoint.y &&
+        point.y <= topLeftPoint.y + sideLength
+    )
 }
 
 /*
@@ -176,8 +178,8 @@ function getPathPosition(pos1, pos2, fractionTravelled) {
 
 function getPositionDifference(position1, position2) {
     return Math.sqrt(
-            Math.pow(position1.x-position2.x, 2) +
-            Math.pow(position1.y-position2.y, 2)
+        Math.pow(position1.x-position2.x, 2) +
+        Math.pow(position1.y-position2.y, 2)
     );
 }
 

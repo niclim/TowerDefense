@@ -176,16 +176,9 @@ GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordin
         this.addTower(towerName, towerCoordinates, gridPosition, goldCost);
         return { placed: true };
     } else {
-        if (!this.validateTowerPlacement(gridPosition)) {
-            return {
-                placed: false,
-                message: constants.MESSAGEINVALIDPLACEMENT
-            }
-        } else {
-            return {
-                placed: false,
-                message: constants.MESSAGENOTENOUGHGOLD
-            }
+        return {
+            placed: false,
+            message: this.validateTowerPlacement(gridPosition) ? constants.MESSAGENOTENOUGHGOLD : constants.MESSAGEINVALIDPLACEMENT
         }
     }
 }

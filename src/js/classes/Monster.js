@@ -84,8 +84,6 @@ Monster.prototype.handleEffects = function(dt) {
                 delete this.effects[key];
                 break;
             case "splash":
-                // These are handled in the game.runCycle method
-                break;
             case "bounce":
                 // These are handled in the game.runCycle method
                 break;
