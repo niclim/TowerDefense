@@ -3,18 +3,18 @@ module.exports = {
         maxHp: 30,
         baseMs: 50, // pixels per second
         type: "normal", // Change this type later
-        bounty: 3
+        bounty: 4
     },
     fast: {
         maxHp: 30,
-        baseMs: 100, // pixels per second
+        baseMs: 130, // pixels per second
         type: "normal", // Change this type later
         bounty: 4
     },
     tank: {
         maxHp: 60,
         baseMs: 30,
-        type: "normal",
+        type: "heavy",
         bounty: 4
     },
     fire: {
@@ -25,14 +25,26 @@ module.exports = {
     },
     ice: {
         maxHp: 45,
-        baseMs: 40,
+        baseMs: 60,
         type: "ice",
-        bounty: 5
+        bounty: 4
     },
     light: {
-        maxHp: 20,
-        baseMs: 100,
+        maxHp: 30,
+        baseMs: 80,
         type: "light",
+        bounty: 4
+    },
+    dark: {
+        maxHp: 40,
+        baseMs: 60,
+        type: "dark",
+        bounty: 4
+    },
+    water: {
+        maxHp: 40,
+        baseMs: 60,
+        type: "water",
         bounty: 4
     },
     boss1: {
@@ -50,19 +62,19 @@ module.exports = {
     boss3: {
         maxHp: 2500,
         baseMs: 100,
-        type: "fire",
+        type: "heavy",
         bounty: 100
     },
     boss4: {
         maxHp: 4500,
         baseMs: 85,
-        type: "fire",
+        type: "water",
         bounty: 40
     },
     boss5: {
         maxHp: 6000,
         baseMs: 95,
-        type: "fire",
+        type: "dark",
         bounty: 40
     }
 };

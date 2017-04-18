@@ -1,5 +1,6 @@
 var constants = require("./gameData/gameConstants.js"),
-    towerData = require("./gameData/towerdata.js");
+    towerData = require("./gameData/towerdata.js"),
+    typeLookup = require("./gameData/types.js");
 
 /* ================== Public functions =================*/
 /* =====================================================*/
@@ -271,6 +272,15 @@ function getTowerEffects(towerObject) {
     return effects || "None"
 }
 
+function getDamageModifier(towerType, monsterType) {
+    try {
+        return typeLookup[towerType][monsterType];
+    } catch (e) {
+        console.log(e, "Error in looking up types, check tower data and monster data");
+        return 1
+    }
+}
+
 module.exports = {
     addClass,
     checkIfInSquare,
@@ -282,5 +292,6 @@ module.exports = {
     removeClass,
     compileTemplate,
     getTowerData,
-    getTowerEffects
+    getTowerEffects,
+    getDamageModifier
 }

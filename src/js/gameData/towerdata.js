@@ -108,7 +108,7 @@ module.exports = {
             damage: 15,
             travelTime: 0.8, // time in seconds before impact
             sprite: "TODO", // change this to have animations
-            type: "normal",
+            type: "siege",
             effects: {}
         },
         sprite: "TODO",
@@ -132,7 +132,7 @@ module.exports = {
             damage: 40,
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
-            type: "normal",
+            type: "siege",
             effects: {}
         },
         sprite: "TODO",
@@ -156,7 +156,7 @@ module.exports = {
             damage: 100,
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
-            type: "normal",
+            type: "siege",
             effects: {}
         },
         sprite: "TODO",
@@ -173,7 +173,7 @@ module.exports = {
             damage: 60,
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
-            type: "normal",
+            type: "siege",
             effects: {
                 splash: {
                     radius: 200
@@ -194,7 +194,7 @@ module.exports = {
             damage: 20,
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
-            type: "normal",
+            type: "siege",
             effects: {
                 amplify: {
                     amount: 1.5,
@@ -223,7 +223,7 @@ module.exports = {
             damage: 40,
             travelTime: 0.6, // time in seconds before impact
             sprite: "TODO", // change this to have animations
-            type: "normal",
+            type: "siege",
             effects: {
                 amplify: {
                     amount: 1.5,
@@ -245,7 +245,7 @@ module.exports = {
             damage: 70,
             travelTime: 0.3, // time in seconds before impact
             sprite: "TODO", // change this to have animations
-            type: "normal",
+            type: "siege",
             effects: {
                 amplify: {
                     amount: 2,

@@ -36,7 +36,7 @@ Monster.prototype.runCycle = function(gamePath, dt) {
                 }
             }
 
-            this.updateHp(-projectile.damage);
+            this.updateHp(-projectile.damage * utils.getDamageModifier(projectile.type, this.type));
             projectileArray.splice(i, 1);
         }
     });

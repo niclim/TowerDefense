@@ -24,6 +24,14 @@ var exportData = [],
     {
         type: "fast",
         amount: 15
+    },
+    {
+        type: "dark",
+        amount: 10
+    },
+    {
+        type: "water",
+        amount: 10
     }
 ];
 

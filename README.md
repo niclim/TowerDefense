@@ -33,7 +33,6 @@ Towers have a size of 2x2
 * When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops) - right now dt is being limited to 0.5 seconds - look into web workers to continue game logic (only rendering is paused)
 * Complete unit test coverage
 * do some balancing (towers and levels are definitely not balanced lol.)
-* add in strengths and weaknesses
 * move out html into components
 * make the styling nice
 * fix styling for smaller screen sizes (especially the side sections)
