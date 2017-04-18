@@ -281,6 +281,33 @@ function getDamageModifier(towerType, monsterType) {
     }
 }
 
+function getMonsterTypeInfo(monsterType) {
+    var strengths = [],
+        weaknesses = [],
+        strengthHtml = "None",
+        weaknessHtml = "None";
+
+    for (var key in typeLookup) {
+        if (typeLookup[key][monsterType] < 1) {
+            strengths.push(key);
+        } else if (typeLookup[key][monsterType] > 1) {
+            weaknesses.push(key);
+        }
+    }
+
+    if (strengths.length !== 0 ) {
+        strengthHtml = strengths.reduce((prev, strength) => `${prev}<li>${strength}</li>`, "<ul>") + "</ul>";
+    }
+    if (weaknesses.length !== 0) {
+        weaknessHtml = weaknesses.reduce((prev, weakness) => `${prev}<li>${weakness}</li>`, "<ul>") + "</ul>";
+    }
+
+    return {
+        strengths: strengthHtml,
+        weaknesses: weaknessHtml
+    }
+}
+
 module.exports = {
     addClass,
     checkIfInSquare,
@@ -293,5 +320,6 @@ module.exports = {
     compileTemplate,
     getTowerData,
     getTowerEffects,
-    getDamageModifier
+    getDamageModifier,
+    getMonsterTypeInfo
 }

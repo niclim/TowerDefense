@@ -276,7 +276,8 @@ function renderMonsterInformation(index) {
         type = game.activeMonsters[index].type,
         id = game.activeMonsters[index].id,
         moveSpeed = game.activeMonsters[index].baseMs,
-        content;
+        content,
+        { strengths, weaknesses } = utils.getMonsterTypeInfo(type);
 
     content = `
     <div class="row">
@@ -286,8 +287,8 @@ function renderMonsterInformation(index) {
         </div>
         <div class="col s6 info-box">
             <div class="capitalize">Type: ${type}</div>
-            <div class="capitalize">Strengths: todo</div>
-            <div class="capitalize">Weaknesses: todo</div>
+            <div class="capitalize">Strengths: ${strengths}</div>
+            <div class="capitalize">Weaknesses: ${weaknesses}</div>
         </div>
     </div>
     `
