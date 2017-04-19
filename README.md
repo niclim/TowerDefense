@@ -34,8 +34,6 @@ Towers have a size of 2x2
 * Complete unit test coverage
 * do some balancing (towers and levels are definitely not balanced lol.)
 * move out html into components
-* make the styling nice
-* fix styling for smaller screen sizes (especially the side sections)
 
 ### TODO later
 * Come up with a better name than awesome TD

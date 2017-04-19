@@ -303,7 +303,7 @@ function renderTowerInformation(index) {
     var id = game.towers[index].id,
         towerInfo = utils.getTowerData(id),
         upgradeAvailable = towerInfo.upgrade.length !== 0,
-        content,
+        content = "",
         actions;
 
     if (upgradeAvailable) {
@@ -317,7 +317,11 @@ function renderTowerInformation(index) {
         ];
     }
 
-    content = utils.compileTemplate(towerInfoTemplate, {
+    content += actions.reduce((prevAction, action) => {
+        return prevAction + utils.compileTemplate(actionsTemplate, action)
+    }, "");
+
+    content += utils.compileTemplate(towerInfoTemplate, {
         towerDmg: towerInfo.projectile.damage,
         towerTravel: towerInfo.projectile.travelTime,
         towerCost: towerInfo.goldCost,
@@ -327,10 +331,6 @@ function renderTowerInformation(index) {
         towerEffect: utils.getTowerEffects(towerInfo),
         towerType: towerInfo.projectile.type
     });
-
-    content += actions.reduce((prevAction, action) => {
-        return prevAction + utils.compileTemplate(actionsTemplate, action)
-    }, "");
 
     return utils.compileTemplate(informationPanelTemplate, {
         title: id,
