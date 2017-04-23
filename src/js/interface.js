@@ -3,7 +3,14 @@ var Tower = require("./classes/Tower.js"),
     GameEngine = require("./classes/Game.js");
 
 // Import and declare utility functions
-var utils = require("./utils.js");
+var {
+    compileTemplate,
+    getTowerData,
+    getTowerEffects,
+    getMonsterTypeInfo,
+    addClass,
+    removeClass,
+    convertPositionToTower } = require("./utils.js");
 
 var constants = require("./gameData/gameConstants.js"),
     towerData = require("./gameData/towerdata.js");
@@ -136,10 +143,10 @@ function showStartModal() {
     ];
 
     var actionHtml = actions.reduce((prevAction, action) => {
-        return prevAction + utils.compileTemplate(actionsTemplate, action)
+        return prevAction + compileTemplate(actionsTemplate, action)
     }, "");
 
-    var startModal = utils.compileTemplate(baseModalTemplate, {
+    var startModal = compileTemplate(baseModalTemplate, {
         title: "Welcome to Awesome TD!",
         content: `<p>This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
         On game reset this modal-content container will show and prompt to restart game.</p>`,
@@ -152,12 +159,12 @@ function showStartModal() {
 function showGameFinishedModal(gameWon) {
     var title = gameWon ? "Congratulations, you won!" : "Better luck next time",
 
-        actionHtml = utils.compileTemplate(actionsTemplate, {
+        actionHtml = compileTemplate(actionsTemplate, {
         action: "restart",
         name: "Restart Game"
     });
 
-    var gameFinishedModal = utils.compileTemplate(baseModalTemplate, {
+    var gameFinishedModal = compileTemplate(baseModalTemplate, {
         title,
         content: `<p>Game is over. Do you want to play again?</p>`,
         actions: actionHtml
@@ -175,10 +182,10 @@ function showInformationModal() {
     ];
 
     var actionHtml = actions.reduce((prevAction, action) => {
-        return prevAction + utils.compileTemplate(actionsTemplate, action)
+        return prevAction + compileTemplate(actionsTemplate, action)
     }, "");
 
-    var actionModal = utils.compileTemplate(baseModalTemplate, {
+    var actionModal = compileTemplate(baseModalTemplate, {
         title: "Information",
         content: `<p>Monsters are trying to reach the end of the path!!! It's your job to stop them. Luckily for you, you have ${constants.STARTINGGOLD} gold lying around to buy towers. Monsters spawn from the left size of the screen and run along the grey path to reach the right side of the path. Every 10 levels, there are stronger monsters that spawn which are harder to take down. Good luck!</p>`,
         actions: actionHtml,
@@ -197,25 +204,25 @@ function showUpgradeModal(towerIndex) {
         columnSpacing = upgrades.length === 1 ? "s6 offset-s3" : "s6";
 
     var modalContent = upgrades.reduce((prevUpgrade, upgradeObj) => {
-        var towerInfo = utils.getTowerData(upgradeObj.name),
-            actions = utils.compileTemplate(actionsTemplate, {
+        var towerInfo = getTowerData(upgradeObj.name),
+            actions = compileTemplate(actionsTemplate, {
                 action: "upgrade",
                 name: upgradeObj.name,
                 extraData: `data-upgradename='${upgradeObj.name}'`
             });
 
-        var upgradeContent = utils.compileTemplate(towerInfoTemplate, {
+        var upgradeContent = compileTemplate(towerInfoTemplate, {
             towerDmg: towerInfo.projectile.damage,
             towerTravel: towerInfo.projectile.travelTime,
             towerCost: towerInfo.goldCost,
             towerSpeed: towerInfo.attackSpeed,
             towerRange: towerInfo.range,
             towerTargets: towerInfo.targets,
-            towerEffect: utils.getTowerEffects(towerInfo),
+            towerEffect: getTowerEffects(towerInfo),
             towerType: towerInfo.projectile.type
         });
 
-        return prevUpgrade + utils.compileTemplate(upgradePanelTemplate, {
+        return prevUpgrade + compileTemplate(upgradePanelTemplate, {
             spacing: columnSpacing,
             imageSrc: "./assets/tower.jpg",
             title: `${upgradeObj.name} Tower`,
@@ -224,11 +231,11 @@ function showUpgradeModal(towerIndex) {
         })
     }, "");
 
-    var upgradeModal = utils.compileTemplate(baseModalTemplate, {
+    var upgradeModal = compileTemplate(baseModalTemplate, {
         title: "Upgrade Tower",
         content: modalContent,
         actions: "",
-        footerActions: utils.compileTemplate(actionsTemplate, {
+        footerActions: compileTemplate(actionsTemplate, {
             action: "close",
             name: "Close"
         })
@@ -277,7 +284,7 @@ function renderMonsterInformation(index) {
         id = game.activeMonsters[index].id,
         moveSpeed = game.activeMonsters[index].baseMs,
         content,
-        { strengths, weaknesses } = utils.getMonsterTypeInfo(type);
+        { strengths, weaknesses } = getMonsterTypeInfo(type);
 
     content = `
     <div class="row">
@@ -292,7 +299,7 @@ function renderMonsterInformation(index) {
         </div>
     </div>
     `
-    return utils.compileTemplate(informationPanelTemplate, {
+    return compileTemplate(informationPanelTemplate, {
         title: id,
         imagePath: "./assets/biggermonster.jpg",
         content
@@ -301,7 +308,7 @@ function renderMonsterInformation(index) {
 
 function renderTowerInformation(index) {
     var id = game.towers[index].id,
-        towerInfo = utils.getTowerData(id),
+        towerInfo = getTowerData(id),
         upgradeAvailable = towerInfo.upgrade.length !== 0,
         content = "",
         actions;
@@ -318,21 +325,21 @@ function renderTowerInformation(index) {
     }
 
     content += actions.reduce((prevAction, action) => {
-        return prevAction + utils.compileTemplate(actionsTemplate, action)
+        return prevAction + compileTemplate(actionsTemplate, action)
     }, "");
 
-    content += utils.compileTemplate(towerInfoTemplate, {
+    content += compileTemplate(towerInfoTemplate, {
         towerDmg: towerInfo.projectile.damage,
         towerTravel: towerInfo.projectile.travelTime,
         towerCost: towerInfo.goldCost,
         towerSpeed: towerInfo.attackSpeed,
         towerRange: towerInfo.range,
         towerTargets: towerInfo.targets,
-        towerEffect: utils.getTowerEffects(towerInfo),
+        towerEffect: getTowerEffects(towerInfo),
         towerType: towerInfo.projectile.type
     });
 
-    return utils.compileTemplate(informationPanelTemplate, {
+    return compileTemplate(informationPanelTemplate, {
         title: id,
         imagePath: "./assets/biggermonster.jpg",
         content
@@ -340,7 +347,7 @@ function renderTowerInformation(index) {
 }
 
 function renderDefaultInformation() {
-    return utils.compileTemplate(informationPanelTemplate, {
+    return compileTemplate(informationPanelTemplate, {
         title: "Awesome TD",
         imagePath: "./assets/biggermonster.jpg",
         content: `
@@ -373,7 +380,7 @@ function renderTowerPlacement() {
         return
     };
 
-    var towerData = utils.getTowerData(activeTowerSelected);
+    var towerData = getTowerData(activeTowerSelected);
     var coordinates = canvasMousePosition.towerPosition.coordinates;
 
     dynamicContext.beginPath();
@@ -503,7 +510,7 @@ function addHoverInformation(towerCard) {
         towerInfo = towerData[towerType];
 
     hoverContainer.className = "tower-info-panel card";
-    hoverContainer.innerHTML = utils.compileTemplate(towerInfoTemplate, {
+    hoverContainer.innerHTML = compileTemplate(towerInfoTemplate, {
         title: towerType + " Tower",
         towerDmg: towerInfo.projectile.damage,
         towerTravel: towerInfo.projectile.travelTime,
@@ -511,7 +518,7 @@ function addHoverInformation(towerCard) {
         towerSpeed: towerInfo.attackSpeed,
         towerRange: towerInfo.range,
         towerTargets: towerInfo.targets,
-        towerEffect: utils.getTowerEffects(towerInfo),
+        towerEffect: getTowerEffects(towerInfo),
         towerType: towerInfo.projectile.type
     });
 
@@ -553,15 +560,15 @@ function towerCardClick() {
 
     } else if (activeTowerSelected === null) {
         activeTowerSelected = towerName;
-        utils.addClass(towerCards[newTowerIndex], "active");
+        addClass(towerCards[newTowerIndex], "active");
         canvasMousePosition.onCanvas = false;
     } else if (activeTowerSelected === towerName) {
         cancelTowerPlacement();
         canvasMousePosition.onCanvas = false;
     } else {
-        utils.removeClass(towerCards[oldTowerIndex], "active");
+        removeClass(towerCards[oldTowerIndex], "active");
         activeTowerSelected = towerName;
-        utils.addClass(towerCards[newTowerIndex], "active");
+        addClass(towerCards[newTowerIndex], "active");
         canvasMousePosition.onCanvas = false;
     }
 }
@@ -571,7 +578,7 @@ Called from towerCardClick (when clicking the active tower card) and on an escap
 Resets the active tower placement state to null
 */
 function cancelTowerPlacement() {
-    utils.removeClass(towerCards[towerCardList.indexOf(activeTowerSelected)], "active");
+    removeClass(towerCards[towerCardList.indexOf(activeTowerSelected)], "active");
     activeTowerSelected = null;
 }
 
@@ -592,7 +599,7 @@ function onCanvasMouseMovement(e) {
     position.x = e.clientX - canvasContainer.left;
     position.y = e.clientY - canvasContainer.top;
     canvasMousePosition.mousePosition = position;
-    canvasMousePosition.towerPosition = utils.convertPositionToTower(position);
+    canvasMousePosition.towerPosition = convertPositionToTower(position);
     canvasMousePosition.onCanvas = true;
 };
 
@@ -631,7 +638,7 @@ function canvasClick(e) {
             }
         }
 
-        utils.removeClass(towerCards[towerCardList.indexOf(activeTowerSelected)], "active");
+        removeClass(towerCards[towerCardList.indexOf(activeTowerSelected)], "active");
         activeTowerSelected = null;
     } else {
         // User is not running a tower placement

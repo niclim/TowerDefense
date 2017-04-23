@@ -1,5 +1,5 @@
 var towerData = require("../gameData/towerdata.js"),
-    utils = require("../utils.js"),
+    { getPositionDifference } = require("../utils.js"),
     Projectile = require("./Projectiles.js"),
     constants = require("../gameData/gameConstants.js");
 
@@ -48,7 +48,7 @@ Tower.prototype.runCycle = function(activeMonsters, dt) {
 // Takes in a monster's position and checks whether that is in range based on the range - returns true or false if in range which can be used to
 Tower.prototype.checkInRange = function(monsterPosition) {
     // using sqrt((x2-x1)^2 - (y2-y1)^2)
-    var monsterDistance = utils.getPositionDifference(monsterPosition, this.position);
+    var monsterDistance = getPositionDifference(monsterPosition, this.position);
 
    if (monsterDistance <= this.range) {
        return true;

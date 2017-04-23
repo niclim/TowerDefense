@@ -1,5 +1,5 @@
 var monsterData = require("../gameData/monsterdata.js"),
-    utils = require("../utils.js"),
+    { getDamageModifier, convertDistanceToCoordinates } = require("../utils.js"),
     constants = require("../gameData/gameConstants.js");
 
 var Monster = function(id, level) {
@@ -36,7 +36,7 @@ Monster.prototype.runCycle = function(gamePath, dt) {
                 }
             }
 
-            this.updateHp(-projectile.damage * utils.getDamageModifier(projectile.type, this.type));
+            this.updateHp(-projectile.damage * getDamageModifier(projectile.type, this.type));
             projectileArray.splice(i, 1);
         }
     });
@@ -115,7 +115,7 @@ Monster.prototype.move = function(pathLines, dt) {
     }
 
     this.distanceTravelled += this.baseMs * dt * modifier;
-    this.position = utils.convertDistanceToCoordinates(this.distanceTravelled, pathLines);
+    this.position = convertDistanceToCoordinates(this.distanceTravelled, pathLines);
 };
 
 // Can take in a positive or negative number

@@ -4,7 +4,7 @@ var Monster = require("./Monster.js"),
     Projectile = require("./Projectiles.js"),
     towerData = require("../gameData/towerdata.js"),
     levelData = require("../gameData/leveldata.js"),
-    utils = require("../utils.js"),
+    { checkIfInSquare, getPositionDifference, convertToBlock } = require("../utils.js"),
     pathCoordinates = require("../gameData/pathdata.js"),
     constants = require("../gameData/gameConstants.js");
 
@@ -53,7 +53,7 @@ GameEngine.prototype.checkClickLocation = function(position) {
     var element = {};
     // Loops through activeMonsters
     this.activeMonsters.some((activeMonster, i) => {
-        if (utils.checkIfInSquare(position, activeMonster.position, activeMonster.sideLength)) {
+        if (checkIfInSquare(position, activeMonster.position, activeMonster.sideLength)) {
             element.type = "monster";
             element.index = i;
             return true;
@@ -65,7 +65,7 @@ GameEngine.prototype.checkClickLocation = function(position) {
     // If nothing was found, loop through towers
     if (element.type === undefined) {
         this.towers.some((tower, i) => {
-            if (utils.checkIfInSquare(position, tower.position, tower.position.sideLength)) {
+            if (checkIfInSquare(position, tower.position, tower.position.sideLength)) {
                 element.type = "tower";
                 element.index = i;
                 return true;
@@ -111,7 +111,7 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
 
         this.activeMonsters.forEach((searchMonster, j) => {
             if (i !== j) {
-                var distance = utils.getPositionDifference(searchMonster.position, activeMonster.position);
+                var distance = getPositionDifference(searchMonster.position, activeMonster.position);
                 if (distance < splashRange) {
                     searchMonster.updateHp(-activeMonster.effects.splash.damage);
                 }
@@ -125,7 +125,7 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
             // search all monsters in range of bounce
             this.activeMonsters.some((searchMonster, j) => {
                 if (i !== j) {
-                    var distance = utils.getPositionDifference(searchMonster.position, activeMonster.position)
+                    var distance = getPositionDifference(searchMonster.position, activeMonster.position)
                     if (distance < bounceRange) {
                         var id = activeMonster.effects.bounce.id,
                         position = Object.assign({}, activeMonster.position); // Shallow copy
@@ -279,7 +279,7 @@ GameEngine.prototype.runCycle = function(dt) {
 }
 
 GameEngine.prototype.sellTower = function(towerIndex) {
-    var gridPosition = utils.convertToBlock(this.towers[towerIndex].position),
+    var gridPosition = convertToBlock(this.towers[towerIndex].position),
         towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}}),
         sellPrice = Math.floor(this.towers[towerIndex].totalCost * 0.75);
     // Dispatch the tower death event for the ui to update
@@ -350,7 +350,7 @@ function _convertPathToLines(path) {
             }
         }
         line.startPoint = path[i];
-        line.distance = utils.getPositionDifference(path[i], path[i+1]);
+        line.distance = getPositionDifference(path[i], path[i+1]);
         pathLines.push(line);
     }
 
@@ -451,10 +451,10 @@ function _createPathBlocks(pathLines) {
             // Edge case for when the path exits the screen (there is definitely a better way to handle this)
             // This is such a bad solution lol.
             if (blockBefore.x < constants.CANVASWIDTH && blockBefore.y < constants.CANVASHEIGHT) {
-                blocks.push(utils.convertToBlock(blockBefore));
+                blocks.push(convertToBlock(blockBefore));
             }
             if (blockAfter.x < constants.CANVASWIDTH && blockAfter.y < constants.CANVASHEIGHT) {
-                blocks.push(utils.convertToBlock(blockAfter));
+                blocks.push(convertToBlock(blockAfter));
             }
         }
     }

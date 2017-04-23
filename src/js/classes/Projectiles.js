@@ -1,5 +1,5 @@
 var towerData = require("../gameData/towerdata.js"),
-    utils = require("../utils.js"),
+    { getPathPosition } = require("../utils.js"),
     constants = require("../gameData/gameConstants.js");
 
 // Projectiles are attached to monsters
@@ -47,7 +47,7 @@ Projectile.prototype.move = function(dt, targetPosition) {
             x: targetPosition.x + (constants.MONSTERLENGTH/2) - (constants.PROJECTILELENGTH/2),
             y: targetPosition.y + (constants.MONSTERLENGTH/2) - (constants.PROJECTILELENGTH/2)
         };
-    this.projectilePosition = utils.getPathPosition(this.initialPosition, adjustedMonsterPosition, fractionTravelled);
+    this.projectilePosition = getPathPosition(this.initialPosition, adjustedMonsterPosition, fractionTravelled);
 }
 
 module.exports = Projectile;

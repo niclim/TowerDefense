@@ -34,9 +34,9 @@ Towers have a size of 2x2
 * Complete unit test coverage
 * do some balancing (towers and levels are definitely not balanced lol.)
 * move out html into components
+* Clean up interface.js file
 
 ### TODO later
 * Come up with a better name than awesome TD
-* Think of a theme to go with the better name than awesome TD
 * Make some cool sprites
 * Get a better background (instead of using canvas to generate the background) - or implement path finding
