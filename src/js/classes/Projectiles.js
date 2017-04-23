@@ -1,9 +1,9 @@
-var towerData = require("../gameData/towerdata.js"),
+const towerData = require("../gameData/towerdata.js"),
     { getPathPosition } = require("../utils.js"),
     constants = require("../gameData/gameConstants.js");
 
 // Projectiles are attached to monsters
-var Projectile = function(id, towerPosition) {
+const Projectile = function(id, towerPosition) {
     this.id = id;
     this.damage = towerData[id].projectile.damage;
     this.totalTravelTime = towerData[id].projectile.travelTime;
@@ -11,7 +11,7 @@ var Projectile = function(id, towerPosition) {
     this.type = towerData[id].projectile.type;
     this.effects = {};
 
-    for (var key in towerData[id].projectile.effects) {
+    for (let key in towerData[id].projectile.effects) {
         this.effects[key] = Object.assign({}, towerData[id].projectile.effects[key]);
     }
 
@@ -42,7 +42,7 @@ Projectile.prototype.move = function(dt, targetPosition) {
         this.end = true;
     }
 
-    var fractionTravelled = this.currentTravelTime / this.totalTravelTime,
+    const fractionTravelled = this.currentTravelTime / this.totalTravelTime,
         adjustedMonsterPosition = {
             x: targetPosition.x + (constants.MONSTERLENGTH/2) - (constants.PROJECTILELENGTH/2),
             y: targetPosition.y + (constants.MONSTERLENGTH/2) - (constants.PROJECTILELENGTH/2)

@@ -1,8 +1,8 @@
-var monsterData = require("../gameData/monsterdata.js"),
+const monsterData = require("../gameData/monsterdata.js"),
     { getDamageModifier, convertDistanceToCoordinates } = require("../utils.js"),
     constants = require("../gameData/gameConstants.js");
 
-var Monster = function(id, level) {
+const Monster = function(id, level) {
     this.id = id;
     this.maxHp = Math.floor(Math.pow(level, 1.2) * monsterData[id].maxHp * (level * 0.6 + 1));
     this.currentHp = this.maxHp;
@@ -23,7 +23,7 @@ Monster.prototype.runCycle = function(gamePath, dt) {
         projectile.move(dt, this.position);
         if (projectile.end) {
             // Object.assign doesn't do deep merge - only need to go one level down to prevent reference copying
-            for (var key in projectile.effects) {
+            for (let key in projectile.effects) {
                 // TODO figure out how to prioritize multiple effects with different values, e.g. two slows with 0.5 and 0.2 (prioritize the higher one)
 
                 this.effects[key] = Object.assign({}, projectile.effects[key]);
@@ -59,7 +59,7 @@ Monster.prototype.draw = function() {
 }
 
 Monster.prototype.checkDeath = function() {
-    var status = {};
+    let status = {};
 
     if (this.currentHp <= 0 || this.position.end) {
         status.alive = false;
@@ -73,7 +73,7 @@ Monster.prototype.checkDeath = function() {
 Monster.prototype.handleEffects = function(dt) {
     // Loop through all the effects on the monster
     // Effects to handle: splash, slow, freeze, dot, amplify, bounce
-    for (var key in this.effects) {
+    for (let key in this.effects) {
         switch (key) {
             case "freeze":
                 if (Math.random() < this.effects.freeze.chance) {
@@ -105,7 +105,7 @@ Monster.prototype.handleEffects = function(dt) {
 }
 
 Monster.prototype.move = function(pathLines, dt) {
-    var modifier = 1;
+    let modifier = 1;
 
     // Freeze is priority over slow (should be highest to lowest)
     if (this.effects.hasOwnProperty("frozen")) {
@@ -120,7 +120,7 @@ Monster.prototype.move = function(pathLines, dt) {
 
 // Can take in a positive or negative number
 Monster.prototype.updateHp = function(hpChange) {
-    var modifier = 1;
+    let modifier = 1;
 
     // Only amplifies damage if the monster is taking damage
     if (hpChange < 0 && this.effects.hasOwnProperty("amplify")) {

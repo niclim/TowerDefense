@@ -1,4 +1,4 @@
-var towerInfo = `
+const towerInfo = `
 <h2 class="capitalize">{{title}}</h2>
 <div class="row">
     <div class="col s6 info-box">

@@ -1,9 +1,9 @@
 // Initiate all the components
-var Tower = require("./classes/Tower.js"),
+const Tower = require("./classes/Tower.js"),
     GameEngine = require("./classes/Game.js");
 
 // Import and declare utility functions
-var {
+const {
     compileTemplate,
     getTowerData,
     getTowerEffects,
@@ -12,11 +12,11 @@ var {
     removeClass,
     convertPositionToTower } = require("./utils.js");
 
-var constants = require("./gameData/gameConstants.js"),
+const constants = require("./gameData/gameConstants.js"),
     towerData = require("./gameData/towerdata.js");
 
 // Import components
-var baseModalTemplate = require("./components/baseModal.js"),
+const baseModalTemplate = require("./components/baseModal.js"),
     actionsTemplate = require("./components/actions.js"),
     informationPanelTemplate = require("./components/informationPanel.js"),
     upgradePanelTemplate = require("./components/upgradePanel.js"),
@@ -24,7 +24,7 @@ var baseModalTemplate = require("./components/baseModal.js"),
 
 
 // Cache reused DOM elements
-var infoName = document.getElementById("info-name"),
+const infoName = document.getElementById("info-name"),
     infoIcon = document.getElementById("info-icon"),
     infoBox1 = document.getElementById("info-box-1"),
     infoBox2 = document.getElementById("info-box-2"),
@@ -33,11 +33,8 @@ var infoName = document.getElementById("info-name"),
     levelInfo = document.getElementById("level"),
     goldInfo = document.getElementById("gold"),
     livesInfo = document.getElementById("lives"),
-    towerCards = document.getElementsByClassName("tower-card"),
+    towerCards = Array.prototype.slice.call(document.getElementsByClassName("tower-card")),
     towerCardList = [];
-
-// Convert from nodelist to array
-towerCards = Array.prototype.slice.call(towerCards);
 
 /*
 Create state variables - These are modified on user interaction events
@@ -54,7 +51,7 @@ canvasMousePosition -
     mousePosition - the current mouse coordinates
 */
 
-var activeCanvasElement = {type: null},
+let activeCanvasElement = {type: null},
     activeTowerSelected = null,
     activeMessage = {message: null},
     canvasMousePosition = {
@@ -73,10 +70,11 @@ showStartModal();
 updateInformationPanel();
 
 // Declare the game loop
-var lastTime;
+let lastTime;
 function gameLoop() {
-    var now = Date.now(),
-        dt = (now - lastTime) / 1000.0; // Convert to seconds
+    const now = Date.now();
+    
+    let dt = (now - lastTime) / 1000.0; // Convert to seconds
 
     // Limit the dt so that when the browser changes tabs the game is paused - change this so that execution continues and only rendering stops?
     dt = Math.min(dt, 0.5); // Max dt is half a second
@@ -98,7 +96,7 @@ function gameLoop() {
 /* =====================================================*/
 function showModal(html, background = true) {
     // create modal element and attach to dom
-    var modalContainer = document.createElement('div'),
+    const modalContainer = document.createElement('div'),
         modal = document.createElement('div');
 
     modalContainer.className = "modal-container";
@@ -109,7 +107,7 @@ function showModal(html, background = true) {
     modal.addEventListener("click", modalClick);
 
     //create modal background and attach to dom
-    var modalBackground = document.createElement('div');
+    const modalBackground = document.createElement('div');
     modalBackground.className = "modal-background";
 
     if (background) {
@@ -122,16 +120,16 @@ function showModal(html, background = true) {
 }
 
 function removeModal() {
-    var modalElem = document.getElementById("mainModal");
+    const modalElem = document.getElementById("mainModal");
     modalElem.removeEventListener("click", modalClick);
-    var modalBackgroundElem = document.getElementsByClassName("modal-background")[0];
-    var modalContainer = document.getElementsByClassName("modal-container")[0];
+    const modalBackgroundElem = document.getElementsByClassName("modal-background")[0];
+    const modalContainer = document.getElementsByClassName("modal-container")[0];
     if (modalContainer) { document.body.removeChild(modalContainer) };
     if (modalBackgroundElem) { document.body.removeChild(modalBackgroundElem) };
 }
 
 function showStartModal() {
-    var actions = [
+    const actions = [
         {
             action: "start",
             name: "Start Game"
@@ -142,11 +140,11 @@ function showStartModal() {
         }
     ];
 
-    var actionHtml = actions.reduce((prevAction, action) => {
+    const actionHtml = actions.reduce((prevAction, action) => {
         return prevAction + compileTemplate(actionsTemplate, action)
     }, "");
 
-    var startModal = compileTemplate(baseModalTemplate, {
+    const startModal = compileTemplate(baseModalTemplate, {
         title: "Welcome to Awesome TD!",
         content: `<p>This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
         On game reset this modal-content container will show and prompt to restart game.</p>`,
@@ -157,14 +155,14 @@ function showStartModal() {
 }
 
 function showGameFinishedModal(gameWon) {
-    var title = gameWon ? "Congratulations, you won!" : "Better luck next time",
+    const title = gameWon ? "Congratulations, you won!" : "Better luck next time",
 
         actionHtml = compileTemplate(actionsTemplate, {
         action: "restart",
         name: "Restart Game"
     });
 
-    var gameFinishedModal = compileTemplate(baseModalTemplate, {
+    const gameFinishedModal = compileTemplate(baseModalTemplate, {
         title,
         content: `<p>Game is over. Do you want to play again?</p>`,
         actions: actionHtml
@@ -174,18 +172,18 @@ function showGameFinishedModal(gameWon) {
 }
 
 function showInformationModal() {
-    var actions = [
+    const actions = [
         {
             action: "start",
             name: "Start Game"
         }
     ];
 
-    var actionHtml = actions.reduce((prevAction, action) => {
+    const actionHtml = actions.reduce((prevAction, action) => {
         return prevAction + compileTemplate(actionsTemplate, action)
     }, "");
 
-    var actionModal = compileTemplate(baseModalTemplate, {
+    const actionModal = compileTemplate(baseModalTemplate, {
         title: "Information",
         content: `<p>Monsters are trying to reach the end of the path!!! It's your job to stop them. Luckily for you, you have ${constants.STARTINGGOLD} gold lying around to buy towers. Monsters spawn from the left size of the screen and run along the grey path to reach the right side of the path. Every 10 levels, there are stronger monsters that spawn which are harder to take down. Good luck!</p>`,
         actions: actionHtml,
@@ -197,21 +195,19 @@ function showInformationModal() {
 
 // At the moment expects only towers with upgrades should be able to access this
 function showUpgradeModal(towerIndex) {
-    // Figure out where to show the upgrade contianer
-
-    var towerId = game.towers[towerIndex].id,
+    const towerId = game.towers[towerIndex].id,
         upgrades = towerData[towerId].upgrade,
         columnSpacing = upgrades.length === 1 ? "s6 offset-s3" : "s6";
 
-    var modalContent = upgrades.reduce((prevUpgrade, upgradeObj) => {
-        var towerInfo = getTowerData(upgradeObj.name),
+    const modalContent = upgrades.reduce((prevUpgrade, upgradeObj) => {
+        const towerInfo = getTowerData(upgradeObj.name),
             actions = compileTemplate(actionsTemplate, {
                 action: "upgrade",
                 name: upgradeObj.name,
                 extraData: `data-upgradename='${upgradeObj.name}'`
             });
 
-        var upgradeContent = compileTemplate(towerInfoTemplate, {
+        const upgradeContent = compileTemplate(towerInfoTemplate, {
             towerDmg: towerInfo.projectile.damage,
             towerTravel: towerInfo.projectile.travelTime,
             towerCost: towerInfo.goldCost,
@@ -231,7 +227,7 @@ function showUpgradeModal(towerIndex) {
         })
     }, "");
 
-    var upgradeModal = compileTemplate(baseModalTemplate, {
+    const upgradeModal = compileTemplate(baseModalTemplate, {
         title: "Upgrade Tower",
         content: modalContent,
         actions: "",
@@ -266,7 +262,7 @@ function updateGameDependentInformation() {
 
 // Moved this outside of the gameLoop, will only update the relevant data when necessary
 function updateInformationPanel() {
-    var sectionHtml;
+    let sectionHtml;
     if (activeCanvasElement.type === "monster") {
         sectionHtml = renderMonsterInformation(activeCanvasElement.index);
     } else if (activeCanvasElement.type === "tower") {
@@ -278,15 +274,14 @@ function updateInformationPanel() {
 }
 
 function renderMonsterInformation(index) {
-    var currentHp = Math.floor(game.activeMonsters[index].currentHp),
+    const currentHp = Math.floor(game.activeMonsters[index].currentHp),
         maxHp = game.activeMonsters[index].maxHp,
         type = game.activeMonsters[index].type,
         id = game.activeMonsters[index].id,
         moveSpeed = game.activeMonsters[index].baseMs,
-        content,
         { strengths, weaknesses } = getMonsterTypeInfo(type);
 
-    content = `
+    let content = `
     <div class="row">
         <div class="col s6 info-box">
             <div class="capitalize">HP: <span id='monsterHp'>${currentHp}</span> / ${maxHp}</div>
@@ -307,11 +302,10 @@ function renderMonsterInformation(index) {
 }
 
 function renderTowerInformation(index) {
-    var id = game.towers[index].id,
+    const id = game.towers[index].id,
         towerInfo = getTowerData(id),
-        upgradeAvailable = towerInfo.upgrade.length !== 0,
-        content = "",
-        actions;
+        upgradeAvailable = towerInfo.upgrade.length !== 0;
+    let actions;
 
     if (upgradeAvailable) {
         actions = [
@@ -324,7 +318,7 @@ function renderTowerInformation(index) {
         ];
     }
 
-    content += actions.reduce((prevAction, action) => {
+    let content = actions.reduce((prevAction, action) => {
         return prevAction + compileTemplate(actionsTemplate, action)
     }, "");
 
@@ -380,8 +374,8 @@ function renderTowerPlacement() {
         return
     };
 
-    var towerData = getTowerData(activeTowerSelected);
-    var coordinates = canvasMousePosition.towerPosition.coordinates;
+    const towerData = getTowerData(activeTowerSelected);
+    const coordinates = canvasMousePosition.towerPosition.coordinates;
 
     dynamicContext.beginPath();
     dynamicContext.globalAlpha = 0.5;
@@ -477,7 +471,7 @@ document.getElementsByClassName("side-section left")[0].addEventListener("click"
 /* =================== UI Functions ====================*/
 /* =====================================================*/
 function modalClick(e) {
-    var clickTarget = e.target.getAttribute("data-action");
+    const clickTarget = e.target.getAttribute("data-action");
 
     switch (clickTarget) {
         case "start":
@@ -490,7 +484,7 @@ function modalClick(e) {
             showInformationModal();
             break;
         case "upgrade":
-            var upgradeName = e.target.getAttribute("data-upgradename");
+            const upgradeName = e.target.getAttribute("data-upgradename");
             upgradeTower(activeCanvasElement.index, upgradeName);
             break;
         case "close":
@@ -505,7 +499,7 @@ function modalClick(e) {
 }
 
 function addHoverInformation(towerCard) {
-    var hoverContainer = document.createElement('div'),
+    const hoverContainer = document.createElement('div'),
         towerType = towerCard.getAttribute("data-tower"),
         towerInfo = towerData[towerType];
 
@@ -550,8 +544,7 @@ Used to control what tower is being actively placed on the canvas
     -> the state is changed to the clicked tower becoming the active tower
 */
 function towerCardClick() {
-
-    var towerName = this.getAttribute("data-tower"),
+    const towerName = this.getAttribute("data-tower"),
         oldTowerIndex = towerCardList.indexOf(activeTowerSelected),
         newTowerIndex = towerCardList.indexOf(towerName);
 
@@ -593,7 +586,7 @@ function onCanvasMouseMovement(e) {
         return
     };
 
-    var canvasContainer = this.getBoundingClientRect(),
+    const canvasContainer = this.getBoundingClientRect(),
         position = {};
 
     position.x = e.clientX - canvasContainer.left;
@@ -617,7 +610,7 @@ Handles two possible canvas click scenarios
 */
 function canvasClick(e) {
     // Get click location relative to the canvas element
-    var canvasContainer = this.getBoundingClientRect(),
+    const canvasContainer = this.getBoundingClientRect(),
         position = {},
         towerGridPosition = canvasMousePosition.towerPosition.grid,
         towerCoordinates = canvasMousePosition.towerPosition.coordinates; // Passes in grid blocks - this is the topLeft block
@@ -627,7 +620,7 @@ function canvasClick(e) {
 
     // Runs if the user is placing a tower
     if (activeTowerSelected !== null) {
-        var towerName = activeTowerSelected,
+        const towerName = activeTowerSelected,
             towerPlaced = game.placeTower(towerName, towerGridPosition, towerCoordinates);
 
         // If the tower was not placed, show an error message
@@ -648,7 +641,7 @@ function canvasClick(e) {
 }
 
 function sellTower(towerIndex) {
-    var sellPrice = game.sellTower(towerIndex);
+    const sellPrice = game.sellTower(towerIndex);
     activeMessage = {
         message: constants.MESSAGETOWERSOLD + sellPrice + " Gold",
         timer: constants.MESSAGEDURATION // seconds
@@ -657,7 +650,7 @@ function sellTower(towerIndex) {
 }
 
 function upgradeTower(towerIndex, upgradeName) {
-   var upgraded = game.upgradeTower(towerIndex, upgradeName);
+   const upgraded = game.upgradeTower(towerIndex, upgradeName);
     if (upgraded) {
         updateInformationPanel();
     } else {

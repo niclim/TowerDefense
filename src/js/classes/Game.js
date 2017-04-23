@@ -1,5 +1,5 @@
 //  require Monster to gain access
-var Monster = require("./Monster.js"),
+const Monster = require("./Monster.js"),
     Tower = require("./Tower.js"),
     Projectile = require("./Projectiles.js"),
     towerData = require("../gameData/towerdata.js"),
@@ -8,7 +8,7 @@ var Monster = require("./Monster.js"),
     pathCoordinates = require("../gameData/pathdata.js"),
     constants = require("../gameData/gameConstants.js");
 
-var GameEngine = function() {
+const GameEngine = function() {
     this.setDefaults();
 }
 
@@ -29,13 +29,13 @@ GameEngine.prototype.setDefaults = function() {
 
 GameEngine.prototype.addMonster = function(level) {
     // Level lookup needs to be modified to access correct levelData array index
-    var monster = new Monster(levelData[level - 1].type, level);
+    const monster = new Monster(levelData[level - 1].type, level);
     this.activeMonsters.push(monster);
 }
 
 GameEngine.prototype.addTower = function(id, position, gridPosition, goldCost) {
     this.userGold -= goldCost;
-    var tower = new Tower(position, id);
+    const tower = new Tower(position, id);
     this.towers.push(tower);
     // Set gameGrid positioning
     this.gameGrid[gridPosition.x][gridPosition.y] = {empty: false};
@@ -50,7 +50,7 @@ Returns an object with information about what is at that position
 {type: null} if nothing found
 */
 GameEngine.prototype.checkClickLocation = function(position) {
-    var element = {};
+    let element = {};
     // Loops through activeMonsters
     this.activeMonsters.some((activeMonster, i) => {
         if (checkIfInSquare(position, activeMonster.position, activeMonster.sideLength)) {
@@ -107,11 +107,11 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
     // Handle splash,bounce here
     if (activeMonster.effects.hasOwnProperty("splash")) {
         // Search all monsters in range of this
-        var splashRange = activeMonster.effects.splash.radius;
+        const splashRange = activeMonster.effects.splash.radius;
 
         this.activeMonsters.forEach((searchMonster, j) => {
             if (i !== j) {
-                var distance = getPositionDifference(searchMonster.position, activeMonster.position);
+                const distance = getPositionDifference(searchMonster.position, activeMonster.position);
                 if (distance < splashRange) {
                     searchMonster.updateHp(-activeMonster.effects.splash.damage);
                 }
@@ -120,20 +120,20 @@ GameEngine.prototype.handleEffects = function(activeMonster, i) {
         delete activeMonster.effects.splash;
 
     } else if (activeMonster.effects.hasOwnProperty("bounce")) {
-        var bounceRange = activeMonster.effects.bounce.range;
+        const bounceRange = activeMonster.effects.bounce.range;
         if (activeMonster.effects.bounce.amount > 0) {
             // search all monsters in range of bounce
             this.activeMonsters.some((searchMonster, j) => {
                 if (i !== j) {
-                    var distance = getPositionDifference(searchMonster.position, activeMonster.position)
+                    const distance = getPositionDifference(searchMonster.position, activeMonster.position)
                     if (distance < bounceRange) {
-                        var id = activeMonster.effects.bounce.id,
+                        const id = activeMonster.effects.bounce.id,
                         position = Object.assign({}, activeMonster.position); // Shallow copy
 
                         position.x += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
                         position.y += (constants.MONSTERLENGTH/2) - (constants.TOWERLENGTH/2);
 
-                        var addedProjectile = new Projectile(id, position);
+                        const addedProjectile = new Projectile(id, position);
 
                         // Reduce the number of bounces based on previous projectile
                         // TODO figure out a way to prevent bouncing to same monster - if it matters?
@@ -170,7 +170,7 @@ towerCoordinates - top left coordinate of a tower
 Returns an object with a boolean to represent whether the tower is placed and an error message if the tower was not placed
 */
 GameEngine.prototype.placeTower = function(towerName, gridPosition, towerCoordinates) {
-    var goldCost = towerData[towerName].goldCost;
+    const goldCost = towerData[towerName].goldCost;
     // Validate tower placement
     if (this.validateTowerPlacement(gridPosition) && this.checkGold(goldCost)) {
         this.addTower(towerName, towerCoordinates, gridPosition, goldCost);
@@ -190,7 +190,7 @@ GameEngine.prototype.render = function(activeCanvasElement) {
 
     // Render towers first so that if monsters are larger they show above towers
     this.towers.forEach((tower, i) => {
-        var active = activeCanvasElement.type === "tower" && activeCanvasElement.index === i;
+        const active = activeCanvasElement.type === "tower" && activeCanvasElement.index === i;
         tower.draw(active);
     });
 
@@ -245,7 +245,7 @@ GameEngine.prototype.runCycle = function(dt) {
         // Handles external effects to the monsters (splash and bounce effects)
         this.handleEffects(activeMonster, i);
 
-        var monsterStatus = activeMonster.checkDeath();
+        const monsterStatus = activeMonster.checkDeath();
 
         if (!monsterStatus.alive) {
             if (monsterStatus.giveGold) {
@@ -253,7 +253,7 @@ GameEngine.prototype.runCycle = function(dt) {
             } else {
                 this.userLives--;
             }
-            var monsterDeath = new CustomEvent("unitRemoved", {"detail": {index: i, element: "monster"}});
+            const monsterDeath = new CustomEvent("unitRemoved", {"detail": {index: i, element: "monster"}});
             document.dispatchEvent(monsterDeath);
             // Copy over projectiles before monster is removed- need to do direct reference copy because it's an object with prototype properties
             this.unfinishedProjectiles = activeMonster.projectiles;
@@ -279,7 +279,7 @@ GameEngine.prototype.runCycle = function(dt) {
 }
 
 GameEngine.prototype.sellTower = function(towerIndex) {
-    var gridPosition = convertToBlock(this.towers[towerIndex].position),
+    const gridPosition = convertToBlock(this.towers[towerIndex].position),
         towerDeath = new CustomEvent("unitRemoved", {"detail": {index: towerIndex, element: "tower"}}),
         sellPrice = Math.floor(this.towers[towerIndex].totalCost * 0.75);
     // Dispatch the tower death event for the ui to update
@@ -317,7 +317,7 @@ Returns false if the position is invalid
 */
 GameEngine.prototype.validateTowerPlacement = function(gridPosition) {
     // Checks all 4 positions
-    var positionValid = this.gameGrid[gridPosition.x][gridPosition.y].empty
+    const positionValid = this.gameGrid[gridPosition.x][gridPosition.y].empty
     && this.gameGrid[gridPosition.x + 1][gridPosition.y].empty
     && this.gameGrid[gridPosition.x][gridPosition.y + 1].empty
     && this.gameGrid[gridPosition.x + 1][gridPosition.y + 1].empty;
@@ -330,9 +330,9 @@ Output: pathLines - an array of objects containing the startPoint (coordinates),
         distance of the line and direction (left, right, up, down)
 */
 function _convertPathToLines(path) {
-    var pathLines = [];
-    for (var i = 0; i < path.length - 1; i++) {
-        var line = {};
+    let pathLines = [];
+    for (let i = 0; i < path.length - 1; i++) {
+        let line = {};
 
         // Assume that the direction is only 4 ways
         if (path[i+1].x - path[i].x === 0) {
@@ -364,11 +364,11 @@ Note that there will be some overlap with blocks, however,
 as they are only used to set grid positions to not empty, overlap is not an issue
 */
 function _createPathBlocks(pathLines) {
-    var blocks = [];
+    let blocks = [];
     // Loops through all the pathLines and creates blocks based on that
-    for (var i = 0; i < pathLines.length; i++) {
+    for (let i = 0; i < pathLines.length; i++) {
         // blockAmount refers to the amount of blocks that follow the path
-        var blockAmount = Math.floor(pathLines[i].distance / constants.GRIDSIZE) + 1,
+        let blockAmount = Math.floor(pathLines[i].distance / constants.GRIDSIZE) + 1,
             pathDirection;
         /* Set direction
         x: 1 = right
@@ -422,9 +422,9 @@ function _createPathBlocks(pathLines) {
         blockAfter refers to blocks either to the right or below of the path
         Creates block locations and gives them offsets to their center positions (for clarity in converting to blocks)
         */
-        for (var j = 0; j < blockAmount; j++) {
+        for (let j = 0; j < blockAmount; j++) {
 
-            var blockBefore = {
+            let blockBefore = {
 
                 x: pathLines[i].startPoint.x -
                     pathDirection.xSide +
@@ -465,15 +465,15 @@ function _createPathBlocks(pathLines) {
 // Grid is 36 by 24
 // can be initiated by [x][y] - each block has a boolean to represent whether something is there
 function _initiateGrid(pathLines) {
-    var grid = [],
+    let grid = [],
         blocks = _createPathBlocks(pathLines),
         xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
         yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE;
 
     // Create the grid
-    for (var x = 0; x < xGridAmount; x++) {
+    for (let x = 0; x < xGridAmount; x++) {
         grid[x] = [];
-        for (var y = 0; y < yGridAmount; y++) {
+        for (let y = 0; y < yGridAmount; y++) {
             grid[x][y] = {
                 empty: true
             };

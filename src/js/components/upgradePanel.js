@@ -1,4 +1,4 @@
-var upgradePanel = `
+const upgradePanel = `
 <div class="upgrade-card col {{spacing}}">
     <div class="card">
         <div class="card-content">

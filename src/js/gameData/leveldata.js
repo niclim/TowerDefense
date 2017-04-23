@@ -1,6 +1,7 @@
-var exportData = [],
-    currentLevel,
-    monsterLookup = [
+let exportData = [],
+    currentLevel;
+    
+const monsterLookup = [
     {
         type: "basic",
         amount: 10

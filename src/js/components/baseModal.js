@@ -1,4 +1,4 @@
-var baseModal = `
+const baseModal = `
 <h3 id="mainModalTitle" class="modal-title">{{title}}</h3>
 
 <div id="mainModalContent" class="modal-information">
