@@ -33,8 +33,9 @@ const infoName = document.getElementById("info-name"),
     infoBox4 = document.getElementById("info-box-4"),
     levelInfo = document.getElementById("level"),
     goldInfo = document.getElementById("gold"),
-    livesInfo = document.getElementById("lives"),
-    towerCards,
+    livesInfo = document.getElementById("lives");
+
+let towerCards,
     towerCardList = [];
 
 /*
