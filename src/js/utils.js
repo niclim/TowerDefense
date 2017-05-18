@@ -203,10 +203,10 @@ function getTowerData(towerType) {
 function compileTemplate(template, object) {
     var html = template;
     for (var key in object) {
-        html = html.replace(`{{${key}}}`, object[key]);
+        html = html.replace(new RegExp(`{{${key}}}`, 'g'), object[key]);
     }
     // Removes unspecified template strings
-    html = html.replace(/{{.*}}/g, "");
+    html = html.replace(/{{.*?}}/g, "");
     return html
 }
 
