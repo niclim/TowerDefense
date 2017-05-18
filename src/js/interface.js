@@ -34,7 +34,7 @@ const infoName = document.getElementById("info-name"),
     levelInfo = document.getElementById("level"),
     goldInfo = document.getElementById("gold"),
     livesInfo = document.getElementById("lives"),
-    towerCards = Array.prototype.slice.call(document.getElementsByClassName("tower-card")),
+    towerCards,
     towerCardList = [];
 
 /*
@@ -275,6 +275,8 @@ function renderTowerPanel() {
     }
 
     document.getElementById("tower-panel").innerHTML = towerHtml;
+    // Store towerCards into module variables
+    towerCards = Array.prototype.slice.call(document.getElementsByClassName("tower-card"));
 }
 
 // Moved this outside of the gameLoop, will only update the relevant data when necessary
