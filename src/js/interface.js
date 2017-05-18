@@ -15,12 +15,13 @@ const {
 const constants = require("./gameData/gameConstants.js"),
     towerData = require("./gameData/towerdata.js");
 
-// Import components
+// Import templates
 const baseModalTemplate = require("./components/baseModal.js"),
     actionsTemplate = require("./components/actions.js"),
     informationPanelTemplate = require("./components/informationPanel.js"),
     upgradePanelTemplate = require("./components/upgradePanel.js"),
-    towerInfoTemplate = require("./components/towerInfo.js");
+    towerInfoTemplate = require("./components/towerInfo.js"),
+    towerCardTemplate = require("./components/towerCard.js");
 
 
 // Cache reused DOM elements
@@ -68,12 +69,13 @@ window.dynamicCanvas = document.getElementById('dynamic');
 window.dynamicContext = dynamicCanvas.getContext('2d');
 showStartModal();
 updateInformationPanel();
+renderTowerPanel();
 
 // Declare the game loop
 let lastTime;
 function gameLoop() {
     const now = Date.now();
-    
+
     let dt = (now - lastTime) / 1000.0; // Convert to seconds
 
     // Limit the dt so that when the browser changes tabs the game is paused - change this so that execution continues and only rendering stops?
@@ -258,6 +260,21 @@ function updateGameDependentInformation() {
     } else if (activeCanvasElement.type === "tower") {
         // Add any relevant tower information here
     }
+}
+
+function renderTowerPanel() {
+    let towerHtml = '';
+
+    for (let key in towerData) {
+        if (towerData[key].primary) {
+            towerHtml += compileTemplate(towerCardTemplate, {
+                name: key,
+                imageSource: towerData[key].icon
+            })
+        }
+    }
+
+    document.getElementById("tower-panel").innerHTML = towerHtml;
 }
 
 // Moved this outside of the gameLoop, will only update the relevant data when necessary
@@ -452,7 +469,7 @@ document.addEventListener("unitRemoved", (e) => {
 // Adds event listeners only to the info box
 document.getElementsByClassName("side-section left")[0].addEventListener("click", (e) => {
     if (activeCanvasElement.type === "tower") {
-        var clickTarget = e.target.getAttribute("data-action");
+        const clickTarget = e.target.getAttribute("data-action");
         switch (clickTarget) {
             case "upgrade":
                 showUpgradeModal(activeCanvasElement.index);

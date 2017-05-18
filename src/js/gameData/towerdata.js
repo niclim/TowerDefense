@@ -9,6 +9,8 @@ module.exports = {
             type: "normal", //
             effects: {}
         },
+        primary: true,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 1, // 1 second per attack
@@ -33,6 +35,8 @@ module.exports = {
             type: "normal",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.8,
@@ -54,6 +58,8 @@ module.exports = {
             type: "normal",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.8,
@@ -71,6 +77,8 @@ module.exports = {
             type: "normal",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 3,
         attackSpeed: 0.8,
@@ -92,6 +100,8 @@ module.exports = {
             type: "normal",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 4,
         attackSpeed: 0.8,
@@ -111,6 +121,8 @@ module.exports = {
             type: "siege",
             effects: {}
         },
+        primary: true,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 2,
@@ -135,6 +147,8 @@ module.exports = {
             type: "siege",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 2,
@@ -159,6 +173,8 @@ module.exports = {
             type: "siege",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 1.5,
@@ -180,6 +196,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 1.5,
@@ -202,6 +220,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 1,
@@ -231,6 +251,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 3,
         attackSpeed: 1,
@@ -253,6 +275,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 1,
@@ -277,6 +301,8 @@ module.exports = {
                 }
             }
         },
+        primary: true,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.6,
@@ -306,6 +332,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 30,
         attackSpeed: 0.2,
@@ -335,6 +363,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 30,
         attackSpeed: 0.2,
@@ -357,6 +387,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 30,
         attackSpeed: 0.2,
@@ -374,6 +406,8 @@ module.exports = {
             type: "fire",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.1,
@@ -398,6 +432,8 @@ module.exports = {
             type: "fire",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.1,
@@ -420,6 +456,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 3,
         attackSpeed: 1,
@@ -444,6 +482,8 @@ module.exports = {
                 }
             }
         },
+        primary: true,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.8,
@@ -473,6 +513,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 30,
         attackSpeed: 0.8,
@@ -499,6 +541,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 30,
         attackSpeed: 0.8,
@@ -521,6 +565,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.8,
@@ -550,6 +596,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.8,
@@ -572,6 +620,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.8,
@@ -590,6 +640,8 @@ module.exports = {
             type: "light",
             effects: {}
         },
+        primary: true,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.4,
@@ -614,6 +666,8 @@ module.exports = {
             type: "light",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.3,
@@ -635,6 +689,8 @@ module.exports = {
             type: "light",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.2,
@@ -661,6 +717,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.6,
@@ -690,6 +748,8 @@ module.exports = {
                 }
             }
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 1,
         attackSpeed: 0.6,
@@ -707,6 +767,8 @@ module.exports = {
             type: "light",
             effects: {}
         },
+        primary: false,
+        icon: "./assets/tower.jpg",
         sprite: "TODO",
         targets: 3,
         attackSpeed: 0.6,
