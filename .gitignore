@@ -46,5 +46,5 @@ reference
 .gitignore
 
 # compiled assests
-/app/css/*
-/app/js/*
+# /app/css/*
+# /app/js/*
