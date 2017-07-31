@@ -18,9 +18,13 @@ Make sure you have ```gulp``` installed by testing
 gulp -v
 ```
 
-Compile assets and run using gulp
+Compile assets
 ```bash
-gulp
+npm run compile
+```
+Compile assets and watch for changes
+```bash
+npm start
 ```
 
 ## Notes

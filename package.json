@@ -5,7 +5,9 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "",
-    "dev": "webpack-dev-server --content-base ./ --inline --hot"
+    "dev": "webpack-dev-server --content-base ./ --inline --hot",
+    "start": "gulp watch",
+    "compile": "gulp"
   },
   "author": "Nicholas Lim",
   "license": "ISC",
