@@ -23,7 +23,7 @@ Compile assets and run using gulp
 gulp
 ```
 
-## Notes - general dev notes
+## Notes
 
 Position are defined by the top left corner of the element (monsters and towers are square blocks). The monsters and towers have a sideLength value which can be used to compute the coordinate square used to determine position
 
@@ -33,8 +33,6 @@ Towers have a size of 2x2
 * When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops) - right now dt is being limited to 0.5 seconds - look into web workers to continue game logic (only rendering is paused)
 * Complete unit test coverage
 * do some balancing (towers and levels are definitely not balanced lol.)
-* move out html into components
-* Clean up interface.js file
 
 ### TODO later
 * Come up with a better name than awesome TD
