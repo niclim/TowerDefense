@@ -1,5 +1,12 @@
 // Canvas
 require('./background.js')
-
-// User interaction elements - tbh this is more like "main.js"
-require('./interface.js')
+const init = require('./interface.js')
+const loadAssets = require('./assetLoader')
+loadAssets([
+  './assets/biggermonster.jpg',
+  './assets/tower.jpg'
+]).then(() => {
+  init()
+}).catch((e) => {
+  console.log('assets not loaded')
+})
