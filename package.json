@@ -4,7 +4,9 @@
   "description": "A basic tower defense game",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "dev-server": "webpack-dev-server --mode development --open",
+    "sass": "node-sass -w ./src/scss/style.scss ./public/css/style.css",
+    "start": "concurrently \"npm run dev-server\" \"npm run sass\" ",
     "build": "webpack --mode production"
   },
   "author": "Nicholas Lim",
@@ -13,6 +15,7 @@
     "babel-cli": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
+    "concurrently": "^3.5.1",
     "node-sass": "^4.7.2",
     "webpack": "^4.1.0",
     "webpack-cli": "^2.0.10",
