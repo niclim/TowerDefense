@@ -4,27 +4,18 @@
   "description": "A basic tower defense game",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "",
-    "dev": "webpack-dev-server --content-base ./ --inline --hot",
-    "start": "gulp watch",
-    "compile": "gulp"
+    "start": "webpack-dev-server --mode development --open",
+    "build": "webpack --mode production"
   },
   "author": "Nicholas Lim",
   "license": "ISC",
-  "dependencies": {
-    "webpack": "^1.13.2"
-  },
   "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-core": "^6.24.0",
-    "babel-loader": "^6.4.1",
-    "babel-preset-env": "^1.3.2",
-    "browser-sync": "^2.16.0",
-    "chai": "^3.5.0",
-    "gulp": "^3.9.1",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-sass": "^2.3.2",
-    "mocha": "^3.1.0",
-    "webpack-stream": "^3.2.0"
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "node-sass": "^4.7.2",
+    "webpack": "^4.1.0",
+    "webpack-cli": "^2.0.10",
+    "webpack-dev-server": "^3.1.0"
   }
 }

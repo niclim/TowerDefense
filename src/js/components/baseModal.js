@@ -13,4 +13,4 @@ const baseModal = `
     {{footerActions}}
 </div>
 `
-module.exports = baseModal;
+module.exports = baseModal

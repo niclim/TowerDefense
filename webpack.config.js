@@ -1,23 +1,23 @@
-// For development
-var webpack = require('webpack');
-var path = require('path');
+const path = require('path')
 
 module.exports = {
-  devtool: "inline-sourcemap",
-  entry: ["./src/js/entry.js"],
-  module: {
-      loaders: [
-          {
-              test: /\.js$/,
-              exclude: /node_modules/,
-              loader: "babel-loader"
-          }
-      ]
-  },
+  entry: ['./src/js/index.js'],
   output: {
-    path: path.resolve(__dirname, "app/js"),
-    publicPath: "/src/js/",
-    filename: "main.min.js"
+    path: path.resolve(__dirname, './public'),
+    filename: 'app.js'
   },
-  plugins: [],
-};
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
+      }
+    ]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, "public"),
+  }
+}

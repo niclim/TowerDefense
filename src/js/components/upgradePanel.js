@@ -12,6 +12,6 @@ const upgradePanel = `
     </div>
 </div>
 
-`;
+`
 
-module.exports = upgradePanel;
+module.exports = upgradePanel

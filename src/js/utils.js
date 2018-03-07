@@ -1,15 +1,15 @@
-var constants = require("./gameData/gameConstants.js"),
-    towerData = require("./gameData/towerdata.js"),
-    typeLookup = require("./gameData/types.js");
+var constants = require('./gameData/gameConstants.js'),
+  towerData = require('./gameData/towerdata.js'),
+  typeLookup = require('./gameData/types.js')
 
-/* ================== Public functions =================*/
-/* =====================================================*/
-function addClass(element, cssClass) {
-    if (element.className === "") {
-        element.className = cssClass;
-    } else {
-        element.className += " " + cssClass;
-    }
+/* ================== Public functions ================= */
+/* ===================================================== */
+function addClass (element, cssClass) {
+  if (element.className === '') {
+    element.className = cssClass
+  } else {
+    element.className += ' ' + cssClass
+  }
 }
 
 /*
@@ -23,117 +23,115 @@ sideLength - the length of the square
 Returns a boolean - true if the click overlaps with an element and false
                     if it does not
 */
-function checkIfInSquare(point, topLeftPoint, sideLength) {
-    return (
-        point.x >= topLeftPoint.x &&
+function checkIfInSquare (point, topLeftPoint, sideLength) {
+  return (
+    point.x >= topLeftPoint.x &&
         point.x <= topLeftPoint.x + sideLength &&
         point.y >= topLeftPoint.y &&
         point.y <= topLeftPoint.y + sideLength
-    )
+  )
 }
 
 /*
 Takes in a distance (int) and pathLines(array of path objects) and converts it to coordinates for a monster
 Returns a coordinate object
 */
-function convertDistanceToCoordinates(distance, pathLines) {
-    var coordinates,
-        end = false; // Boolean to represent whether the monster is at the end
+function convertDistanceToCoordinates (distance, pathLines) {
+  var coordinates,
+    end = false // Boolean to represent whether the monster is at the end
 
-
-    for (var i = 0; i < pathLines.length; i ++) {
-        if (distance - pathLines[i].distance <= 0) {
-            break;
-        } else {
-            distance -= pathLines[i].distance;
-        }
-    }
-
-    if (i === pathLines.length) {
-        i--; // Set the counter value to be the last value in the pathlines array
-        distance =  pathLines[i].distance;
-        end = true;
-    }
-
-    // Create a new object to return (instead of modifiying startPoint object)
-    coordinates = Object.create(pathLines[i].startPoint);
-    coordinates.end = end;
-
-    // Case for when monster is at the end of the thingy - there is a better way to write this but not right now
-    if (!end) {
-        switch (pathLines[i].direction) {
-            // 15 is a half of the monster width
-            // values used to offset the positioning based on the monster direciton movement
-            case "up":
-            coordinates.x -= constants.MONSTERLENGTH/2;
-            coordinates.y -= distance + constants.MONSTERLENGTH/2;
-            break;
-            case "down":
-            coordinates.x -= constants.MONSTERLENGTH/2;
-            coordinates.y += distance - constants.MONSTERLENGTH/2;
-            break;
-            case "left":
-            coordinates.x -= distance + constants.MONSTERLENGTH/2;
-            coordinates.y -= constants.MONSTERLENGTH/2;
-            break;
-            case "right":
-            coordinates.x += distance - constants.MONSTERLENGTH/2;
-            coordinates.y -= constants.MONSTERLENGTH/2;
-            break;
-            default:
-            throw new Error("Invalid direction provided in pathLines");
-        }
+  for (var i = 0; i < pathLines.length; i++) {
+    if (distance - pathLines[i].distance <= 0) {
+      break
     } else {
-        switch (pathLines[i].direction) {
-            case "up":
-                coordinates.y -= pathLines[i].distance;
-                break;
-            case "down":
-                coordinates.y += pathLines[i].distance;
-                break;
-            case "left":
-                coordinates.x -= pathLines[i].distance;
-                break;
-            case "right":
-                coordinates.x += pathLines[i].distance;
-                break;
-            default:
-                throw new Error("Invalid direction provided in pathLines");
-        }
-
+      distance -= pathLines[i].distance
     }
+  }
 
-    return coordinates
+  if (i === pathLines.length) {
+    i-- // Set the counter value to be the last value in the pathlines array
+    distance = pathLines[i].distance
+    end = true
+  }
+
+  // Create a new object to return (instead of modifiying startPoint object)
+  coordinates = Object.create(pathLines[i].startPoint)
+  coordinates.end = end
+
+  // Case for when monster is at the end of the thingy - there is a better way to write this but not right now
+  if (!end) {
+    switch (pathLines[i].direction) {
+      // 15 is a half of the monster width
+      // values used to offset the positioning based on the monster direciton movement
+      case 'up':
+        coordinates.x -= constants.MONSTERLENGTH / 2
+        coordinates.y -= distance + constants.MONSTERLENGTH / 2
+        break
+      case 'down':
+        coordinates.x -= constants.MONSTERLENGTH / 2
+        coordinates.y += distance - constants.MONSTERLENGTH / 2
+        break
+      case 'left':
+        coordinates.x -= distance + constants.MONSTERLENGTH / 2
+        coordinates.y -= constants.MONSTERLENGTH / 2
+        break
+      case 'right':
+        coordinates.x += distance - constants.MONSTERLENGTH / 2
+        coordinates.y -= constants.MONSTERLENGTH / 2
+        break
+      default:
+        throw new Error('Invalid direction provided in pathLines')
+    }
+  } else {
+    switch (pathLines[i].direction) {
+      case 'up':
+        coordinates.y -= pathLines[i].distance
+        break
+      case 'down':
+        coordinates.y += pathLines[i].distance
+        break
+      case 'left':
+        coordinates.x -= pathLines[i].distance
+        break
+      case 'right':
+        coordinates.x += pathLines[i].distance
+        break
+      default:
+        throw new Error('Invalid direction provided in pathLines')
+    }
+  }
+
+  return coordinates
 }
 
 // Takes in a position object with coordinates{x, y}
 // returns a block object {x, y} with block numbers
 // Handles edge cases of the block being defined at the edge (36 and 24 which are invalid in the )
-function convertToBlock(position) {
-    var xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
-        yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE;
+function convertToBlock (position) {
+  var xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
+    yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE
 
-    if (position.x > (xGridAmount * (constants.TOWERLENGTH/2)) ||
-        position.y > (yGridAmount * (constants.TOWERLENGTH/2))) {
-        console.log(position)
-        throw new Error("Position out of grid range");
-    }
+  if (position.x > (xGridAmount * (constants.TOWERLENGTH / 2)) ||
+        position.y > (yGridAmount * (constants.TOWERLENGTH / 2))) {
+    console.log(position)
+    throw new Error('Position out of grid range')
+  }
 
-    var block = {
-        x: Math.floor(position.x / (constants.TOWERLENGTH/2)),
-        y: Math.floor(position.y / (constants.TOWERLENGTH/2))
-    };
-    // Adjusts if mouse is at end of container
-    // 36 blocks width and 24 blocks height
-    if (block.x >= xGridAmount - 1) {
-        block.x--;
-    }
+  var block = {
+    x: Math.floor(position.x / (constants.TOWERLENGTH / 2)),
+    y: Math.floor(position.y / (constants.TOWERLENGTH / 2))
+  }
+  // Adjusts if mouse is at end of container
+  // 36 blocks width and 24 blocks height
+  if (block.x >= xGridAmount - 1) {
+    block.x--
+  }
 
-    if (block.y >= yGridAmount - 1) {
-        block.y--;
-    }
+  if (block.y >= yGridAmount - 1) {
+    block.y--
+  }
 
-    return block;
+  return block
 }
 
 /*
@@ -141,22 +139,21 @@ Takes in a position object (x and y coordinates)
 Returns the top left block position and topleft coordinate of the tower
 Grid blocks are in 25x25 block increments
 */
-function convertPositionToTower(position) {
-    var towerPosition = {
-        grid: {},
-        coordinates: {},
-        side: constants.TOWERLENGTH
+function convertPositionToTower (position) {
+  var towerPosition = {
+      grid: {},
+      coordinates: {},
+      side: constants.TOWERLENGTH
     },
-        xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
-        yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE;
+    xGridAmount = constants.CANVASWIDTH / constants.GRIDSIZE,
+    yGridAmount = constants.CANVASHEIGHT / constants.GRIDSIZE
 
+  towerPosition.grid = convertToBlock(position)
 
-    towerPosition.grid = convertToBlock(position);
-
-    // Container width and height 900 and 600 px respectively
-    towerPosition.coordinates.x = (towerPosition.grid.x / xGridAmount) * constants.CANVASWIDTH;
-    towerPosition.coordinates.y = (towerPosition.grid.y / yGridAmount) * constants.CANVASHEIGHT;
-    return towerPosition;
+  // Container width and height 900 and 600 px respectively
+  towerPosition.coordinates.x = (towerPosition.grid.x / xGridAmount) * constants.CANVASWIDTH
+  towerPosition.coordinates.y = (towerPosition.grid.y / yGridAmount) * constants.CANVASHEIGHT
+  return towerPosition
 }
 /*
 getPathPosition inputs:
@@ -166,160 +163,160 @@ fractionTravelled: decimal of how far along the path
 
 Output: position object {x, y}
 */
-function getPathPosition(pos1, pos2, fractionTravelled) {
-    var finalPosition = {},
-        angle = Math.atan2(pos2.y - pos1.y, pos2.x - pos1.x), // the line angle (in radians) from pos1 to pos2 with respect to the origin
-        distanceFromPos1 = getPositionDifference(pos1, pos2) * fractionTravelled;
+function getPathPosition (pos1, pos2, fractionTravelled) {
+  var finalPosition = {},
+    angle = Math.atan2(pos2.y - pos1.y, pos2.x - pos1.x), // the line angle (in radians) from pos1 to pos2 with respect to the origin
+    distanceFromPos1 = getPositionDifference(pos1, pos2) * fractionTravelled
 
-    finalPosition.x = pos1.x + distanceFromPos1 * Math.cos(angle);
-    finalPosition.y = pos1.y + distanceFromPos1 * Math.sin(angle);
+  finalPosition.x = pos1.x + distanceFromPos1 * Math.cos(angle)
+  finalPosition.y = pos1.y + distanceFromPos1 * Math.sin(angle)
 
-    return finalPosition;
+  return finalPosition
 }
 
-function getPositionDifference(position1, position2) {
-    return Math.sqrt(
-        Math.pow(position1.x-position2.x, 2) +
-        Math.pow(position1.y-position2.y, 2)
-    );
+function getPositionDifference (position1, position2) {
+  return Math.sqrt(
+    Math.pow(position1.x - position2.x, 2) +
+        Math.pow(position1.y - position2.y, 2)
+  )
 }
 
-function removeClass(element, cssClass) {
-    var arrayOfClasses = element.className.split(" ");
-    for (var i = 0, j = arrayOfClasses.length; i < j; i++) {
-        if (arrayOfClasses[i] === cssClass) {
-            arrayOfClasses.splice(i, 1);
-            i--; j--;
-        }
+function removeClass (element, cssClass) {
+  var arrayOfClasses = element.className.split(' ')
+  for (var i = 0, j = arrayOfClasses.length; i < j; i++) {
+    if (arrayOfClasses[i] === cssClass) {
+      arrayOfClasses.splice(i, 1)
+      i--; j--
     }
-    element.className = arrayOfClasses.join(" ");
+  }
+  element.className = arrayOfClasses.join(' ')
 }
 
-function getTowerData(towerType) {
-    return towerData[towerType];
+function getTowerData (towerType) {
+  return towerData[towerType]
 }
 
 // Inserts variables into a html template -
-function compileTemplate(template, object) {
-    var html = template;
-    for (var key in object) {
-        html = html.replace(new RegExp(`{{${key}}}`, 'g'), object[key]);
-    }
-    // Removes unspecified template strings
-    html = html.replace(/{{.*?}}/g, "");
-    return html
+function compileTemplate (template, object) {
+  var html = template
+  for (var key in object) {
+    html = html.replace(new RegExp(`{{${key}}}`, 'g'), object[key])
+  }
+  // Removes unspecified template strings
+  html = html.replace(/{{.*?}}/g, '')
+  return html
 }
 
-function getTowerEffects(towerObject) {
-    var effectObject = towerObject.projectile.effects,
-        effects = "";
+function getTowerEffects (towerObject) {
+  var effectObject = towerObject.projectile.effects,
+    effects = ''
 
-    for (var key in effectObject) {
-        effects += `<span class='uppercase'>${key}</span>`;
+  for (var key in effectObject) {
+    effects += `<span class='uppercase'>${key}</span>`
 
-        switch (key) {
-            case "dot":
-                effects += `
+    switch (key) {
+      case 'dot':
+        effects += `
                 <ul>
                     <li>Damage Per Second: ${effectObject[key].amount}</li>
                     <li>Duration: ${effectObject[key].timer}</li>
-                </ul>`;
-                break;
-            case "amplify":
-                effects += `
+                </ul>`
+        break
+      case 'amplify':
+        effects += `
                 <ul>
                     <li>Amplify: ${effectObject[key].amount * 100}%</li>
                     <li>Duration: ${effectObject[key].timer}</li>
                 </ul>
                 `
-                break;
-            case "splash":
-                effects += `
+        break
+      case 'splash':
+        effects += `
                 <ul>
                     <li>Radius: ${effectObject[key].radius}</li>
                 </ul>
                 `
-                break;
-            case "slow":
-                effects += `
+        break
+      case 'slow':
+        effects += `
                 <ul>
                     <li>Slow: ${effectObject[key].amount * 100}%</li>
                     <li>Duration: ${effectObject[key].timer}</li>
                 </ul>
                 `
-                break;
-            case "freeze":
-                effects += `
+        break
+      case 'freeze':
+        effects += `
                 <ul>
                     <li>Freeze Chance: ${effectObject[key].chance * 100}%</li>
                     <li>Duration: ${effectObject[key].timer}</li>
                 </ul>
                 `
-                break;
-            case "bounce":
-                effects += `
+        break
+      case 'bounce':
+        effects += `
                 <ul>
                     <li>Bounces: ${effectObject[key].amount}</li>
                     <li>Range: ${effectObject[key].range}</li>
                 </ul>
                 `
-                break;
-            default:
-                console.log("Uncaught effect in getTowerEffects", key);
-        }
+        break
+      default:
+        console.log('Uncaught effect in getTowerEffects', key)
     }
+  }
 
-    return effects || "None"
+  return effects || 'None'
 }
 
-function getDamageModifier(towerType, monsterType) {
-    try {
-        return typeLookup[towerType][monsterType];
-    } catch (e) {
-        console.log(e, "Error in looking up types, check tower data and monster data");
-        return 1
-    }
+function getDamageModifier (towerType, monsterType) {
+  try {
+    return typeLookup[towerType][monsterType]
+  } catch (e) {
+    console.log(e, 'Error in looking up types, check tower data and monster data')
+    return 1
+  }
 }
 
-function getMonsterTypeInfo(monsterType) {
-    var strengths = [],
-        weaknesses = [],
-        strengthHtml = "None",
-        weaknessHtml = "None";
+function getMonsterTypeInfo (monsterType) {
+  var strengths = [],
+    weaknesses = [],
+    strengthHtml = 'None',
+    weaknessHtml = 'None'
 
-    for (var key in typeLookup) {
-        if (typeLookup[key][monsterType] < 1) {
-            strengths.push(key);
-        } else if (typeLookup[key][monsterType] > 1) {
-            weaknesses.push(key);
-        }
+  for (var key in typeLookup) {
+    if (typeLookup[key][monsterType] < 1) {
+      strengths.push(key)
+    } else if (typeLookup[key][monsterType] > 1) {
+      weaknesses.push(key)
     }
+  }
 
-    if (strengths.length !== 0 ) {
-        strengthHtml = strengths.reduce((prev, strength) => `${prev}<li>${strength}</li>`, "<ul>") + "</ul>";
-    }
-    if (weaknesses.length !== 0) {
-        weaknessHtml = weaknesses.reduce((prev, weakness) => `${prev}<li>${weakness}</li>`, "<ul>") + "</ul>";
-    }
+  if (strengths.length !== 0) {
+    strengthHtml = strengths.reduce((prev, strength) => `${prev}<li>${strength}</li>`, '<ul>') + '</ul>'
+  }
+  if (weaknesses.length !== 0) {
+    weaknessHtml = weaknesses.reduce((prev, weakness) => `${prev}<li>${weakness}</li>`, '<ul>') + '</ul>'
+  }
 
-    return {
-        strengths: strengthHtml,
-        weaknesses: weaknessHtml
-    }
+  return {
+    strengths: strengthHtml,
+    weaknesses: weaknessHtml
+  }
 }
 
 module.exports = {
-    addClass,
-    checkIfInSquare,
-    convertToBlock,
-    convertDistanceToCoordinates,
-    convertPositionToTower,
-    getPathPosition,
-    getPositionDifference,
-    removeClass,
-    compileTemplate,
-    getTowerData,
-    getTowerEffects,
-    getDamageModifier,
-    getMonsterTypeInfo
+  addClass,
+  checkIfInSquare,
+  convertToBlock,
+  convertDistanceToCoordinates,
+  convertPositionToTower,
+  getPathPosition,
+  getPositionDifference,
+  removeClass,
+  compileTemplate,
+  getTowerData,
+  getTowerEffects,
+  getDamageModifier,
+  getMonsterTypeInfo
 }

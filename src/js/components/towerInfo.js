@@ -15,4 +15,4 @@ const towerInfo = `
     </div>
 </div>
 `
-module.exports = towerInfo;
+module.exports = towerInfo

@@ -7,6 +7,6 @@ const informationPanel = `
     <img id="info-icon" src="{{imagePath}}" alt="">
 </div>
 {{content}}
-`;
+`
 
-module.exports = informationPanel;
+module.exports = informationPanel

@@ -1,7 +1,8 @@
-# Logs
+/public/app.js
 logs
 *.log
 npm-debug.log*
+.vscode
 
 # Runtime data
 pids

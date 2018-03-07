@@ -5,6 +5,6 @@ const towerCard = `
         <img src="{{imageSource}}" class=".thumbnail-image">
     </div>
 </div>
-`;
+`
 
-module.exports = towerCard;
+module.exports = towerCard
