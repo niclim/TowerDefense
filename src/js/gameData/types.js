@@ -1,5 +1,5 @@
 /*
-Note this only affects projectiles, does not affect DOT damage
+Note this only affects projectiles, does not affect burn damage
 First key represents the tower type/projectile type
 second key represents the monster type
 I.E.

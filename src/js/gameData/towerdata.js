@@ -295,7 +295,7 @@ module.exports = {
       sprite: 'TODO', // change this to have animations
       type: 'fire',
       effects: {
-        dot: {
+        burn: {
           amount: 5, // dps
           timer: 2
         }
@@ -326,7 +326,7 @@ module.exports = {
       sprite: 'TODO', // change this to have animations
       type: 'fire',
       effects: {
-        dot: {
+        burn: {
           amount: 10, // dps
           timer: 3
         }
@@ -357,7 +357,7 @@ module.exports = {
       sprite: 'TODO', // change this to have animations
       type: 'fire',
       effects: {
-        dot: {
+        burn: {
           amount: 10, // dps
           timer: 3
         }
@@ -381,7 +381,7 @@ module.exports = {
       sprite: 'TODO', // change this to have animations
       type: 'fire',
       effects: {
-        dot: {
+        burn: {
           amount: 10, // dps
           timer: 3
         }
@@ -450,7 +450,7 @@ module.exports = {
       sprite: 'TODO', // change this to have animations
       type: 'fire',
       effects: {
-        dot: {
+        burn: {
           amount: 40, // dps
           timer: 2
         }

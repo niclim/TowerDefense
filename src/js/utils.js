@@ -212,13 +212,13 @@ function getTowerEffects (towerObject) {
     effects = ''
 
   for (var key in effectObject) {
-    effects += `<span class='uppercase'>${key}</span>`
+    effects += `<span class='capitalize'>${key}</span>`
 
     switch (key) {
-      case 'dot':
+      case 'burn':
         effects += `
                 <ul>
-                    <li>Damage Per Second: ${effectObject[key].amount}</li>
+                    <li>DPS: ${effectObject[key].amount}</li>
                     <li>Duration: ${effectObject[key].timer}</li>
                 </ul>`
         break

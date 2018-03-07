@@ -222,6 +222,7 @@ aside {
         left: -300px;
         top: calc(50% - 150px);
         overflow: visible;
+        padding: 20px 10px;
 
         @media screen and (max-width: 1650px) {
             top: 10%;
@@ -252,11 +253,21 @@ aside {
 // Upgrade card
 .upgrade-card {
     height: 580px;
-    h5 {
-        margin: 0;
-    }
-    .row {
-        margin-bottom: 0px;
+    .card {
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+
+        .card-content {
+            flex-grow: 1;
+
+            h5 {
+                margin: 0;
+            }
+            .row {
+                margin-bottom: 0px;
+            }
+        }
     }
 }
 
