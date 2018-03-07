@@ -1,30 +1,20 @@
 # Awesome Tower Defense
-This is a tower defense game - still in progress
+This is a tower defense game
 ![Sample Screenshot of Awesome TD](http://i.imgur.com/qJKCnxG.png)
 
 ## Installation
-Clone the repo and run npm install
-```bash
-git clone git@github.com:niclim/TowerDefense.git
+Install dependencies
+```
 npm install
 ```
-Install ```gulp``` globally
-
-```bash
-npm install -g gulp-cli npm install gulp
+Start the dev server
 ```
-Make sure you have ```gulp``` installed by testing
-```bash
-gulp -v
-```
-
-Compile assets
-```bash
-npm run compile
-```
-Compile assets and watch for changes
-```bash
 npm start
+```
+
+Build
+```
+npm run build
 ```
 
 ## Notes
@@ -34,11 +24,7 @@ Position are defined by the top left corner of the element (monsters and towers 
 Towers have a size of 2x2
 
 ### TODO
-* When changing tabs (in the browser), monsters jump (because of the dt used, time doesn't stop but execution stops) - right now dt is being limited to 0.5 seconds - look into web workers to continue game logic (only rendering is paused)
-* Complete unit test coverage
-* do some balancing (towers and levels are definitely not balanced lol.)
-
-### TODO later
+* do some balancing
 * Come up with a better name than awesome TD
 * Make some cool sprites
-* Get a better background (instead of using canvas to generate the background) - or implement path finding
+* Get a better background 
