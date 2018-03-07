@@ -23,8 +23,9 @@ Position are defined by the top left corner of the element (monsters and towers 
 
 Towers have a size of 2x2
 
+## Assets
+Game assets from: [Open Game Art](https://opengameart.org/)
+
 ### TODO
 * do some balancing
-* Come up with a better name than awesome TD
-* Make some cool sprites
-* Get a better background 
+* add in tiles 
