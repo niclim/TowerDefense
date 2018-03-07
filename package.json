@@ -8,7 +8,8 @@
     "sass": "node-sass ./src/scss/style.scss ./public/css/style.css",
     "sass:watch": "node-sass -w ./src/scss/style.scss ./public/css/style.css",
     "start": "concurrently \"npm run dev-server\" \"npm run sass:watch\" ",
-    "build": "webpack --mode production && npm run sass"
+    "build": "webpack --mode production && npm run sass",
+    "prestart": "npm run sass"
   },
   "author": "Nicholas Lim",
   "license": "ISC",
