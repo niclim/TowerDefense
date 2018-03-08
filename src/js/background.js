@@ -1,5 +1,5 @@
 const { CANVASWIDTH, GRIDSIZE } = require('./gameData/gameConstants')
-const { backgroundGrid } = require('./gameData/sprites')
+const { backgroundGrid } = require('./gameData/background')
 const backgroundCanvas = document.getElementById('static')
 const backgroundContext = backgroundCanvas.getContext('2d')
 

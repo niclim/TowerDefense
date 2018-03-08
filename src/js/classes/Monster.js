@@ -15,6 +15,25 @@ class Monster {
     this.position = {} // Initial position is defined by the path
     this.sideLength = constants.MONSTERLENGTH
     this.effects = {}
+
+    switch (monsterData[id].sprite) {
+      case 'green':
+        this.spriteDim = [32 * 1, 32, 32]
+        break
+      case 'orange':
+        this.spriteDim = [32 * 3, 32, 32]
+        break
+      case 'red':
+        this.spriteDim = [32 * 5, 32, 32]
+        break
+      case 'blue':
+        this.spriteDim = [32 * 7, 32, 32]
+        break
+    }
+    this.currentSprite = 1
+    this.updateSprite = constants.UPDATESPRITETIME
+    this.tile = new Image()
+    this.tile.src = 'assets/monsters.png'
   }
 
   runCycle (gamePath, dt) {
@@ -42,17 +61,32 @@ class Monster {
       }
     })
 
-    // Handle effects here and timers
     this.handleEffects(dt)
+
+    this.updateSprite -= dt
+    console.log(this.updateSprite)
+    if (this.updateSprite < 0) {
+      this.updateSprite = constants.UPDATESPRITETIME
+      this.currentSprite = this.currentSprite >= 6 ? 1 : this.currentSprite + 1
+    }
   }
 
   draw () {
+    dynamicContext.drawImage(
+      this.tile,
+      this.currentSprite * 32,
+      ...this.spriteDim,
+      this.position.x,
+      this.position.y,
+      constants.MONSTERLENGTH,
+      constants.MONSTERLENGTH
+    )
+
     dynamicContext.beginPath()
-    dynamicContext.rect(this.position.x, this.position.y, constants.MONSTERLENGTH, constants.MONSTERLENGTH)
-    dynamicContext.stroke()
     dynamicContext.fillStyle = 'red'
-    dynamicContext.fillRect(this.position.x,
-      this.position.y + constants.MONSTERLENGTH / 3,
+    dynamicContext.fillRect(
+      this.position.x,
+      this.position.y - constants.MONSTERLENGTH / 3,
       Math.max(constants.MONSTERLENGTH * this.currentHp / this.maxHp, 0), // Minimum value is 0 - can be caused by splash
       constants.MONSTERLENGTH / 3)
     dynamicContext.closePath()
