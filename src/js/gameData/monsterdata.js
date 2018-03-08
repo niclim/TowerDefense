@@ -11,28 +11,28 @@ module.exports = {
     baseMs: 130, // pixels per second
     type: 'normal', // Change this type later
     bounty: 4,
-    sprite: 'orange'
+    sprite: 'green'
   },
   tank: {
     maxHp: 60,
     baseMs: 30,
     type: 'heavy',
     bounty: 4,
-    sprite: 'orange'
+    sprite: 'red'
   },
   fire: {
     maxHp: 30,
     baseMs: 70,
     type: 'fire',
     bounty: 4,
-    sprite: 'orange'
+    sprite: 'red'
   },
   ice: {
     maxHp: 45,
     baseMs: 60,
     type: 'ice',
     bounty: 4,
-    sprite: 'orange'
+    sprite: 'blue'
   },
   light: {
     maxHp: 30,
@@ -46,21 +46,21 @@ module.exports = {
     baseMs: 60,
     type: 'dark',
     bounty: 4,
-    sprite: 'orange'
+    sprite: 'red'
   },
   water: {
     maxHp: 40,
     baseMs: 60,
     type: 'water',
     bounty: 4,
-    sprite: 'orange'
+    sprite: 'blue'
   },
   boss1: {
     maxHp: 500,
     baseMs: 80,
     type: 'normal',
     bounty: 20,
-    sprite: 'orange'
+    sprite: 'green'
   },
   boss2: {
     maxHp: 1500,
@@ -74,20 +74,20 @@ module.exports = {
     baseMs: 100,
     type: 'heavy',
     bounty: 100,
-    sprite: 'orange'
+    sprite: 'green'
   },
   boss4: {
     maxHp: 4500,
     baseMs: 85,
     type: 'water',
     bounty: 40,
-    sprite: 'orange'
+    sprite: 'red'
   },
   boss5: {
     maxHp: 6000,
     baseMs: 95,
     type: 'dark',
     bounty: 40,
-    sprite: 'orange'
+    sprite: 'blue'
   }
 }

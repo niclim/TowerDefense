@@ -8,7 +8,6 @@ class Projectile {
     this.id = id
     this.damage = towerData[id].projectile.damage
     this.totalTravelTime = towerData[id].projectile.travelTime
-    this.sprite = towerData[id].projectile.sprite
     this.type = towerData[id].projectile.type
     this.effects = {}
 
@@ -23,18 +22,25 @@ class Projectile {
       y: towerPosition.y + (constants.TOWERLENGTH / 2) - (constants.PROJECTILELENGTH / 2)
     }
     this.projectilePosition = this.initialPosition
+
+    this.tile = new Image()
+    this.tile.src = './assets/explosions.png'
+    switch (towerData[id].projectile.sprite) {
+      case 'explosion':
+        this.sprite = [240, 60, 20, 20]
+        this.projectileSize = [20, 20]
+        break
+    }
   }
 
   draw () {
-    // Calculate a fraction based on currentTravelTime / travelTime to get the position
-    dynamicContext.beginPath()
-    dynamicContext.fillStyle = 'orange'
-    dynamicContext.rect(this.projectilePosition.x, this.projectilePosition.y, constants.PROJECTILELENGTH, constants.PROJECTILELENGTH)
-    dynamicContext.fill()
-    // Change this to use a sprite
-    // draw based on position here
-
-    dynamicContext.closePath()
+    dynamicContext.drawImage(
+      this.tile,
+      ...this.sprite,
+      this.projectilePosition.x,
+      this.projectilePosition.y,
+      ...this.projectileSize
+    )
   }
 
   move(dt, targetPosition) {

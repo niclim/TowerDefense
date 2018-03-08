@@ -8,7 +8,8 @@ loadAssets([
   './assets/biggermonster.jpg',
   './assets/tower.jpg',
   './assets/tiles.png',
-  'assets/monsters.png'
+  './assets/monsters.png',
+  './assets/monsters.png'
 ])
 .catch((e) => {
   console.log('assets not loaded')

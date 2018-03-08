@@ -5,13 +5,13 @@ module.exports = {
     projectile: {
       damage: 5,
       travelTime: 0.5, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'normal', //
       effects: {}
     },
     primary: true,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 1, // 1 second per attack
     range: 300,
@@ -31,13 +31,13 @@ module.exports = {
     projectile: {
       damage: 15,
       travelTime: 0.5, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'normal',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 400,
@@ -54,13 +54,13 @@ module.exports = {
     projectile: {
       damage: 45,
       travelTime: 0.5, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'normal',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 400,
@@ -73,13 +73,13 @@ module.exports = {
     projectile: {
       damage: 5,
       travelTime: 0.5, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'normal',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 3,
     attackSpeed: 0.8,
     range: 400,
@@ -96,13 +96,13 @@ module.exports = {
     projectile: {
       damage: 30,
       travelTime: 0.5, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'normal',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 4,
     attackSpeed: 0.8,
     range: 400,
@@ -117,13 +117,13 @@ module.exports = {
     projectile: {
       damage: 15,
       travelTime: 0.8, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'siege',
       effects: {}
     },
     primary: true,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 2,
     range: 250,
@@ -143,13 +143,13 @@ module.exports = {
     projectile: {
       damage: 40,
       travelTime: 0.6, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'siege',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 2,
     range: 350,
@@ -169,13 +169,13 @@ module.exports = {
     projectile: {
       damage: 100,
       travelTime: 0.6, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'siege',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 1.5,
     range: 500,
@@ -188,7 +188,7 @@ module.exports = {
     projectile: {
       damage: 60,
       travelTime: 0.6, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'siege',
       effects: {
         splash: {
@@ -198,7 +198,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 1.5,
     range: 500,
@@ -211,7 +211,7 @@ module.exports = {
     projectile: {
       damage: 20,
       travelTime: 0.6, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'siege',
       effects: {
         amplify: {
@@ -222,7 +222,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 1,
     range: 350,
@@ -242,7 +242,7 @@ module.exports = {
     projectile: {
       damage: 40,
       travelTime: 0.6, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'siege',
       effects: {
         amplify: {
@@ -253,7 +253,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 3,
     attackSpeed: 1,
     range: 350,
@@ -266,7 +266,7 @@ module.exports = {
     projectile: {
       damage: 70,
       travelTime: 0.3, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'siege',
       effects: {
         amplify: {
@@ -277,7 +277,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 1,
     range: 600,
@@ -292,7 +292,7 @@ module.exports = {
     projectile: {
       damage: 10,
       travelTime: 0.3, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'fire',
       effects: {
         burn: {
@@ -303,7 +303,7 @@ module.exports = {
     },
     primary: true,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.6,
     range: 300,
@@ -323,7 +323,7 @@ module.exports = {
     projectile: {
       damage: 8,
       travelTime: 0.01, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'fire',
       effects: {
         burn: {
@@ -334,7 +334,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.2,
     range: 300,
@@ -354,7 +354,7 @@ module.exports = {
     projectile: {
       damage: 20,
       travelTime: 0.01, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'fire',
       effects: {
         burn: {
@@ -365,7 +365,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.2,
     range: 300,
@@ -378,7 +378,7 @@ module.exports = {
     projectile: {
       damage: 15,
       travelTime: 0.01, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'fire',
       effects: {
         burn: {
@@ -389,7 +389,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.2,
     range: 500,
@@ -402,13 +402,13 @@ module.exports = {
     projectile: {
       damage: 4,
       travelTime: 1, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'fire',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.1,
     range: 300,
@@ -428,13 +428,13 @@ module.exports = {
     projectile: {
       damage: 10,
       travelTime: 1, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'fire',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.1,
     range: 400,
@@ -447,7 +447,7 @@ module.exports = {
     projectile: {
       damage: 10,
       travelTime: 0.3, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'fire',
       effects: {
         burn: {
@@ -458,7 +458,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 3,
     attackSpeed: 1,
     range: 400,
@@ -473,7 +473,7 @@ module.exports = {
     projectile: {
       damage: 10,
       travelTime: 0.8, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'ice',
       effects: {
         slow: {
@@ -484,7 +484,7 @@ module.exports = {
     },
     primary: true,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 300,
@@ -504,7 +504,7 @@ module.exports = {
     projectile: {
       damage: 5,
       travelTime: 0.2, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'ice',
       effects: {
         slow: {
@@ -515,7 +515,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.8,
     range: 300,
@@ -532,7 +532,7 @@ module.exports = {
     projectile: {
       damage: 12,
       travelTime: 0.2, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'ice',
       effects: {
         slow: {
@@ -543,7 +543,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.8,
     range: 400,
@@ -556,7 +556,7 @@ module.exports = {
     projectile: {
       damage: 25,
       travelTime: 0.6, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'ice',
       effects: {
         slow: {
@@ -567,7 +567,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 300,
@@ -587,7 +587,7 @@ module.exports = {
     projectile: {
       damage: 40,
       travelTime: 0.6, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'ice',
       effects: {
         slow: {
@@ -598,7 +598,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 400,
@@ -611,7 +611,7 @@ module.exports = {
     projectile: {
       damage: 30,
       travelTime: 0.6, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'ice',
       effects: {
         freeze: {
@@ -622,7 +622,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 400,
@@ -636,13 +636,13 @@ module.exports = {
     projectile: {
       damage: 5,
       travelTime: 0.1, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'light',
       effects: {}
     },
     primary: true,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.4,
     range: 500,
@@ -662,13 +662,13 @@ module.exports = {
     projectile: {
       damage: 15,
       travelTime: 0.1, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'light',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.3,
     range: 600,
@@ -685,13 +685,13 @@ module.exports = {
     projectile: {
       damage: 50,
       travelTime: 0.1, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'light',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.2,
     range: 600,
@@ -708,7 +708,7 @@ module.exports = {
     projectile: {
       damage: 15,
       travelTime: 0.1, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'light',
       effects: {
         bounce: {
@@ -719,7 +719,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.6,
     range: 400,
@@ -739,7 +739,7 @@ module.exports = {
     projectile: {
       damage: 35,
       travelTime: 0.1, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'light',
       effects: {
         bounce: {
@@ -750,7 +750,7 @@ module.exports = {
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.6,
     range: 400,
@@ -763,13 +763,13 @@ module.exports = {
     projectile: {
       damage: 35,
       travelTime: 0.1, // time in seconds before impact
-      sprite: 'TODO', // change this to have animations
+      sprite: 'explosion', // change this to have animations
       type: 'light',
       effects: {}
     },
     primary: false,
     icon: './assets/tower.jpg',
-    sprite: 'TODO',
+    sprite: 'explosion',
     targets: 3,
     attackSpeed: 0.6,
     range: 400,

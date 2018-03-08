@@ -33,7 +33,7 @@ class Monster {
     this.currentSprite = 1
     this.updateSprite = constants.UPDATESPRITETIME
     this.tile = new Image()
-    this.tile.src = 'assets/monsters.png'
+    this.tile.src = './assets/monsters.png'
   }
 
   runCycle (gamePath, dt) {
@@ -64,7 +64,6 @@ class Monster {
     this.handleEffects(dt)
 
     this.updateSprite -= dt
-    console.log(this.updateSprite)
     if (this.updateSprite < 0) {
       this.updateSprite = constants.UPDATESPRITETIME
       this.currentSprite = this.currentSprite >= 6 ? 1 : this.currentSprite + 1
