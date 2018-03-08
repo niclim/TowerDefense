@@ -62,10 +62,8 @@ module.exports = () => {
       mousePosition: {}
     }
   
+  const game = new GameEngine() // Privatize this later
   //  creates global variables
-  window.game = new GameEngine() // Privatize this later
-  // For development - get looooots of gold
-  game.userGold = 10000
   window.dynamicCanvas = document.getElementById('dynamic')
   window.dynamicContext = dynamicCanvas.getContext('2d')
   showStartModal()
@@ -148,9 +146,7 @@ module.exports = () => {
     }, '')
   
     const startModal = compileTemplate(baseModalTemplate, {
-      title: 'Welcome to Awesome TD!',
-      content: `<p>This is text and image describing the game - it will be informative and interesting. Clicking start game will start the game, clicking information will show information about the game and how to play - will override this div (don't need to show this anymore).
-          On game reset this modal-content container will show and prompt to restart game.</p>`,
+      title: 'Welcome to Ctional TD!',
       actions: actionHtml
     })
   
@@ -188,7 +184,7 @@ module.exports = () => {
   
     const actionModal = compileTemplate(baseModalTemplate, {
       title: 'Information',
-      content: `<p>Monsters are trying to reach the end of the path!!! It's your job to stop them. Luckily for you, you have ${constants.STARTINGGOLD} gold lying around to buy towers. Monsters spawn from the left size of the screen and run along the grey path to reach the right side of the path. Every 10 levels, there are stronger monsters that spawn which are harder to take down. Good luck!</p>`,
+      content: `<p>Monsters are trying to reach the end of the path!!! It's your job to stop them. Luckily for you, you have ${constants.STARTINGGOLD} gold lying around to buy towers. Monsters spawn from the left size of the screen and run along the path to reach theend. Every 10 levels, there are stronger monsters that spawn which are harder to take down. Good luck!</p>`,
       actions: actionHtml,
       footerActions: ''
     })
@@ -362,7 +358,7 @@ module.exports = () => {
   
   function renderDefaultInformation () {
     return compileTemplate(informationPanelTemplate, {
-      title: 'Awesome TD',
+      title: 'Ctional TD',
       imagePath: './assets/biggermonster.jpg',
       content: `
           <p>Have fun playing this game!</p>

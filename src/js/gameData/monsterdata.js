@@ -2,20 +2,20 @@ module.exports = {
   basic: {
     maxHp: 30,
     baseMs: 50, // pixels per second
-    type: 'normal', // Change this type later
+    type: 'normal',
     bounty: 4,
-    sprite: 'orange'
+    sprite: 'green'
   },
   fast: {
     maxHp: 30,
-    baseMs: 130, // pixels per second
-    type: 'normal', // Change this type later
+    baseMs: 130,
+    type: 'normal',
     bounty: 4,
     sprite: 'green'
   },
   tank: {
-    maxHp: 60,
-    baseMs: 30,
+    maxHp: 150,
+    baseMs: 35,
     type: 'heavy',
     bounty: 4,
     sprite: 'red'
@@ -35,7 +35,7 @@ module.exports = {
     sprite: 'blue'
   },
   light: {
-    maxHp: 30,
+    maxHp: 25,
     baseMs: 80,
     type: 'light',
     bounty: 4,

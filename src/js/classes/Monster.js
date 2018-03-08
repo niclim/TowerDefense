@@ -1,15 +1,16 @@
-const monsterData = require('../gameData/monsterdata.js')
-const { getDamageModifier, convertDistanceToCoordinates } = require('../utils.js')
-const constants = require('../gameData/gameConstants.js')
+const monsterData = require('../gameData/monsterdata')
+const { getDamageModifier, convertDistanceToCoordinates } = require('../utils')
+const constants = require('../gameData/gameConstants')
+const levelData = require('../gameData/leveldata')
 
 class Monster {
   constructor (id, level) {
     this.id = id
-    this.maxHp = Math.floor(Math.pow(level, 1.2) * monsterData[id].maxHp * (level * 0.6 + 1))
+    this.maxHp = Math.floor(levelData[level].hpMultiplier * monsterData[id].maxHp)
     this.currentHp = this.maxHp
     this.baseMs = monsterData[id].baseMs // Movement speed - "units" per second
     this.type = monsterData[id].type
-    this.bounty = Math.floor(monsterData[id].bounty * (level * 0.2 + 1))
+    this.bounty = Math.floor(levelData[level].bountyMultiplier * monsterData[id].bounty)
     this.projectiles = []
     this.distanceTravelled = 0
     this.position = {} // Initial position is defined by the path

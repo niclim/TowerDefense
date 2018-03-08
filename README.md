@@ -1,6 +1,6 @@
-# Awesome Tower Defense
-This is a tower defense game
-![Sample Screenshot of Awesome TD](http://i.imgur.com/qJKCnxG.png)
+# Ctional Tower Defense
+Why is it called Ctional Tower Defense? It's because it's functional without the fun - hence ctional
+![See it in action Ctional TD](http://i.imgur.com/qJKCnxG.png)
 
 ## Installation
 Install dependencies
@@ -17,15 +17,6 @@ Build
 npm run build
 ```
 
-## Notes
-
-Position are defined by the top left corner of the element (monsters and towers are square blocks). The monsters and towers have a sideLength value which can be used to compute the coordinate square used to determine position
-
-Towers have a size of 2x2
-
 ## Assets
 Game assets from: [Open Game Art](https://opengameart.org/)
 
-### TODO
-* do some balancing
-* add in tiles 
