@@ -81,7 +81,9 @@ class Monster {
       constants.MONSTERLENGTH,
       constants.MONSTERLENGTH
     )
-
+  }
+  
+  drawHealth () {
     dynamicContext.beginPath()
     dynamicContext.fillStyle = 'red'
     dynamicContext.fillRect(

@@ -196,7 +196,12 @@ class GameEngine {
         projectile.draw()
       })
     })
-    
+
+    // This needs to be deferred until all the monsters are drawn
+    this.activeMonsters.forEach(activeMonster => {
+      activeMonster.drawHealth()
+    })
+
     this.unfinishedProjectiles.forEach((projectile) => {
       projectile.draw()
     })
