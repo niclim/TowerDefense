@@ -197,7 +197,7 @@ class GameEngine {
       })
     })
 
-    // This needs to be deferred until all the monsters are drawn
+    // This needs to be deferred until all the monsters are drawn - prevent hp bar overlapping
     this.activeMonsters.forEach(activeMonster => {
       activeMonster.drawHealth()
     })

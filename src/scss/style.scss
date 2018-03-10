@@ -183,7 +183,7 @@ aside {
 }
 // Helper classes
 .thumbnail-image {
-    width: 120px;
+    width: 60px;
 }
 
 .uppercase {
@@ -208,7 +208,7 @@ aside {
 
 .tower-card {
     width: 140px;
-    height: 150px;
+    height: 100px;
     margin: 10px;
     padding: 10px;
     background-color: $tower-card-background;
@@ -252,9 +252,9 @@ aside {
 
 // Upgrade card
 .upgrade-card {
-    height: 580px;
+    height: 510px;
     .card {
-        height: 500px;
+        height: 450px;
         display: flex;
         flex-direction: column;
 

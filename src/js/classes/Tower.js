@@ -21,6 +21,9 @@ class Tower {
     this.position = position // object with x and y coordinates - references the top left corner of the tower
     this.position.sideLength = constants.TOWERLENGTH
     this.renderColor = loadedTowerData.color
+
+    this.tile = new Image()
+    this.tile.src = towerData[id].icon
   }
 
   runCycle (activeMonsters, dt) {
@@ -54,16 +57,16 @@ class Tower {
   }
 
   draw (active) {
-    // Render tower - replace this with a sprite
-    dynamicContext.beginPath()
-    dynamicContext.arc(this.position.x + constants.TOWERLENGTH / 2,
-      this.position.y + constants.TOWERLENGTH / 2,
-      constants.TOWERLENGTH * 0.5,
-      0,
-      2 * Math.PI
+    // Render tower
+    dynamicContext.drawImage(
+      this.tile,
+      0, 0, 64, 64,
+      this.position.x,
+      this.position.y,
+      constants.TOWERLENGTH,
+      constants.TOWERLENGTH
     )
-    dynamicContext.fillStyle = this.renderColor
-    dynamicContext.fill()
+    
     // Draw range radius
     if (active) {
       dynamicContext.globalAlpha = 0.3

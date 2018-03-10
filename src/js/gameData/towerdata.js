@@ -1,4 +1,3 @@
-// This should probably be in a database
 module.exports = {
   // Basic tower tree here
   basic: {
@@ -6,11 +5,11 @@ module.exports = {
       damage: 5,
       travelTime: 0.5, // time in seconds before impact
       sprite: 'explosion', // change this to have animations
-      type: 'normal', //
+      type: 'normal',
       effects: {}
     },
     primary: true,
-    icon: './assets/tower.jpg',
+    icon: './assets/basic.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 1, // 1 second per attack
@@ -24,8 +23,7 @@ module.exports = {
       {
         name: 'multishot'
       }
-    ],
-    color: 'green'
+    ]
   },
   advanced: {
     projectile: {
@@ -36,7 +34,7 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/basic.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
@@ -47,8 +45,7 @@ module.exports = {
       {
         name: 'expert'
       }
-    ],
-    color: 'green'
+    ]
   },
   expert: {
     projectile: {
@@ -59,15 +56,14 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/basic.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 400,
     goldCost: 60,
     totalCost: 90,
-    upgrade: [],
-    color: 'green'
+    upgrade: []
   },
   multishot: {
     projectile: {
@@ -78,7 +74,7 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/basic.png',
     sprite: 'explosion',
     targets: 3,
     attackSpeed: 0.8,
@@ -89,8 +85,7 @@ module.exports = {
       {
         name: 'expertMultishot'
       }
-    ],
-    color: 'green'
+    ]
   },
   expertMultishot: {
     projectile: {
@@ -101,15 +96,14 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/basic.png',
     sprite: 'explosion',
     targets: 4,
     attackSpeed: 0.8,
     range: 400,
     goldCost: 100,
     totalCost: 130,
-    upgrade: [],
-    color: 'green'
+    upgrade: []
   },
 
   // Heavy tower tree here
@@ -122,7 +116,7 @@ module.exports = {
       effects: {}
     },
     primary: true,
-    icon: './assets/tower.jpg',
+    icon: './assets/heavy.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 2,
@@ -136,8 +130,7 @@ module.exports = {
       {
         name: 'cannon'
       }
-    ],
-    color: 'black'
+    ]
   },
   siege: {
     projectile: {
@@ -148,7 +141,7 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/heavy.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 2,
@@ -162,8 +155,7 @@ module.exports = {
       {
         name: 'explosion'
       }
-    ],
-    color: 'black'
+    ]
   },
   demolition: {
     projectile: {
@@ -174,15 +166,14 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/heavy.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 1.5,
     range: 500,
     goldCost: 100,
     totalCost: 140,
-    upgrade: [],
-    color: 'black'
+    upgrade: []
   },
   explosion: {
     projectile: {
@@ -197,15 +188,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/heavy.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 1.5,
     range: 500,
     goldCost: 100,
     totalCost: 140,
-    upgrade: [],
-    color: 'black'
+    upgrade: []
   },
   cannon: {
     projectile: {
@@ -221,7 +211,7 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/heavy.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 1,
@@ -235,8 +225,7 @@ module.exports = {
       {
         name: 'artillery'
       }
-    ],
-    color: 'black'
+    ]
   },
   shrapnel: {
     projectile: {
@@ -252,15 +241,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/heavy.png',
     sprite: 'explosion',
     targets: 3,
     attackSpeed: 1,
     range: 350,
     goldCost: 80,
     totalCost: 120,
-    upgrade: [],
-    color: 'black'
+    upgrade: []
   },
   artillery: {
     projectile: {
@@ -276,15 +264,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/heavy.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 1,
     range: 600,
     goldCost: 110,
     totalCost: 150,
-    upgrade: [],
-    color: 'black'
+    upgrade: []
   },
 
   // Fire tower tree here
@@ -302,7 +289,7 @@ module.exports = {
       }
     },
     primary: true,
-    icon: './assets/tower.jpg',
+    icon: './assets/fire.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.6,
@@ -316,8 +303,7 @@ module.exports = {
       {
         name: 'flamethrower'
       }
-    ],
-    color: 'red'
+    ]
   },
   broiler: {
     projectile: {
@@ -333,7 +319,7 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/fire.png',
     sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.2,
@@ -347,8 +333,7 @@ module.exports = {
       {
         name: 'inferno'
       }
-    ],
-    color: 'red'
+    ]
   },
   volcano: {
     projectile: {
@@ -364,15 +349,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/fire.png',
     sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.2,
     range: 300,
     goldCost: 110,
     totalCost: 200,
-    upgrade: [],
-    color: 'red'
+    upgrade: []
   },
   inferno: {
     projectile: {
@@ -388,15 +372,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/fire.png',
     sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.2,
     range: 500,
     goldCost: 110,
     totalCost: 200,
-    upgrade: [],
-    color: 'red'
+    upgrade: []
   },
   flamethrower: {
     projectile: {
@@ -407,7 +390,7 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/fire.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.1,
@@ -421,8 +404,7 @@ module.exports = {
       {
         name: 'nova'
       }
-    ],
-    color: 'red'
+    ]
   },
   napalm: {
     projectile: {
@@ -433,15 +415,14 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/fire.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.1,
     range: 400,
     goldCost: 90,
     totalCost: 150,
-    upgrade: [],
-    color: 'red'
+    upgrade: []
   },
   nova: {
     projectile: {
@@ -457,15 +438,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/fire.png',
     sprite: 'explosion',
     targets: 3,
     attackSpeed: 1,
     range: 400,
     goldCost: 90,
     totalCost: 150,
-    upgrade: [],
-    color: 'red'
+    upgrade: []
   },
 
   // Ice starts here
@@ -483,7 +463,7 @@ module.exports = {
       }
     },
     primary: true,
-    icon: './assets/tower.jpg',
+    icon: './assets/ice.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
@@ -497,8 +477,7 @@ module.exports = {
       {
         name: 'frost'
       }
-    ],
-    color: 'blue'
+    ]
   },
   blizzard: {
     projectile: {
@@ -514,7 +493,7 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/ice.png',
     sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.8,
@@ -525,8 +504,7 @@ module.exports = {
       {
         name: 'arctic'
       }
-    ],
-    color: 'blue'
+    ]
   },
   arctic: {
     projectile: {
@@ -542,15 +520,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/ice.png',
     sprite: 'explosion',
     targets: 30,
     attackSpeed: 0.8,
     range: 400,
     goldCost: 70,
     totalCost: 170,
-    upgrade: [],
-    color: 'blue'
+    upgrade: []
   },
   frost: {
     projectile: {
@@ -566,7 +543,7 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/ice.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
@@ -580,8 +557,7 @@ module.exports = {
       {
         name: 'permafrost'
       }
-    ],
-    color: 'blue'
+    ]
   },
   tundra: {
     projectile: {
@@ -597,15 +573,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/ice.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 400,
     goldCost: 90,
     totalCost: 180,
-    upgrade: [],
-    color: 'blue'
+    upgrade: []
   },
   permafrost: {
     projectile: {
@@ -621,16 +596,16 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/ice.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.8,
     range: 400,
     goldCost: 120,
     totalCost: 210,
-    upgrade: [],
-    color: 'blue'
+    upgrade: []
   },
+
   // Light tower tree here
   light: {
     projectile: {
@@ -641,7 +616,7 @@ module.exports = {
       effects: {}
     },
     primary: true,
-    icon: './assets/tower.jpg',
+    icon: './assets/light.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.4,
@@ -655,8 +630,7 @@ module.exports = {
       {
         name: 'electric'
       }
-    ],
-    color: 'yellow'
+    ]
   },
   laser: {
     projectile: {
@@ -667,7 +641,7 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/light.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.3,
@@ -678,8 +652,7 @@ module.exports = {
       {
         name: 'prism'
       }
-    ],
-    color: 'yellow'
+    ]
   },
   prism: {
     projectile: {
@@ -690,7 +663,7 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/light.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.2,
@@ -701,8 +674,7 @@ module.exports = {
       {
         name: 'prism'
       }
-    ],
-    color: 'yellow'
+    ]
   },
   electric: {
     projectile: {
@@ -718,7 +690,7 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/light.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.6,
@@ -732,8 +704,7 @@ module.exports = {
       {
         name: 'generator'
       }
-    ],
-    color: 'yellow'
+    ]
   },
   lightning: {
     projectile: {
@@ -749,15 +720,14 @@ module.exports = {
       }
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/light.png',
     sprite: 'explosion',
     targets: 1,
     attackSpeed: 0.6,
     range: 400,
     goldCost: 90,
     totalCost: 180,
-    upgrade: [],
-    color: 'yellow'
+    upgrade: []
   },
   generator: {
     projectile: {
@@ -768,15 +738,13 @@ module.exports = {
       effects: {}
     },
     primary: false,
-    icon: './assets/tower.jpg',
+    icon: './assets/light.png',
     sprite: 'explosion',
     targets: 3,
     attackSpeed: 0.6,
     range: 400,
     goldCost: 90,
     totalCost: 180,
-    upgrade: [],
-    color: 'yellow'
+    upgrade: []
   }
-
 }

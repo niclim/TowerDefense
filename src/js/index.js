@@ -6,10 +6,13 @@ const loadAssets = require('./assetLoader')
 // Preloads assets
 loadAssets([
   './assets/biggermonster.jpg',
-  './assets/tower.jpg',
   './assets/tiles.png',
   './assets/monsters.png',
-  './assets/monsters.png'
+  './assets/basic.png',
+  './assets/fire.png',
+  './assets/heavy.png',
+  './assets/ice.png',
+  './assets/light.png'
 ])
 .catch((e) => {
   console.log('assets not loaded')

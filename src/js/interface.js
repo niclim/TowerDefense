@@ -197,7 +197,7 @@ module.exports = () => {
     const towerId = game.towers[towerIndex].id,
       upgrades = towerData[towerId].upgrade,
       columnSpacing = upgrades.length === 1 ? 's6 offset-s3' : 's6'
-  
+
     const modalContent = upgrades.reduce((prevUpgrade, upgradeObj) => {
       const towerInfo = getTowerData(upgradeObj.name),
         actions = compileTemplate(actionsTemplate, {
@@ -205,7 +205,7 @@ module.exports = () => {
           name: upgradeObj.name,
           extraData: `data-upgradename='${upgradeObj.name}'`
         })
-  
+
       const upgradeContent = compileTemplate(towerInfoTemplate, {
         towerDmg: towerInfo.projectile.damage,
         towerTravel: towerInfo.projectile.travelTime,
@@ -216,10 +216,10 @@ module.exports = () => {
         towerEffect: getTowerEffects(towerInfo),
         towerType: towerInfo.projectile.type
       })
-  
+
       return prevUpgrade + compileTemplate(upgradePanelTemplate, {
         spacing: columnSpacing,
-        imageSrc: './assets/tower.jpg',
+        imageSrc: towerData[upgradeObj.name].icon,
         title: `${upgradeObj.name} Tower`,
         content: upgradeContent,
         actions
@@ -407,15 +407,13 @@ module.exports = () => {
       constants.TOWERLENGTH,
       constants.TOWERLENGTH
     )
-  
-    // Draw tower - replace this with a sprite
+
     dynamicContext.globalAlpha = 0.7
-    dynamicContext.arc(coordinates.x + constants.TOWERLENGTH / 2,
-      coordinates.y + constants.TOWERLENGTH / 2,
-      constants.TOWERLENGTH * 0.5,
-      0,
-      2 * Math.PI,
-      false
+    dynamicContext.rect(
+      coordinates.x,
+      coordinates.y,
+      constants.TOWERLENGTH,
+      constants.TOWERLENGTH
     )
     dynamicContext.fillStyle = towerData.color
     dynamicContext.fill()
