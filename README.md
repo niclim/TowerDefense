@@ -1,6 +1,6 @@
 # Ctional Tower Defense
 Why is it called Ctional Tower Defense? It's because it's functional without the fun - hence ctional
-![See it in action Ctional TD](http://i.imgur.com/qJKCnxG.png)
+![See it in action Ctional TD](https://i.imgur.com/z567vv3.png)
 
 ## Installation
 Install dependencies
