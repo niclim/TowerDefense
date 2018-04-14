@@ -10,7 +10,7 @@
     "start": "concurrently \"npm run dev-server\" \"npm run sass:watch\" ",
     "build": "webpack --mode production && npm run sass",
     "prestart": "npm run sass",
-    "deploy": "git subtree push --prefix public origin gh-pages"
+    "deploy": "npm run build && git subtree push --prefix public origin gh-pages"
   },
   "author": "Nicholas Lim",
   "license": "ISC",
